@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.qydata.mapper.UserMapper">
+
+    <!-- 是进行登录认证使用的，即，根据身份信息取得密码进行认证 -->
+    <select id="findById" parameterType="String" resultType="org.qydata.entity.User">
+        SELECT username,password
+        FROM qycauth.User
+        WHERE username=#{username} and status=0
+    </select>
+    <!-- 根据用户名查询出该用户对用的所有角色的标记名称（千万不要用中文） -->
+    <select id="findAllRoleByUser" parameterType="String" resultType="String">
+        SELECT flag
+        FROM qycauth.Role
+        WHERE id IN (
+                      SELECT roleId
+                      FROM qycauth.UserRole
+                      WHERE username=#{username})
+    </select>
+    <!-- 查询出一个用户对应的所有权限数据 -->
+    <select id="findAllActionByUser" parameterType="String" resultType="String">
+        SELECT flag
+        FROM qycauth.Action
+        WHERE id IN (
+                        SELECT actionId
+                        FROM qycauth.RoleAction
+                        WHERE roleId IN (
+                                      SELECT roleId
+                                      FROM qycauth.UserRole
+                                      WHERE username=#{username}))
+    </select>
+
+    <!--添加用户-->
+    <insert id="addUser" parameterType="org.qydata.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO qycauth.User(username,password,email,code,status,createTime)
+         VALUES(#{username},#{password},#{email},#{code},1,sysdate())
+    </insert>
+    
+    <!--根据激活码查找用户-->
+    <select id="findUserByCode" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT username FROM qycauth.User WHERE code=#{param}
+    </select>
+    
+    <!--激活用户-->
+    <update id="updateState" parameterType="java.lang.String">
+        UPDATE qycauth.User SET status=0 WHERE username=#{param}
+    </update>
+
+</mapper>
