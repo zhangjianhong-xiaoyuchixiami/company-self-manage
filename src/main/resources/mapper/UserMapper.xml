@@ -7,7 +7,7 @@
     <select id="findById" parameterType="String" resultType="org.qydata.entity.User">
         SELECT username,password
         FROM qycauth.User
-        WHERE username=#{username} and status=0
+        WHERE username=#{username} OR email=#{username} and status=0
     </select>
     <!-- 根据用户名查询出该用户对用的所有角色的标记名称（千万不要用中文） -->
     <select id="findAllRoleByUser" parameterType="String" resultType="String">
@@ -46,5 +46,22 @@
     <update id="updateState" parameterType="java.lang.String">
         UPDATE qycauth.User SET status=0 WHERE username=#{param}
     </update>
+
+    <!--根据激活码删除未激活的用户-->
+    <delete id="deleteUserByCode" parameterType="java.lang.String">
+        DELETE FROM qycauth.User WHERE code=#{param}
+    </delete>
+
+    <!--用户找回密码-->
+    <update id="updatePassword" parameterType="java.lang.String">
+        UPDATE qycauth.User SET password=#{param2} WHERE email=#{param1}
+    </update>
+
+    <!---->
+    <select id="queryUserByUsername" parameterType="String" resultType="org.qydata.entity.User">
+        SELECT id,username,email,status
+        FROM qycauth.User
+        WHERE username=#{param} OR email=#{param}
+    </select>
 
 </mapper>

@@ -1,6 +1,7 @@
 package org.qydata.service;
 
 import org.qydata.entity.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -33,6 +34,7 @@ public interface UserService {
      * @param email 邮箱
      * @return 是否注册成功
      */
+    @Transactional
     public Boolean register(String username,String password,String email);
 
     /**
@@ -40,7 +42,38 @@ public interface UserService {
      * @param code 用户激活码
      * @return 是否激活成功
      */
+    @Transactional
     public Boolean active(String code);
 
+    /**
+     * 根据激活码删除未激活的用户
+     * @param code
+     * @return
+     */
+    @Transactional
+    public Boolean deleteUserByCode(String code);
+
+    /**
+     * 用户找回密码
+     * @param email
+     * @param password
+     * @return
+     */
+    public boolean forgot(String email,String password);
+
+    /**
+     * 用户找回密码
+     * @param email
+     * @param password
+     * @return
+     */
+    public boolean updatePassword(String email,String password);
+
+    /**
+     * 根据用户名或邮箱查找用户
+     * @param username
+     * @return
+     */
+    public User queryUserByUsername(String username);
 
 }

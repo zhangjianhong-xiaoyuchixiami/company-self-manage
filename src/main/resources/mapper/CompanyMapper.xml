@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.qydata.mapper.CompanyMapper">
+
+    <resultMap id="CompanyApi_Map" type="org.qydata.entity.CompanyApi">
+        <result column="apiTypeId" property="apiTypeId"/>
+        <result column="companyId" property="companyId"/>
+        <result column="price" property="price"/>
+        <result column="enabled" property="enabled"/>
+        <result column="createTime" property="createTime"/>
+        <result column="subTypeId" property="subTypeId"/>
+    </resultMap>
+
+    <resultMap id="CompanyApi_ApiType_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_Map">
+        <association property="apiType" javaType="org.qydata.entity.ApiType">
+            <result column="apiTypeName" property="name"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="CompanyApi_ApiType_MobileOperator_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_Map">
+        <association property="mobileOperator" javaType="org.qydata.entity.MobileOperator">
+            <result column="mobileOperatorName" property="name"/>
+        </association>
+    </resultMap>
+
+    <!--根据公司Id查找所购买产品-->
+    <select id="queryApiByCompanyId" parameterType="map" resultMap="CompanyApi_ApiType_MobileOperator_Map">
+       SELECT a.apiTypeId,a.apiTypeName,a.companyId,a.price,a.enabled,a.createTime,a.subTypeId,b.mobileOperatorName
+       FROM qycauth.cbkvwCompanyApi a LEFT JOIN qycauth.cbkvwApiMobileOperator b
+       ON a.apiId=b.apiId
+       WHERE companyId=#{param}
+    </select>
+
+</mapper>

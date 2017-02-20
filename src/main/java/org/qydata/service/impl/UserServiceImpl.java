@@ -67,4 +67,39 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public Boolean deleteUserByCode(String code) {
+        try {
+            return userMapper.deleteUserByCode(code);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean forgot(String email, String password) {
+        return SendEmail.sendForgotMail(email,password);
+    }
+
+    @Override
+    public boolean updatePassword(String email, String password) {
+        try {
+            return userMapper.updatePassword(email,password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public User queryUserByUsername(String username) {
+        try {
+            return userMapper.queryUserByUsername(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

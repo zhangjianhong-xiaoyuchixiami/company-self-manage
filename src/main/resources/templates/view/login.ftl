@@ -70,7 +70,7 @@
     <div class="tab-content">
         <div id="login" class="tab-pane active">
             <form action="/view/login-action" class="login_form" method="post">
-                <div class="alert alert-error hide">
+                <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
                     <span>请输入用户名和密码</span>
                 </div>
@@ -90,15 +90,26 @@
         </div>
         <div id="forgot" class="tab-pane">
             <form action="index.ftl" method="post">
-                <div class="form-group">
-                    <input type="email" id="forger_email" name="forger_email" placeholder="请输入邮箱" class="form-control">
+                <div class="alert alert-error show">
+                    <button class="close" data-dismiss="alert"></button>
+                    <span>请输入用户名和密码</span>
                 </div>
-                <br>
+                <div class="form-group">
+                    <input type="email" id="forgot_email" name="forgot_email" placeholder="请输入邮箱" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="forgot_password" name="forgot_password" placeholder="请输入新密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
+                </div>
                 <button class="btn btn-lg btn-danger btn-block" type="submit">找回密码</button>
             </form>
         </div>
+
         <div id="signup" class="tab-pane">
             <form action="/user/register" method="post">
+                <div class="alert alert-error show">
+                    <button class="close" data-dismiss="alert"></button>
+                    <span>请输入用户名和密码</span>
+                </div>
                 <div class="form-group">
                     <input type="text" id="sign_up_username" name="sign_up_username" placeholder="请输入用户名" class="form-control top">
                 </div>
@@ -106,10 +117,10 @@
                     <input type="email" id="sign_up_email" name="sign_up_email" placeholder="请输入邮箱" class="form-control middle">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码" class="form-control middle">
+                    <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
                 </div>
                 <div class="form-group">
-                    <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="再次输入密码" class="form-control bottom">
+                    <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="再次输入密码" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
                 </div>
                 <button class="btn btn-lg btn-success btn-block" type="submit">注册</button>
             </form>
@@ -142,6 +153,10 @@
     /*  $(document).ready(function() {
           LocalLogin.init();
       });*/
+</script>
+
+<script>
+    $(function () { $("[data-toggle='tooltip']").tooltip(); });
 </script>
 
 <script type="text/javascript">

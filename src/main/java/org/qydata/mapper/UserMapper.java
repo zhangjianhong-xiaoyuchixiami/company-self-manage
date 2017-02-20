@@ -2,6 +2,7 @@ package org.qydata.mapper;
 
 import org.qydata.entity.User;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -53,4 +54,30 @@ public interface UserMapper {
      * @throws Exception
      */
     public Boolean updateState(String username)throws Exception;
+
+    /**
+     * 根据激活码删除未激活的用户
+     * @param code
+     * @return
+     * @throws Exception
+     */
+    public Boolean deleteUserByCode(String code)throws Exception;
+
+    /**
+     * 用户找回密码
+     * @param email
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    public boolean updatePassword(String email,String password)throws Exception;
+
+    /**
+     * 根据用户名或邮箱查找用户
+     * @param username
+     * @return
+     */
+    public User queryUserByUsername(String username)throws Exception;
+
+
 }
