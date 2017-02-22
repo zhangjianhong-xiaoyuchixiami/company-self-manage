@@ -18,7 +18,7 @@
         </association>
     </resultMap>
 
-    <resultMap id="CompanyApi_ApiType_MobileOperator_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_Map">
+    <resultMap id="CompanyApi_ApiType_MobileOperator_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_ApiType_Map">
         <association property="mobileOperator" javaType="org.qydata.entity.MobileOperator">
             <result column="mobileOperatorName" property="name"/>
         </association>
@@ -29,7 +29,7 @@
        SELECT a.apiTypeId,a.apiTypeName,a.companyId,a.price,a.enabled,a.createTime,a.subTypeId,b.mobileOperatorName
        FROM qycauth.cbkvwCompanyApi a LEFT JOIN qycauth.cbkvwApiMobileOperator b
        ON a.apiId=b.apiId
-       WHERE companyId=#{param}
+       WHERE companyId=#{companyId}
     </select>
 
 </mapper>

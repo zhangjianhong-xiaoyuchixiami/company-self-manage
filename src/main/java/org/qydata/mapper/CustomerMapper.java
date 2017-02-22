@@ -1,6 +1,8 @@
 package org.qydata.mapper;
 
+import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
+import org.qydata.entity.CustomerBalanceLog;
 
 import java.util.List;
 import java.util.Map;
@@ -48,4 +50,30 @@ public interface CustomerMapper {
      * @throws Exception
      */
     public Integer queryCompanyIdByUserId(Integer userId)throws Exception;
+
+    /**
+     * 查询客户的充值记录
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<CustomerBalanceLog> queryCustomerRechargeRecordByCustomerId(Map<String,Object> map)throws Exception;
+
+
+    /**
+     * 查询客户的消费记录
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<CustomerApiConsume> queryCustomerConsumeRecordByCustomerId(Map<String,Object> map)throws Exception;
+
+    /**
+     * 查询客户的消费明细记录
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map)throws Exception;
+
 }

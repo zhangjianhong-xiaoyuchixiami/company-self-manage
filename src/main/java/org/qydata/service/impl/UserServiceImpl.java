@@ -43,9 +43,9 @@ public class UserServiceImpl implements UserService {
             user.setPassword(password);
             user.setEmail(email);
             user.setCode(code);
-            result=userMapper.addUser(user);
+            userMapper.addUser(user);
             //向用户发送激活邮件
-            SendEmail.sendMail(email,code);
+            result = SendEmail.sendMail(email,code);
             return result;
         }catch (Exception e){
             e.printStackTrace();

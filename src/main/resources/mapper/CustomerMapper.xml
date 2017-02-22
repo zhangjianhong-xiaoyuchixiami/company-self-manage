@@ -38,6 +38,31 @@
         </association>
     </resultMap>
 
+    <resultMap id="CustomerBalanceLog_Map" type="org.qydata.entity.CustomerBalanceLog">
+        <result column="id" property="id"/>
+        <result column="reasonId" property="reasonId"/>
+        <result column="customerId" property="customerId"/>
+        <result column="amount" property="amount"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="CustomerBalanceLog_CustomerBalanceModifyReason_Map" type="org.qydata.entity.CustomerBalanceLog" extends="CustomerBalanceLog_Map">
+        <association property="customerBalanceModifyReason" javaType="org.qydata.entity.CustomerBalanceModifyReason">
+            <result column="reasonName" property="name"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="CustomerApiConsume_Map" type="org.qydata.dst.CustomerApiConsume">
+        <result column="apiTypeId" property="apiTypeId"/>
+        <result column="totleAmount" property="totleAmount"/>
+        <result column="mobileOperatorId" property="mobileOperatorId"/>
+        <result column="apiTypeName" property="apiTypeName"/>
+        <result column="mobileOperatorName" property="mobileOperatorName"/>
+    </resultMap>
+
+
+
+
 
     <!--根据账号Id查找账号-->
     <select id="queryCustomerByAuthId" parameterType="map" resultMap="Customer_Type_Status_Company_User_Map">
@@ -73,6 +98,68 @@
         FROM qycauth.cbkvwCustomer
         WHERE userId=#{param}
         limit 0,1
+    </select>
+
+    <!--查询客户的充值记录-->
+    <select id="queryCustomerRechargeRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
+        SELECT id,reasonId,amount,customerId,createTime,reasonName
+        FROM qycauth.cbkvwCustomerBalanceLog
+        WHERE customerId=#{customerId}
+        AND reasonId IN
+        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
+            #{reasonId}
+        </foreach>
+        <if test="beginDate != null and beginDate != ''">
+            <![CDATA[
+            AND createTime>=str_to_date(#{beginDate},'%m/%d/%Y %H:%i:%s')
+            ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <![CDATA[
+            AND createTime<=str_to_date(#{endDate},'%m/%d/%Y %H:%i:%s')
+             ]]>
+        </if>
+    </select>
+
+    <!--查询客户的消费记录-->
+    <select id="queryCustomerConsumeRecordByCustomerId" parameterType="map" resultMap="CustomerApiConsume_Map">
+        SELECT cc.apiTypeId,cc.totleAmount,cc.mobileOperatorId,dd.name apiTypeName,ee.name mobileOperatorName
+        FROM
+        (
+        SELECT aa.apiTypeId,sum(aa.totleAmount) totleAmount,bb.mobileOperatorId
+        FROM
+            (
+            SELECT b.apiTypeId,b.apiId,sum(a.amount) totleAmount
+            FROM qycauth.cbkvwCustomerBalanceLog a LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+            WHERE a.reasonId IN(-1,-2) AND b.hasCost=1 AND a.customerId=#{customerId}
+            GROUP BY b.apiTypeId,b.apiId
+            ) aa LEFT JOIN qycauth.cbkvwApiMobileOperator bb ON aa.apiId = bb.apiId
+        GROUP BY aa.apiTypeId,bb.mobileOperatorId
+        ) cc LEFT JOIN qyfinance.bkvwApiType dd ON cc.apiTypeId=dd.id LEFT JOIN qyfinance.bkvwMobileOperator ee
+        ON cc.mobileOperatorId=ee.id
+    </select>
+
+    <!---查询客户的消费明细记录-->
+    <select id="queryCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
+        SELECT a.id,a.reasonId,a.amount,a.customerId,a.createTime,a.reasonName
+        FROM qycauth.cbkvwCustomerBalanceLog a LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+        WHERE b.hasCost=1 AND a.customerId=#{customerId} AND b.apiTypeId=#{apiTypeId}
+        AND a.reasonId IN
+        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
+            #{reasonId}
+        </foreach>
+        <where>
+            <if test="beginDate != null and beginDate != ''">
+                <![CDATA[
+            AND a.createTime>=str_to_date(#{beginDate},'%m/%d/%Y %H:%i:%s')
+            ]]>
+            </if>
+            <if test="endDate != null and endDate != ''">
+                <![CDATA[
+            AND a.createTime<=str_to_date(#{endDate},'%m/%d/%Y %H:%i:%s')
+             ]]>
+            </if>
+        </where>
     </select>
 
 </mapper>

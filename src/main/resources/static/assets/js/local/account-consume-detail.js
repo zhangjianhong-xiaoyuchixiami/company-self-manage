@@ -1,4 +1,4 @@
-var CompanyProduct = function () {
+var AccountConsumeDetail = function () {
     
     return {
         //main function to initiate the module
@@ -7,13 +7,20 @@ var CompanyProduct = function () {
             if (!jQuery().dataTable) {
                 return;
             }
-            var oTable = $('#sample_3').dataTable({
+
+            //
+            var oTable = $('#sample_5').dataTable({
                 "aoColumns": [
                     null,
                     null,
                     null
                 ],
-                "aaSorting": [[2, 'desc']],
+                "aaSorting": [[1, 'desc']],
+                "aLengthMenu": [
+                    [10, 15, 20, -1],
+                    [10, 15, 20, "全部"] // change per page values here
+                ],
+                "iDisplayLength": 15, //每页显示多少行
                 "sDom": "t<'row-fluid'<'span6'il><'span6'p>>",
                 "sPaginationType": "bootstrap",
                 "oLanguage" : {  //设置语言
@@ -31,10 +38,9 @@ var CompanyProduct = function () {
                         "sLast" : " 最后一页 "
                     }
                 },
-                /*"bInfo" : false,
-                "bPaginate" : false,*/
                 "bFilter" : false //设置全文搜索框，默认true
             });
+
 
         }
 

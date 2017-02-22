@@ -57,7 +57,7 @@
         UPDATE qycauth.User SET password=#{param2} WHERE email=#{param1}
     </update>
 
-    <!---->
+    <!--根据用户名或邮箱查找用户-->
     <select id="queryUserByUsername" parameterType="String" resultType="org.qydata.entity.User">
         SELECT id,username,email,status
         FROM qycauth.User

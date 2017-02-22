@@ -8,7 +8,7 @@
     <!--Mobile first-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Login Page</title>
+    <title>注册账号</title>
 
     <meta name="description" content="Free Admin Template Based On Twitter Bootstrap 3.x">
     <meta name="author" content="">
@@ -47,6 +47,7 @@
         .alert,.alert h4{color:#c09853}
         .alert h4{margin:0}
         .alert-error{color:#b94a48;background-color:#f2dede;border-color:#eed3d7}
+        .alert-success{color:#333;background-color:#f5f5f5;border-color:#eee}
         .close{
             display: inline-block;
             margin-top: 0px;
@@ -54,7 +55,7 @@
             width: 9px;
             height: 9px;
             background-repeat: no-repeat !important;
-            background-image: url("../media/image/remove-icon-small.png") !important;
+            background-image: url("../manage/image/remove-icon-small.png") !important;
         }
     </style>
 </head>
@@ -70,10 +71,6 @@
     <div class="tab-content">
         <div id="login" class="tab-pane">
             <form action="/view/login-action" class="login_form" method="post">
-                <div class="alert alert-error show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>请输入用户名和密码</span>
-                </div>
                 <div class="form-group">
                     <input type="text" id="login_username_email" name="login_username_email" placeholder="请输入用户名或邮箱" class="form-control top">
                 </div>
@@ -89,11 +86,7 @@
             </form>
         </div>
         <div id="forgot" class="tab-pane">
-            <form action="index.ftl" method="post">
-                <div class="alert alert-error show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>请输入用户名和密码</span>
-                </div>
+            <form action="/user/forgot" method="post">
                 <div class="form-group">
                     <input type="email" id="forgot_email" name="forgot_email" placeholder="请输入邮箱" class="form-control">
                 </div>
@@ -106,10 +99,18 @@
 
         <div id="signup" class="tab-pane active">
             <form action="/user/register" method="post">
+            <#if msg??>
                 <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
-                    <span>请输入用户名和密码</span>
+                    <span>${msg}</span>
                 </div>
+            </#if>
+            <#if successMsg??>
+                <div class="alert alert-success show">
+                    <button class="close" data-dismiss="alert"></button>
+                    <span>${successMsg}</span>
+                </div>
+            </#if>
                 <div class="form-group">
                     <input type="text" id="sign_up_username" name="sign_up_username" placeholder="请输入用户名" class="form-control top">
                 </div>

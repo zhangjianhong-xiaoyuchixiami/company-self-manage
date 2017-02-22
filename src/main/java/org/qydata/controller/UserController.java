@@ -17,6 +17,16 @@ public class UserController {
 
     @Autowired private UserService userService;
 
+    @RequestMapping(value = "/sign-up")
+    public String signUp(){
+        return "/view/signup";
+    }
+
+    @RequestMapping(value = "/forgot-url")
+    public String forgotUrl(){
+        return "/view/forgot";
+    }
+
     /**
      * 用户注册
      * @param sign_up_username 用户名
@@ -28,37 +38,45 @@ public class UserController {
     @RequestMapping(value = "/register")
     public String register(String sign_up_username,String sign_up_email,String sign_up_password,String sign_up_rpPassword,RedirectAttributes model){
         if(RegexUtil.isNull(sign_up_username)){
-            model.addFlashAttribute("usernameMessage","请输入用户名");
-            return "redirect:view/signup";
+            model.addFlashAttribute("msg","请输入用户名");
+            return "redirect:/user/sign-up";
+        }
+        if(userService.queryUserByUsername(sign_up_username.trim()) != null){
+            model.addFlashAttribute("msg","该用户名已被注册，请重新输入");
+            return "redirect:/user/sign-up";
         }
         if(RegexUtil.isNull(sign_up_email)){
-            model.addFlashAttribute("emailMessage","请输入邮箱");
-            return "redirect:view/signup";
+            model.addFlashAttribute("msg","请输入邮箱");
+            return "redirect:/user/sign-up";
+        }
+        if(userService.queryUserByUsername(sign_up_email.trim()) != null){
+            model.addFlashAttribute("msg","该邮箱已被注册，请重新输入");
+            return "redirect:/user/sign-up";
         }
         if(RegexUtil.isNull(sign_up_password)){
-            model.addFlashAttribute("passwordMessage","请输入密码");
-            return "redirect:view/signup";
+            model.addFlashAttribute("msg","请输入密码");
+            return "redirect:/user/sign-up";
         }
         if(!RegexUtil.isPwd(sign_up_password)){
-            model.addFlashAttribute("passwordMessage","密码格式输入不正确，请重新输入");
-            return "redirect:view/signup";
+            model.addFlashAttribute("msg","密码格式输入不正确，请重新输入");
+            return "redirect:/user/sign-up";
         }
         if(RegexUtil.isNull(sign_up_rpPassword)){
-            model.addFlashAttribute("rpPasswordMessage","请再次输入密码");
-            return "redirect:view/signup";
+            model.addFlashAttribute("msg","请再次输入密码");
+            return "redirect:/user/sign-up";
         }
-        if(sign_up_password.equals(sign_up_rpPassword)){
-            model.addFlashAttribute("rpPasswordMessage","两次密码输入不一致");
-            return "redirect:view/signup";
+        if(!sign_up_password.trim().equals(sign_up_rpPassword.trim())){
+            model.addFlashAttribute("msg","两次密码输入不一致");
+            return "redirect:/user/sign-up";
         }
         String md5Password = Md5Tools.md5(sign_up_password.trim());
         Boolean flag = userService.register(sign_up_username.trim(),md5Password,sign_up_email.trim());
         if (flag){
-            model.addFlashAttribute("sendMessage","激活链接已发送到您的邮箱，请点击链接完成注册");
-            return "redirect:view/signup";
+            model.addFlashAttribute("successMsg","激活链接已发送到您的邮箱");
+            return "redirect:/user/sign-up";
         }
-        model.addFlashAttribute("sendMessage","注册失败，请检查你的操作");
-        return "redirect:view/signup";
+        model.addFlashAttribute("msg","注册失败，请检查你的操作");
+        return "redirect:/user/sign-up";
     }
 
     /**
@@ -71,12 +89,12 @@ public class UserController {
     public String action(String code,RedirectAttributes model){
         Boolean flag = userService.active(code);
         if (flag){
-            model.addFlashAttribute("activeMessage","激活成功，欢迎登录使用");
-            return "redirect:view/login";
+            model.addFlashAttribute("successMsg","激活成功，欢迎登录使用");
+            return "redirect:/login";
         }
         userService.deleteUserByCode(code);
-        model.addFlashAttribute("sendMessage","激活失败，请重新注册");
-        return "redirect:view/signup";
+        model.addFlashAttribute("msg","激活失败，请重新注册");
+        return "redirect:/user/sign-up";
     }
 
     /**
@@ -88,25 +106,25 @@ public class UserController {
     @RequestMapping(value = "/forgot")
     public String forgot(String forgot_email,String forgot_password,RedirectAttributes model){
         if(RegexUtil.isNull(forgot_email)){
-            model.addFlashAttribute("emailMessage","请输入邮箱");
-            return "redirect:view/forgot";
+            model.addFlashAttribute("msg","请输入邮箱");
+            return "redirect:/user/forgot-url";
         }
         if(RegexUtil.isNull(forgot_password)){
-            model.addFlashAttribute("passwordMessage","请输入密码");
-            return "redirect:view/forgot";
+            model.addFlashAttribute("msg","请输入新密码");
+            return "redirect:/user/forgot-url";
         }
         if(!RegexUtil.isPwd(forgot_password)){
-            model.addFlashAttribute("passwordMessage","密码格式输入不正确，请重新输入");
-            return "redirect:view/forgot";
+            model.addFlashAttribute("msg","密码格式输入不正确，请重新输入");
+            return "redirect:/user/forgot-url";
         }
         String md5Password = Md5Tools.md5(forgot_password.trim());
         Boolean flag = userService.forgot(forgot_email.trim(),md5Password);
         if (flag){
-            model.addFlashAttribute("sendMessage","修改链接已发送到您的邮箱，请点击链接完成修改");
-            return "redirect:view/forgot";
+            model.addFlashAttribute("successMsg","修改链接已发送到您的邮箱");
+            return "redirect:/user/forgot-url";
         }
-        model.addFlashAttribute("sendMessage","邮件发送失败，请重新操作");
-        return "redirect:view/forgot";
+        model.addFlashAttribute("msg","邮件发送失败，请重新操作");
+        return "redirect:/user/forgot-url";
     }
 
     /**
@@ -119,11 +137,11 @@ public class UserController {
     public String updatePassword(String email,String password,RedirectAttributes model){
         Boolean flag = userService.updatePassword(email,password);
         if (flag){
-            model.addFlashAttribute("sendMessage","修改成功，欢迎登录使用");
-            return "redirect:view/login";
+            model.addFlashAttribute("successMsg","修改成功，欢迎登录使用");
+            return "redirect:/login";
         }
-        model.addFlashAttribute("sendMessage","激活失败，请检查你的操作");
-        return "redirect:view/forgot";
+        model.addFlashAttribute("msg","激活失败，请检查你的操作");
+        return "redirect:/user/forgot-url";
     }
 
 }

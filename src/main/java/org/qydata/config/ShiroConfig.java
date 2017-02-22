@@ -228,13 +228,26 @@ public class ShiroConfig {
 		chains.put("/view/login-action","anon");
 
 		//出错页面
-		chains.put("/error/404", "authc");
-		chains.put("/error/500", "authc");
+		chains.put("/error/404", "anon");
+		chains.put("/error/500", "anon");
 
 		//登录
 		chains.put("/", "authc");
 		chains.put("/view/unauthurl", "authc");
 		chains.put("/view/logout", "authc");
+
+		//CustomerController
+		chains.put("/customer/find-customer-by-authId", "authc,perms");
+		chains.put("/customer/validate-password-customer-by-authId", "authc,perms");
+		chains.put("/customer/bound-user-customer", "authc,perms");
+		chains.put("/customer/account-message", "authc,perms");
+		chains.put("/customer/account-charge", "authc,perms");
+		chains.put("/customer/account-consume", "authc,perms");
+		chains.put("/customer/account-consume/detail", "authc,perms");
+
+		//CompanyController
+		chains.put("/company/find-company-product-by-company-id", "authc,perms");
+
 
 
 		bean.setFilterChainDefinitionMap(chains);

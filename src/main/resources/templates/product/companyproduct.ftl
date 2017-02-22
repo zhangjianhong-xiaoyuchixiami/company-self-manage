@@ -21,9 +21,9 @@
 
                     <form action="/company/find-all-company-customer-by-dept-id" method="get">
 
-                        <div class="clearfix margin-bottom-20" style="margin-top: -18px;">
+                        <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
-                            <div class="control-group pull-left" style="margin-bottom: -20px;margin-top: -25px;">
+                            <div class="pull-left head-search-bottom head-search-top">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -31,7 +31,7 @@
 
                                     <div class="input-append">
 
-                                        <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="companyName" name="content" placeholder="请输入公司名称">
+                                        <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="companyName" name="content" placeholder="请输入产品名称">
 
                                         <button class="btn black" type="submit">搜索</button>
 
@@ -44,8 +44,6 @@
                         </div>
 
                     </form>
-
-                <#--表单-->
 
                     <div class="portlet box grey">
 
@@ -63,7 +61,7 @@
 
                                     <a class="btn black" id="add-partner" href="#form_modal1" data-toggle="modal">
 
-                                        绑定账号<i class="icon-plus"></i>
+                                        购买产品
 
                                     </a>
 
@@ -138,19 +136,17 @@
                                     <thead>
                                     <tr>
                                         <th>产品</th>
-                                        <th>价格</th>
+                                        <th>价格（单位：元）</th>
                                         <th>购买时间</th>
-                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <#if companyApiList??>
                                             <#list companyApiList as companyApi>
                                             <tr>
-                                                <td data-title="产品">${companyApi.apiType.name}<#if companyApi.mobileOperator??>--${companyApi.mobileOperator.name}</#if></td>
+                                                <td data-title="产品">${(companyApi.apiType.name)!''}<#if companyApi.mobileOperator??>--${companyApi.mobileOperator.name}</#if></td>
                                                 <td data-title="价格">${companyApi.price}</td>
                                                 <td data-title="购买时间">${companyApi.createTime}</td>
-                                                <td data-title="操作">${companyApi.createTime}</td>
                                             </tr>
                                             </#list>
                                         </#if>
@@ -190,6 +186,10 @@
             CompanyProduct.init();
         });
 
+    </script>
+
+    <script>
+        $(function () { $("[data-toggle='tooltip']").tooltip(); });
     </script>
 
     </#if>

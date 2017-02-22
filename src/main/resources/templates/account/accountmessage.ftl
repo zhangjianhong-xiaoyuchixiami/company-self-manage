@@ -21,9 +21,9 @@
 
                     <form action="/customer/account-message" method="get">
 
-                        <div class="clearfix margin-bottom-20" style="margin-top: -18px;">
+                        <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
-                            <div class="control-group pull-left" style="margin-bottom: -20px;margin-top: -25px;">
+                            <div class="pull-left head-search-bottom head-search-top">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -140,7 +140,7 @@
                                         <th>账号</th>
                                         <th>账号类型</th>
                                         <th>密码</th>
-                                        <th>余额</th>
+                                        <th>余额（单位：元）</th>
                                         <th>创建时间</th>
                                         <th>状态</th>
                                         <th>操作</th>
@@ -156,7 +156,11 @@
                                                 <td data-title="余额">${customer.balance}</td>
                                                 <td data-title="创建时间">${customer.createTime}</td>
                                                 <td data-title="状态">${customer.customerStatus.name}</td>
-                                                <td data-title="操作"><a href="#">消费账单</a>|<a href="/customer/account-charge">充值账单</a></td>
+                                                <td data-title="操作">
+                                                    <a href="/customer/account-consume?customerId=${customer.id}">消费记录</a>|
+                                                    <a href="/customer/account-charge?customerId=${customer.id}">充值记录</a>|
+                                                    <a href="#">修改账号密码</a>
+                                                </td>
                                             </tr>
                                             </#list>
                                         </#if>

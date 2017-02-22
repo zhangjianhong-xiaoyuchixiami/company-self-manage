@@ -1,71 +1,77 @@
 
-<#include "../errorpages/layout.ftl">
+<#include "../publicpart/layout.ftl">
+
+<#import "../publicpart/headnavigationbars.ftl" as c>
 
 <@layout ; section>
-
     <#if section = "head">
 
     <#elseif section = "content" >
 
-    <div id="page-wrapper">
+    <div class="page-content">
 
-        <div class="container-fluid back-min-height">
+        <div class="container-fluid">
 
-            <!-- Page Heading -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <ol class="breadcrumb bar-back-color">
-                        <li>
-                            <i class="fa fa-dashboard"></i>  <a href="view/index.ftl">账号管理</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-table"></i> 表格
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover table-striped">
-                            <thead>
-                            <tr>
-                                <th>账号</th>
-                                <th>账号类型</th>
-                                <th>密码</th>
-                                <th>余额</th>
-                                <th>创建时间</th>
-                                <th>操作</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>/index.html</td>
-                                <td>1265</td>
-                                <td>32.3%</td>
-                                <td>$321.33</td>
-                                <td>32.3%</td>
-                                <td><a href="#">消费账单</a><a href="#">充值账单</a></td>
-                            </tr>
-                            <tr>
-                                <td>/about.html</td>
-                                <td>261</td>
-                                <td>33.3%</td>
-                                <td>$234.12</td>
-                                <td>32.3%</td>
-                                <td>$321.33</td>
-                            </tr>
+            <@c.navigationBars></@c.navigationBars>
 
-                            </tbody>
-                        </table>
+            <div class="row-fluid">
+
+                <div class="span12">
+
+                    <div class="portlet box grey">
+
+                        <div class="portlet-title">
+
+                            <div class="caption"><i class="fa fa-user"></i><#if authId??>${authId}</#if></div>
+
+                        </div>
+
+                        <div class="portlet-body no-more-tables">
+
+                        <#-- <div class="clearfix margin-bottom-20">
+
+                             <div class="control-group pull-left" style="margin-bottom: -10px;">
+
+                                 <label class="control-label">共计&yen;：<#if totleAmount??><span>${(-totleAmount/100.0)?c}元</span><#else ><span>0元</span></#if></label>
+
+                             </div>
+
+                         </div>
+                         -->
+
+                            <div class="table-responsive">
+
+                                <table class="table table-striped table-hover table-bordered" id="sample_4">
+                                    <thead>
+                                    <tr>
+                                        <th>产品类型</th>
+                                        <th>金额（单位/元）</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <#if customerApiConsumeList??>
+                                            <#list customerApiConsumeList as customerApiConsume>
+                                            <tr>
+                                                <td data-title="产品类型">${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>--${customerApiConsume.mobileOperatorName}</#if></td>
+                                                <td data-title="金额（单位/元）">${(-customerApiConsume.totleAmount/100.0)?c}</td>
+                                                <td data-title="操作"><a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}&customerId=${customerId}">明细</a></td>
+                                            </tr>
+                                            </#list>
+                                        </#if>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>
+
             </div>
-            <!-- /.row -->
 
         </div>
-        <!-- /.container-fluid -->
 
     </div>
 
@@ -75,9 +81,15 @@
 
     <#elseif section = "privateJs">
 
-    <script>
-        $(function() {
-            $("#accountMessage").click();
+    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
+
+    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
+
+    <script type="text/javascript" src="/assets/js/local/account-consume.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            AccountConsume.init();
         });
     </script>
 

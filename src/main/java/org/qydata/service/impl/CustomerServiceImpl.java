@@ -1,6 +1,8 @@
 package org.qydata.service.impl;
 
+import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
+import org.qydata.entity.CustomerBalanceLog;
 import org.qydata.mapper.CustomerMapper;
 import org.qydata.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,36 @@ public class CustomerServiceImpl implements CustomerService {
     public Integer queryCompanyIdByUserId(Integer userId) {
         try {
             return customerMapper.queryCompanyIdByUserId(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CustomerBalanceLog> queryCustomerRechargeRecordByCustomerId(Map<String, Object> map) {
+        try {
+            return customerMapper.queryCustomerRechargeRecordByCustomerId(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CustomerApiConsume> queryCustomerConsumeRecordByCustomerId(Map<String, Object> map) {
+        try {
+            return customerMapper.queryCustomerConsumeRecordByCustomerId(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String, Object> map) {
+        try {
+            return customerMapper.queryCustomerConsumeDetailRecordByCustomerId(map);
         } catch (Exception e) {
             e.printStackTrace();
         }

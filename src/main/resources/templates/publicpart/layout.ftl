@@ -13,7 +13,8 @@
     <meta content="width=device-width, height=device-height, initial-scale=1.0" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-   <link rel="stylesheet" type="text/css"  href="/manage/css/local/main-response-table.css"/>
+    <link rel="stylesheet" type="text/css"  href="/manage/css/local/head-search.css"/>
+    <link rel="stylesheet" type="text/css"  href="/manage/css/local/main-response-table.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/font-awesome.min.css"/>
@@ -189,7 +190,7 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a href="/user/updatePasswordView"><i class="icon-calendar"></i>修改密码</a></li>
+                            <li><a href="/user/update-password"><i class="icon-calendar"></i>修改登录密码</a></li>
 
                             <li><a href="/view/logout"><i class="icon-key"></i> 退出</a></li>
 

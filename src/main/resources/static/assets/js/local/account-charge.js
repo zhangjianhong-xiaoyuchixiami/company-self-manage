@@ -13,7 +13,7 @@ var AccountCharge = function () {
                 "aoColumns": [
                     null,
                     null,
-                    { "bSortable": false }
+                    null
                 ],
                 "aaSorting": [[1, 'desc']],
                 "aLengthMenu": [

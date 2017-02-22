@@ -27,22 +27,17 @@ public class ViewController {
     //登录
     @RequestMapping("/login")
     public String loginUrl() {
-        return "view/login";
+        return "/view/login";
     }
 
     //登录提交
     @RequestMapping("/view/login-action")
     public String login(HttpServletRequest request, String login_username_email, String login_password, RedirectAttributes model) {
-        System.out.println(login_username_email);
-        System.out.println(login_password);
         Subject subject = SecurityUtils.getSubject();
         String md5Password = Md5Tools.md5(login_password.trim());
         UsernamePasswordToken token = new UsernamePasswordToken(login_username_email, md5Password);
         try {
             subject.login(token);
-           /* User user = userService.findUserByUsername(username);
-            request.getSession().setAttribute("userInfo", user);
-            model.addFlashAttribute("user", user);*/
             return "redirect:/";
         }catch (Exception e){
             e.printStackTrace();
@@ -54,13 +49,13 @@ public class ViewController {
     //登录成功
     @RequestMapping("/")
     public String successUrl() {
-        return "view/index";
+        return "/view/index";
     }
 
     //未授权
     @RequestMapping("/view/unauthurl")
     public String unauthUrl() {
-        return "view/role";
+        return "/view/role";
     }
 
     //注销

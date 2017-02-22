@@ -19,31 +19,27 @@
 
                 <div class="span12">
 
-                    <form action="/finance/find-all-customer/find-all-customer-recharge-log-by-customer-id" method="get">
+
+
+                    <form action="/finance/find-all-customer/find-all-customer-api-consume-record-by-customer-id/detail" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
                             <div class="pull-left head-search-bottom">
 
-                                <label class="control-label">充值理由</label>
+                                <label class="control-label">消费理由</label>
 
                                 <div class="controls">
 
                                     <label class="checkbox">
 
-                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId=="1">checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="1">正常充值
+                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId==-1>checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-1">消费扣费
 
                                     </label>
 
                                     <label class="checkbox">
 
-                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId=="2">checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="2">弥补充值
-
-                                    </label>
-
-                                    <label class="checkbox">
-
-                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId=="3">checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="3">测试充值
+                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId==-2>checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-2">弥补扣费
 
                                     </label>
 
@@ -103,56 +99,55 @@
 
                     </form>
 
+
+
+                <#--表单-->
                     <div class="portlet box grey">
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="fa fa-user"></i><#if authId??>${authId}</#if></div>
+                            <div class="caption"><i class="icon-user"></i><#if companyName??>${companyName}</#if><#if apiTypeName??>@${apiTypeName}</#if></div>
 
                         </div>
 
                         <div class="portlet-body no-more-tables">
 
-                           <#-- <div class="clearfix margin-bottom-20">
+                        <#--<div class="clearfix margin-bottom-20">
 
-                                <div class="control-group pull-left" style="margin-bottom: -10px;">
+                            <div class="control-group pull-left" style="margin-bottom: -10px;">
 
-                                    <label class="control-label">金额总计&yen;：<#if totleAmount??><span>${(totleAmount/100.0)?c}元</span><#else ><span>0元</span></#if></label>
+                                <label class="control-label">共计&yen;：<#if totleAmount??><span>${(-totleAmount/100.0)?c}元&nbsp;&nbsp;&nbsp;</span><#else ><span>0元&nbsp;&nbsp;&nbsp;</span></#if></label>
 
-                                </div>
+                            </div>
 
-                            </div>-->
+                        </div>-->
 
                             <div class="table-responsive">
-
-                                <table class="table table-striped table-hover table-bordered" id="sample_1">
+                                <table class="table table-striped table-hover table-bordered table-condensed" id="sample_5">
                                     <thead>
                                     <tr>
-                                        <th style="width: 30%">金额（单位：元）</th>
-                                        <th style="width: 40%">时间</th>
-                                        <th style="width: 30%">理由</th>
+                                        <th>消费金额（单位/元）</th>
+                                        <th>创建时间</th>
+                                        <th>类型</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <#if customerBalanceLogList??>
                                             <#list customerBalanceLogList as customerBalanceLog>
                                             <tr>
-                                                <td data-title="金额（单位：元）">${(customerBalanceLog.amount/100.0)?c}</td>
-                                                <td data-title="时间">${customerBalanceLog.createTime}</td>
-                                                <td data-title="理由">${customerBalanceLog.customerBalanceModifyReason.name}</td>
+                                                <td data-title="消费金额（单位/元）">${(-customerBalanceLog.amount/100.0)?c}</td>
+                                                <td data-title="创建时间">${customerBalanceLog.createTime!''}</td>
+                                                <td data-title="类型"><#if customerBalanceLog.customerBalanceModifyReason??>${customerBalanceLog.customerBalanceModifyReason.name}</#if></td>
                                             </tr>
                                             </#list>
                                         </#if>
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -166,14 +161,14 @@
 
     <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
 
-    <script type="text/javascript" src="/assets/js/local/account-charge.js"></script>
+    <script type="text/javascript" src="/assets/js/local/account-consume-detail.js"></script>
 
     <script type="text/javascript">
-
         jQuery(document).ready(function() {
-            AccountCharge.init();
+            AccountConsumeDetail.init();
         });
     </script>
+
 
     </#if>
 

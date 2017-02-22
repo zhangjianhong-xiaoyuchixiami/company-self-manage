@@ -1,5 +1,7 @@
 package org.qydata.tools;
 
+import org.apache.commons.mail.HtmlEmail;
+
 import javax.mail.Message;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -18,8 +20,29 @@ public class SendEmail {
      * @param code 激活码
      */
     public static boolean sendMail(String to, String code) {
-
         try {
+            HtmlEmail email = new HtmlEmail   ();
+            email.setTLS(true);
+            email.setHostName("smtp.mxhichina.com");
+            //登陆邮件服务器的用户名和密码
+            email.setAuthentication("member@qianyandata.com", "92f!x.8fce0e65");
+            //接收人
+            email.addTo(to);
+            //发送人
+            email.setFrom("member@qianyandata.com");
+            //标题
+            email.setSubject("激活邮件");
+            email.setCharset("utf-8");
+            email.setHtmlMsg("<html><h1>此邮件为激活账号邮件！请点击下面链接完成激活操作</h1><h3><a href='http://localhost/user/action?code="+code+"'>http://localhost/user/action</a></h3></html>");
+            //发送
+            email.send();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+      /*  try {
             Properties props = new Properties();
             props.put("username", "17316206369@163.com");
             props.put("password", "jzzjh8866");
@@ -44,7 +67,7 @@ public class SendEmail {
             e.printStackTrace();
             return false;
         }
-        return true;
+        return true;*/
     }
 
     /**

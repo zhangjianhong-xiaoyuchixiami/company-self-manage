@@ -1,6 +1,8 @@
 package org.qydata.service;
 
+import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
+import org.qydata.entity.CustomerBalanceLog;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -48,4 +50,27 @@ public interface CustomerService {
      * @throws
      */
     public Integer queryCompanyIdByUserId(Integer userId);
+
+    /**
+     * 指定账号余额变动记录
+     * @param map
+     * @return
+     */
+    public List<CustomerBalanceLog> queryCustomerRechargeRecordByCustomerId(Map<String,Object> map);
+
+    /**
+     * 查询客户的消费记录
+     * @param map
+     * @return
+     */
+    public List<CustomerApiConsume> queryCustomerConsumeRecordByCustomerId(Map<String,Object> map);
+
+    /**
+     * 查询客户的消费明细记录
+     * @param map
+     * @return
+     */
+    public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map);
+
+
 }
