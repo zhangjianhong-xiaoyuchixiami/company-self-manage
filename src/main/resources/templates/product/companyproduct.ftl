@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/company/find-all-company-customer-by-dept-id" method="get">
+                    <form action="/company/find-company-product-by-company-id" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -31,7 +31,7 @@
 
                                     <div class="input-append">
 
-                                        <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="companyName" name="content" placeholder="请输入产品名称">
+                                        <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="content" name="content" placeholder="请输入产品名称">
 
                                         <button class="btn black" type="submit">搜索</button>
 
@@ -47,11 +47,11 @@
 
                     <div class="portlet box grey">
 
-                        <div class="portlet-title">
+                      <#--  <div class="portlet-title">
 
                             <div class="caption"><i class="icon-user"></i></div>
 
-                        </div>
+                        </div>-->
 
                         <div class="portlet-body no-more-tables">
 
@@ -180,18 +180,15 @@
 
     <script type="text/javascript" src="/assets/js/local/company-product.js"></script>
 
-    <script>
+    <script type="text/javascript" src="/assets/js/local/company-product-left-bar.js"></script>
 
+    <script>
         jQuery(document).ready(function() {
             CompanyProduct.init();
+            CompanyProductBar.init();
         });
-
-    </script>
-
-    <script>
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
     </script>
-
     </#if>
 
 </@layout>

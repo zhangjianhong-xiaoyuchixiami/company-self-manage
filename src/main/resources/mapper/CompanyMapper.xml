@@ -30,6 +30,9 @@
        FROM qycauth.cbkvwCompanyApi a LEFT JOIN qycauth.cbkvwApiMobileOperator b
        ON a.apiId=b.apiId
        WHERE companyId=#{companyId}
+        <if test="content!=null and content!=''">
+            and a.apiTypeName like '%${content}%'
+        </if>
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package org.qydata.controller;
 
+
 import org.apache.shiro.SecurityUtils;
 import org.qydata.entity.CompanyApi;
 import org.qydata.service.CompanyService;
@@ -26,10 +27,11 @@ public class CompanyController {
     @Autowired private CustomerService customerService;
 
     @RequestMapping(value = "/find-company-product-by-company-id")
-    public String findCompanyProductByCompanyId(Model model){
+    public String findCompanyProductByCompanyId(String content,Model model){
         Integer companyId = customerService.queryCompanyIdByUserId(userService.queryUserByUsername((String) SecurityUtils.getSubject().getPrincipal()).getId());
         Map<String,Object> map = new HashMap<>();
         map.put("companyId",companyId);
+        map.put("content",content);
         List<CompanyApi> companyApiList = companyService.queryApiByCompanyId(map);
         model.addAttribute("companyApiList",companyApiList);
         return "product/companyproduct";

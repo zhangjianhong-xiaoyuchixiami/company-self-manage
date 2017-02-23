@@ -43,6 +43,19 @@ public class ShiroConfig {
         return filterRegistration;
 	}
 
+//	/**
+//	 * 内置表单登录
+//	 * @return
+//	 */
+//	@Bean
+//	public FormAuthenticationFilter formAuthenticationFilter(){
+//		FormAuthenticationFilter filter = new FormAuthenticationFilter();
+//		filter.setUsernameParam("login_username_email");
+//		filter.setPasswordParam("login_password");
+//		filter.setLoginUrl("/view/login-action");
+//		return filter;
+//	}
+
 	/**自定义realm
 	 * @return
 	 */

@@ -35,7 +35,7 @@ public class ViewController {
     public String login(HttpServletRequest request, String login_username_email, String login_password, RedirectAttributes model) {
         Subject subject = SecurityUtils.getSubject();
         String md5Password = Md5Tools.md5(login_password.trim());
-        UsernamePasswordToken token = new UsernamePasswordToken(login_username_email, md5Password);
+        UsernamePasswordToken token = new UsernamePasswordToken(login_username_email.trim(), md5Password);
         try {
             subject.login(token);
             return "redirect:/";

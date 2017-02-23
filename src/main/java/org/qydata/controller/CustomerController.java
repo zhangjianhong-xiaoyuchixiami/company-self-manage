@@ -8,6 +8,7 @@ import org.qydata.entity.CustomerBalanceLog;
 import org.qydata.entity.User;
 import org.qydata.service.CustomerService;
 import org.qydata.service.UserService;
+import org.qydata.tools.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 
@@ -82,13 +86,21 @@ public class CustomerController {
     @ResponseBody
     public String boundUserCustomer(String authId,String authPass){
         Gson gson = new Gson();
+        Map<String,Object> mapTip = new HashMap<>();
+        if(RegexUtil.isNull(authId)){
+            mapTip.put("authIdMessage","请输入账号");
+            return gson.toJson(mapTip);
+        }
+        if(RegexUtil.isNull(authPass)){
+            mapTip.put("authPassMessage","请输入密码");
+            return gson.toJson(mapTip);
+        }
         Customer customer = customerService.findCustomerByAuthIdAndAuthPass(authId,authPass);
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         User user = userService.queryUserByUsername(username);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
         map.put("customerId",customer.getId());
-        Map<String,Object> mapTip = new HashMap<>();
         if (customerService.addUserCustomer(map)){
             mapTip.put("successMessage","恭喜你，操作成功！");
         }else {
@@ -125,7 +137,7 @@ public class CustomerController {
      * @return
      */
     @RequestMapping(value = "/account-charge")
-    public String findAllCustomerRechargeLogByCustomerId(Integer customerId, String beginDate, String endDate, String [] reasonId, Model model){
+    public String findAllCustomerRechargeLogByCustomerId(Integer customerId, String authId,String beginDate, String endDate, String [] reasonId, Model model){
         Map<String, Object> map = new HashMap<>();
         map.put("customerId", customerId);
         List<Integer> reasonIdList = new ArrayList<>();
@@ -150,6 +162,8 @@ public class CustomerController {
         model.addAttribute("reasonIdArray",reasonId);
         model.addAttribute("beginDate",beginDate);
         model.addAttribute("endDate",endDate);
+        model.addAttribute("authId",authId);
+        model.addAttribute("customerId",customerId);
         return "/account/accountcharge";
 
     }
@@ -159,12 +173,13 @@ public class CustomerController {
      * @return
      */
     @RequestMapping("/account-consume")
-    public String findAllApiConsumeRecordByCustomerId(Integer customerId,Model model){
+    public String findAllApiConsumeRecordByCustomerId(Integer customerId,String authId,Model model){
         Map<String,Object> map = new HashMap();
         map.put("customerId",customerId);
         List<CustomerApiConsume> customerApiConsumeList = customerService.queryCustomerConsumeRecordByCustomerId(map);
         model.addAttribute("customerApiConsumeList", customerApiConsumeList);
         model.addAttribute("customerId", customerId);
+        model.addAttribute("authId", authId);
         return "/account/accountconsume";
     }
 
@@ -173,7 +188,7 @@ public class CustomerController {
      * @return
      */
     @RequestMapping("/account-consume/detail")
-    public String findAllApiConsumeDetailRecordByCustomerId(Integer customerId,Integer apiTypeId,String beginDate, String endDate, String [] reasonId,Model model){
+    public String findAllApiConsumeDetailRecordByCustomerId(Integer customerId,Integer apiTypeId,String apiTypeName,String mobileOperatorName,String beginDate, String endDate, String [] reasonId,Model model){
         Map<String,Object> map = new HashMap();
         map.put("customerId",customerId);
         map.put("apiTypeId",apiTypeId);
@@ -198,6 +213,10 @@ public class CustomerController {
         model.addAttribute("reasonIdArray",reasonId);
         model.addAttribute("beginDate",beginDate);
         model.addAttribute("endDate",endDate);
+        model.addAttribute("apiTypeId",apiTypeId);
+        model.addAttribute("customerId",customerId);
+        model.addAttribute("apiTypeName",apiTypeName);
+        model.addAttribute("mobileOperatorName",mobileOperatorName);
         return "/account/accountconsumedetail";
     }
 

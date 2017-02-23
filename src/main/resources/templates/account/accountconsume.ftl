@@ -55,7 +55,7 @@
                                             <tr>
                                                 <td data-title="产品类型">${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>--${customerApiConsume.mobileOperatorName}</#if></td>
                                                 <td data-title="金额（单位/元）">${(-customerApiConsume.totleAmount/100.0)?c}</td>
-                                                <td data-title="操作"><a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}&customerId=${customerId}">明细</a></td>
+                                                <td data-title="操作"><a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}&customerId=${customerId}&apiTypeName=${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>&mobileOperatorName=${customerApiConsume.mobileOperatorName}</#if>&reasonId=-1">明细</a></td>
                                             </tr>
                                             </#list>
                                         </#if>
@@ -87,9 +87,12 @@
 
     <script type="text/javascript" src="/assets/js/local/account-consume.js"></script>
 
+    <script type="text/javascript" src="/assets/js/local/account-left-bar.js"></script>
+
     <script type="text/javascript">
         jQuery(document).ready(function() {
             AccountConsume.init();
+            AccountLeftBar.init();
         });
     </script>
 

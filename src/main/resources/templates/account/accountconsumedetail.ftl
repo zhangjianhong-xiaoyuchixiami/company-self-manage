@@ -21,9 +21,57 @@
 
 
 
-                    <form action="/finance/find-all-customer/find-all-customer-api-consume-record-by-customer-id/detail" method="get">
+                    <form action="/customer/account-consume/detail" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">apiTypeId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${apiTypeId}" id="apiTypeId" name="apiTypeId" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">customerId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${customerId}" id="customerId" name="customerId" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">apiTypeName</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${apiTypeName}" id="apiTypeName" name="apiTypeName" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">mobileOperatorName</label>
+
+                                <div class="controls">
+
+                                    <input type="text" <#if mobileOperatorName??>value="${mobileOperatorName}"</#if> id="mobileOperatorName" name="mobileOperatorName" >
+
+                                </div>
+
+                            </div>
 
                             <div class="pull-left head-search-bottom">
 
@@ -33,13 +81,13 @@
 
                                     <label class="checkbox">
 
-                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId==-1>checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-1">消费扣费
+                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId=="-1">checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-1">消费扣费
 
                                     </label>
 
                                     <label class="checkbox">
 
-                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId==-2>checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-2">弥补扣费
+                                        <input type="checkbox" <#if reasonIdArray??><#list reasonIdArray as reasonId><#if reasonId=="-2">checked="checked"</#if></#list></#if> id="reasonId" name="reasonId" value="-2">弥补扣费
 
                                     </label>
 
@@ -106,7 +154,7 @@
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="icon-user"></i><#if companyName??>${companyName}</#if><#if apiTypeName??>@${apiTypeName}</#if></div>
+                            <div class="caption"><i class="fa fa-user"></i><#if apiTypeName??>${apiTypeName}</#if></div>
 
                         </div>
 
@@ -163,9 +211,12 @@
 
     <script type="text/javascript" src="/assets/js/local/account-consume-detail.js"></script>
 
+    <script type="text/javascript" src="/assets/js/local/account-left-bar.js"></script>
+
     <script type="text/javascript">
         jQuery(document).ready(function() {
             AccountConsumeDetail.init();
+            AccountLeftBar.init();
         });
     </script>
 

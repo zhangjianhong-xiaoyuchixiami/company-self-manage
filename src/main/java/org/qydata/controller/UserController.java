@@ -1,12 +1,18 @@
 package org.qydata.controller;
 
+import com.google.gson.Gson;
+import org.apache.shiro.SecurityUtils;
 import org.qydata.service.UserService;
 import org.qydata.tools.Md5Tools;
 import org.qydata.tools.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by jonhn on 2017/2/15.
@@ -142,6 +148,37 @@ public class UserController {
         }
         model.addFlashAttribute("msg","激活失败，请检查你的操作");
         return "redirect:/user/forgot-url";
+    }
+
+
+    @RequestMapping(value = "/update-login-password")
+    @ResponseBody
+    public String updateLoginPassword(String password,String rpPassword){
+        Gson gson = new Gson();
+        Map<String,Object> map = new HashMap<>();
+        if(RegexUtil.isNull(password)){
+            map.put("passwordMessage","请输入新密码");
+            return gson.toJson(map);
+        }
+        if(!RegexUtil.isPwd(password)){
+            map.put("passwordMessage","密码格式输入不正确，请重新输入");
+            return gson.toJson(map);
+        }
+        if(RegexUtil.isNull(rpPassword)){
+            map.put("rpPasswordMessage","请再次输入新密码");
+            return gson.toJson(map);
+        }
+        if(!password.trim().equals(rpPassword.trim())){
+            map.put("rpPasswordMessage","两次密码输入不一致");
+            return gson.toJson(map);
+        }
+        String username = (String) SecurityUtils.getSubject().getPrincipal();
+        if (userService.updateLoginPassword(username,Md5Tools.md5(password.trim()))){
+            map.put("successMessage","恭喜你，修改成功！");
+        }else {
+            map.put("errorMessage","操作失败，请检查你的输入");
+        }
+        return gson.toJson(map);
     }
 
 }

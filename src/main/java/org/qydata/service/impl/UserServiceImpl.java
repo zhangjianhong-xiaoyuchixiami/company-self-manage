@@ -24,15 +24,15 @@ public class UserServiceImpl implements UserService {
         return this.userMapper.findById(username);
     }
     @Override
-    public Map<String, Object> listAuthByUser(String username) throws Exception {
+    public Map<String, Object> listAuthByUser(Integer id) throws Exception {
         Map<String,Object> map = new HashMap<String,Object>() ;
-        map.put("allRoles", this.userMapper.findAllRoleByUser(username)) ;
-        map.put("allActions", this.userMapper.findAllActionByUser(username)) ;
+        map.put("allRoles", this.userMapper.findAllRoleByUser(id)) ;
+        map.put("allActions", this.userMapper.findAllActionByUser(id)) ;
         return map ;
     }
 
     @Override
-    public Boolean register(String username, String password, String email) {
+    public Boolean register(String username, String password, String email){
         try {
             Boolean result = false;
             //生成用户code
@@ -56,10 +56,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean active(String code) {
         try {
-            String username = userMapper.findUserByCode(code);
-            if (username != null && username != "") {
+            User user = userMapper.findUserByCode(code);
+            if (user != null) {
                 //如果存在用户，将此用户状态设为可用
-                userMapper.updateState(username);
+                userMapper.updateState(user.getUsername());
+                userMapper.addUserRole(user.getId());
                 return true;
             }
         }catch (Exception e){
@@ -101,5 +102,25 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean updateLoginPassword(String username, String password) {
+        try {
+            return userMapper.updateLoginPassword(username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addUserRole(Integer id) {
+        try {
+            return userMapper.addUserRole(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

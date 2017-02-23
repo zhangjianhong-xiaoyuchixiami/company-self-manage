@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.qydata.mapper.NoticeMapper">
+
+    <resultMap id="UserNotice_Map" type="org.qydata.entity.UserNotice">
+        <result column="id" property="id"/>
+        <result column="createTime" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="UserNotice_Notice_Map" type="org.qydata.entity.UserNotice" extends="UserNotice_Map">
+        <association property="notice" javaType="org.qydata.entity.PublicNotice">
+            <result column="title" property="title"/>
+            <result column="content" property="content"/>
+        </association>
+    </resultMap>
+
+    <!--统计用户-系统未读消息数-->
+    <select id="getCountUnReadNotice" parameterType="map" resultType="int">
+      SELECT count(id)
+      FROM qycauth.UserNotice
+      WHERE userId=#{userId} AND isActive=0
+    </select>
+
+    <!--查询用户-系统未读消息-->
+    <select id="queryUserUnReadNotice" parameterType="map" resultMap="UserNotice_Notice_Map">
+        SELECT a.id,b.title,b.content,a.createTime
+        FROM qycauth.UserNotice a LEFT JOIN qycauth.PublicNotice b ON a.noticeId=b.id
+        WHERE a.userId=#{userId} AND a.isActive=0
+    </select>
+
+</mapper>

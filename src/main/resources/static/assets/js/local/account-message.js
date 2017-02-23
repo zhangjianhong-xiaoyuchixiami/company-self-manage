@@ -1,5 +1,5 @@
 var AccountMessage = function () {
-    
+
     return {
         //main function to initiate the module
         init: function () {
@@ -39,6 +39,66 @@ var AccountMessage = function () {
                 "bPaginate" : false,
                 "bFilter" : false //设置全文搜索框，默认true
             });
+
+            $("#authId").focus(function () {
+                $("#authId_Msg").html("");
+            });
+
+            $("#authPass").focus(function () {
+                $("#authPass_Msg").html("");
+            });
+
+            $("#authId").blur(function(){
+                $("#authId_Msg").load("/customer/find-customer-by-authId?authId="+$("#authId").val(),
+                    function(responseTxt){
+                        if(responseTxt=="yes")
+                            $("#authId_Msg").html("");
+                        if(responseTxt=="no")
+                            $("#authId_Msg").html("<font color='red'>该账号不存在，请重新输入！</font>");
+                    });
+            });
+
+            $("#authPass").blur(function(){
+                $("#authPass_Msg").load("/customer/validate-password-customer-by-authId?authId="+$("#authId").val()+"&authPass="+$("#authPass").val(),
+                    function(responseTxt){
+                        if(responseTxt=="yes")
+                            $("#authPass_Msg").html("");
+                        if(responseTxt=="no")
+                            $("#authPass_Msg").html("<font color='red'>密码不正确，请重新输入！</font>");
+                    });
+            });
+
+            $("#add-btn-black-btn-primary").on("click",function () {
+                var authId=$("#authId").val();
+                var authPass=$("#authPass").val();
+                $.ajax({
+                    type: "post",
+                    url: "/customer/bound-user-customer",
+                    data: {"authId":authId,"authPass":authPass},
+                    dataType: "json",
+                    success: function (result) {
+                        if(result.authIdMessage != null) {
+                            $("#authId_Msg").empty();
+                            $("#authId_Msg").html("<font color='red'>"+result.authIdMessage+"</font>");
+                            return;
+                        }
+                        if(result.authPassMessage != null) {
+                            $("#authPass_Msg").empty();
+                            $("#authPass_Msg").html("<font color='red'>"+result.authPassMessage+"</font>");
+                            return;
+                        }
+                        if(result.errorMessage != null) {
+                            $("#error-alert").empty();
+                            $("#error-alert").append('<div class="alert alert-error show"><button class="close" data-dismiss="alert"></button><span>'+result.errorMessage+'</span></div>');
+                            return;
+                        }
+                        if (result.successMessage != null){
+                            window.location.href=window.location.href
+                        }
+                    }
+                });
+            });
+
 
         }
 

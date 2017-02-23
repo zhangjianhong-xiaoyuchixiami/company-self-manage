@@ -19,13 +19,13 @@ public interface UserService {
     public User get(String username) throws Exception ;
     /**
      * 此方法是留给Realm实现授权处理的，主要要根据用户ID查询出所有的角色以及所有对应权限
-     * @param username
+     * @param id
      * @return 返回的数据包含有两个内容：<br>
      * <li>key = allRoles、value = 所有的用户角色；</li>
      * <li>key = allActions、value = 所有的用户权限。</li>
      * @throws Exception
      */
-    public Map<String,Object> listAuthByUser(String username) throws Exception ;
+    public Map<String,Object> listAuthByUser(Integer id) throws Exception ;
 
     /**
      * 注册用户
@@ -67,6 +67,7 @@ public interface UserService {
      * @param password
      * @return
      */
+    @Transactional
     public boolean updatePassword(String email,String password);
 
     /**
@@ -75,5 +76,22 @@ public interface UserService {
      * @return
      */
     public User queryUserByUsername(String username);
+
+    /**
+     * 修改登录密码
+     * @param username
+     * @param password
+     * @return
+     */
+    @Transactional
+    public boolean updateLoginPassword(String username,String password);
+
+    /**
+     * 分配角色
+     * @param id
+     * @return
+     */
+    @Transactional
+    public boolean addUserRole(Integer id);
 
 }

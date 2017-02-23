@@ -196,7 +196,7 @@ public class CalendarTools {
         Calendar c = Calendar.getInstance();//可以对每个时间域单独修改
         c.add(Calendar.MONTH,-(count));
         Integer year = c.get(Calendar.YEAR);
-       return year;
+        return year;
     }
 
     /**
@@ -265,5 +265,28 @@ public class CalendarTools {
         SimpleDateFormat simple = new SimpleDateFormat("yyyy-MM-dd");
         return simple.format(date);
 
+    }
+
+    /**
+     * 比较两个日期相差小时数
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public static int daysBetween(String startTime,String endTime) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
+        Calendar cal = Calendar.getInstance();
+        long time1 = 0;
+        long time2 = 0;
+        try{
+            cal.setTime(sdf.parse(startTime));
+            time1 = cal.getTimeInMillis();
+            cal.setTime(sdf.parse(endTime));
+            time2 = cal.getTimeInMillis();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        long between_days=(time2-time1)/(1000*3600);
+        return Integer.parseInt(String.valueOf(between_days));
     }
 }

@@ -68,109 +68,13 @@
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                            <span class="badge">6</span>
+                            <span class="badge"></span>
 
                             <i class="fa fa-envelope"></i>
 
                         </a>
 
-                        <ul class="dropdown-menu extended notification">
-
-                            <li>
-
-                                <p>You have 14 new notifications</p>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-success"><i class="icon-plus"></i></span>
-
-                                    New user registered.
-
-                                    <span class="time">Just now</span>
-
-                                </a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-important"><i class="icon-bolt"></i></span>
-
-                                    Server #12 overloaded.
-
-                                    <span class="time">15 mins</span>
-
-                                </a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-warning"><i class="icon-bell"></i></span>
-
-                                    Server #2 not respoding.
-
-                                    <span class="time">22 mins</span>
-
-                                </a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-info"><i class="icon-bullhorn"></i></span>
-
-                                    Application error.
-
-                                    <span class="time">40 mins</span>
-
-                                </a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-important"><i class="icon-bolt"></i></span>
-
-                                    Database overloaded 68%.
-
-                                    <span class="time">2 hrs</span>
-
-                                </a>
-
-                            </li>
-
-                            <li>
-
-                                <a href="#">
-
-                                    <span class="label label-important"><i class="icon-bolt"></i></span>
-
-                                    2 user IP blocked.
-
-                                    <span class="time">5 hrs</span>
-
-                                </a>
-
-                            </li>
-
-                            <li class="external">
-
-                                <a href="#">See all notifications <i class="m-icon-swapright"></i></a>
-
-                            </li>
+                        <ul id="dropdown-menu-extended-notification" class="dropdown-menu extended notification">
 
                         </ul>
 
@@ -190,7 +94,74 @@
 
                         <ul class="dropdown-menu">
 
-                            <li><a href="/user/update-password"><i class="icon-calendar"></i>修改登录密码</a></li>
+                            <li><a href="#form_modal_update_password" data-toggle="modal"><i class="icon-calendar"></i>修改登录密码</a></li>
+
+                            <div id="form_modal_update_password" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_update_password" aria-hidden="true">
+
+                                <div class="modal-header">
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+
+                                    <h3 id="myModalLabel_update_password">请填写信息</h3>
+
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <form action="#" class="form-horizontal">
+
+                                        <div class="control-group"></div>
+
+                                        <div class="control-group"></div>
+
+                                        <div id="error-alert"></div>
+
+                                        <div class="control-group">
+
+                                            <label class="control-label">请输入新密码<span class="required">*</span></label>
+
+                                            <div class="controls">
+
+                                                <input type="password" id="newPassword" name="newPassword" class="m-wrap medium">
+
+                                                <span id="newPassword_Msg" class="help-line"></span>
+
+                                                <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="control-group">
+
+                                            <label class="control-label">请再次输入新密码<span class="required">*</span></label>
+
+                                            <div class="controls">
+
+                                                <input type="password" id="newRpPassword" name="newRpPassword" class="m-wrap medium">
+
+                                                <span id="newRpPassword_Msg" class="help-line"></span>
+
+                                                <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </form>
+
+                                </div>
+
+                                <div class="modal-footer">
+
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+
+                                    <button class="btn black btn-primary" id="update-password-btn-black-btn-primary" type="button">提交</button>
+
+                                </div>
+
+                            </div>
 
                             <li><a href="/view/logout"><i class="icon-key"></i> 退出</a></li>
 
@@ -216,15 +187,15 @@
                     <div class="sidebar-toggler hidden-phone"></div>
                 </li>
 
-                <li class="active" id="customerManage">
+                <li id="customerManage">
                     <a href="javascript:;"><i class="icon-sitemap"></i>
                         <span class="title">账号管理</span>
                         <span class="" id="customerManageSelect"></span>
-                        <span class="arrow " id="customerManageArrow"></span>
+                        <span class="arrow" id="customerManageArrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li id="customerList"><a href="/customer/account-message">账号信息</a></li>
-                        <li id="customerList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>
+                        <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>
                     </ul>
                 </li>
 
@@ -351,12 +322,44 @@
 
 <script src="/manage/js/form-components.js"></script>
 
+<script src="/assets/js/local/update-password.js"></script>
+
+<script type="text/javascript">
+    function getCount() {
+
+        $.ajax({
+            type: "post",
+            url: "/notice/unread-notice-content",
+            dataType: "json",
+            success: function(date){
+                var result = date.userNoticeList;
+                var count = date.userNoticeCount;
+                if ( result != null){
+                    $("#dropdown-menu-extended-notification").empty();
+                    $("#dropdown-menu-extended-notification").append("<li> <p>你有&nbsp;<span id='badge_msg'></span>&nbsp;条未读消息</p> </li>");
+                    for (var i=0; i<result.length; i++){
+                        $("#dropdown-menu-extended-notification").append("<li><a href='#'><span class='label label-important'><i class='icon-bolt'></i></span>" +result[i].notice.title+ "<span class='time'>" +result[i].estimate.roughEstimateCreateTime+ "</span></a></li>");
+                    }
+                    $("#dropdown-menu-extended-notification").append("<li class='external'> <a href='#'>See all notifications <i class='m-icon-swapright'></i></a></li>");
+                    $(".badge").empty();
+                    $(".badge").html(count);
+                    $("#badge_msg").empty();
+                    $("#badge_msg").html(count);
+                }
+            }
+        });
+    }
+    setInterval("getCount()",2000);
+</script>
+
 <script>
 
     jQuery(document).ready(function() {
         App.init();
 
         Search.init();
+
+        UpdatePassword.init();
 
     });
 </script>

@@ -19,9 +19,33 @@
 
                 <div class="span12">
 
-                    <form action="/finance/find-all-customer/find-all-customer-recharge-log-by-customer-id" method="get">
+                    <form action="/customer/account-charge" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">customerId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${customerId}" id="customerId" name="customerId" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">authId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${authId}" id="authId" name="authId" >
+
+                                </div>
+
+                            </div>
 
                             <div class="pull-left head-search-bottom">
 
@@ -113,15 +137,15 @@
 
                         <div class="portlet-body no-more-tables">
 
-                           <#-- <div class="clearfix margin-bottom-20">
+                        <#-- <div class="clearfix margin-bottom-20">
 
-                                <div class="control-group pull-left" style="margin-bottom: -10px;">
+                             <div class="control-group pull-left" style="margin-bottom: -10px;">
 
-                                    <label class="control-label">金额总计&yen;：<#if totleAmount??><span>${(totleAmount/100.0)?c}元</span><#else ><span>0元</span></#if></label>
+                                 <label class="control-label">金额总计&yen;：<#if totleAmount??><span>${(totleAmount/100.0)?c}元</span><#else ><span>0元</span></#if></label>
 
-                                </div>
+                             </div>
 
-                            </div>-->
+                         </div>-->
 
                             <div class="table-responsive">
 
@@ -168,10 +192,13 @@
 
     <script type="text/javascript" src="/assets/js/local/account-charge.js"></script>
 
+    <script type="text/javascript" src="/assets/js/local/account-left-bar.js"></script>
+
     <script type="text/javascript">
 
         jQuery(document).ready(function() {
             AccountCharge.init();
+            AccountLeftBar.init();
         });
     </script>
 

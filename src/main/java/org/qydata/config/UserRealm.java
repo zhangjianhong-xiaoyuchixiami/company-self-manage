@@ -27,9 +27,10 @@ public class UserRealm extends AuthorizingRealm{
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         System.out.println("********** 2、用户角色与权限：doGetAuthorizationInfo **********");
         String username = (String) principals.getPrimaryPrincipal() ;	// 取得用户登录
+        User user = userService.queryUserByUsername(username);
         SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo() ;	// 定义授权信息的返回数据
         try {
-            Map<String,Object> map = this.userService.listAuthByUser(username) ;
+            Map<String,Object> map = this.userService.listAuthByUser(user.getId()) ;
             Set<String> allRoles = (Set<String>) map.get("allRoles") ;
             Set<String> allActions = (Set<String>) map.get("allActions") ;
             auth.setRoles(allRoles);// 所有的角色必须以Set集合的形式出现

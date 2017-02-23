@@ -2,7 +2,6 @@ package org.qydata.mapper;
 
 import org.qydata.entity.User;
 
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,17 +18,17 @@ public interface UserMapper {
 
     /**
      * 根据登录用户名匹配角色
-     * @param username
+     * @param id
      * @return
      */
-    public Set<String> findAllRoleByUser(String username) throws Exception;
+    public Set<String> findAllRoleByUser(Integer id) throws Exception;
 
     /**
      * 根据登录用户名匹配权限
-     * @param username
+     * @param id
      * @return
      */
-    public Set<String> findAllActionByUser(String username)throws Exception ;
+    public Set<String> findAllActionByUser(Integer id)throws Exception ;
 
     /**
      * 添加用户
@@ -45,7 +44,15 @@ public interface UserMapper {
      * @return
      * @throws Exception
      */
-    public String findUserByCode(String code)throws Exception;
+    public String findUsernameByCode(String code)throws Exception;
+
+    /**
+     * 根据激活码查找用户
+     * @param code
+     * @return
+     * @throws Exception
+     */
+    public User findUserByCode(String code)throws Exception;
 
     /**
      * 激活用户
@@ -78,6 +85,23 @@ public interface UserMapper {
      * @return
      */
     public User queryUserByUsername(String username)throws Exception;
+
+    /**
+     * 修改登录密码
+     * @param username
+     * @param password
+     * @return
+     * @throws Exception
+     */
+    public boolean updateLoginPassword(String username,String password)throws Exception;
+
+    /**
+     * 分配角色
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean addUserRole(Integer id)throws Exception;
 
 
 }
