@@ -3,6 +3,7 @@ package org.qydata.service;
 import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
 import org.qydata.entity.CustomerBalanceLog;
+import org.qydata.entity.WeekMonthAmount;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -72,5 +73,32 @@ public interface CustomerService {
      */
     public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map);
 
+    /**
+     * 查询客户的月记录月级联菜单
+     * @param map
+     * @return
+     */
+    public List<Integer> queryCustomerMonthsByCustomerId(Map<String,Object> map);
+
+    /**
+     * 查询客户的月记录年级联菜单
+     * @param map
+     * @return
+     */
+    public List<Integer> queryCustomerYearsByCustomerId(Map<String,Object> map);
+
+    /**
+     * 查询客户的周月记录
+     * @param map
+     * @return
+     */
+    public List<WeekMonthAmount> queryCustomerWeekMonthRecordByCustomerId(Map<String,Object> map);
+
+    /**
+     * 月账单走势
+     * @param map
+     * @return
+     */
+    public Map<String,List> monthChargeConsumeToward(Map<String,Object> map);
 
 }

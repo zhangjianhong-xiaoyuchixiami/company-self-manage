@@ -1,13 +1,18 @@
 package org.qydata.controller;
 
 import com.google.gson.Gson;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
 import org.qydata.entity.CustomerBalanceLog;
 import org.qydata.entity.User;
+import org.qydata.entity.WeekMonthAmount;
 import org.qydata.service.CustomerService;
 import org.qydata.service.UserService;
+import org.qydata.tools.CalendarTools;
 import org.qydata.tools.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +20,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -218,6 +221,128 @@ public class CustomerController {
         model.addAttribute("apiTypeName",apiTypeName);
         model.addAttribute("mobileOperatorName",mobileOperatorName);
         return "/account/accountconsumedetail";
+    }
+
+    /**
+     * 月历史记录
+     * @param customerId
+     * @param years
+     * @param months
+     * @param typeId
+     * @param authId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/month-record")
+    public String findMonthRecordByCustomerId(Integer customerId,Integer years,Integer months, Integer typeId,String authId,Model model){
+        Map<String,Object> map = new HashedMap();
+        map.put("customerId",customerId);
+        map.put("weekMonthTypeId",2);
+        List<Integer> tableIdList = new ArrayList();
+        tableIdList.add(typeId);
+        map.put("tableIdList",tableIdList);
+        List<Integer> monthList = null;
+        if(years != null){
+            map.put("years",years);
+            monthList = customerService.queryCustomerMonthsByCustomerId(map);
+        }
+        if(months != null){
+            map.put("months",months);
+        }
+        List<WeekMonthAmount> weekMonthAmountList = customerService.queryCustomerWeekMonthRecordByCustomerId(map);
+        List<Integer> yearList = customerService.queryCustomerYearsByCustomerId(map);
+        model.addAttribute("weekMonthAmountList",weekMonthAmountList);
+        model.addAttribute("yearList",yearList);
+        model.addAttribute("monthList",monthList);
+        model.addAttribute("authId",authId);
+        model.addAttribute("customerId",customerId);
+        model.addAttribute("typeId",typeId);
+        model.addAttribute("years",years);
+        model.addAttribute("months",months);
+        return "/account/accountmonthrecord";
+    }
+
+    /**
+     * 月记录数月级联菜单
+     * @param request
+     * @return
+     */
+    @RequestMapping("/month-up-link")
+    @ResponseBody
+    public String findCompanyCustomerMonthUplinkMonthsByCustomerId(Integer customerId,Integer years,Integer typeId,HttpServletRequest request){
+        Map<String,Object> map = new HashedMap();
+        map.put("customerId",customerId);
+        map.put("weekMonthTypeId",2);
+        map.put("years",years);
+        List<Integer> tableIdList = new ArrayList();
+        tableIdList.add(typeId);
+        map.put("tableIdList",tableIdList);
+        List<Integer> monthList = customerService.queryCustomerMonthsByCustomerId(map);
+        JSONArray jsonArray = JSONArray.fromObject(monthList);
+        return jsonArray.toString();
+    }
+
+    /**
+     * 客户月账单充值消费走势图
+     * @param customerId
+     * @param typeId
+     * @return
+     */
+    @RequestMapping("/months-charge-consume-toward")
+    @ResponseBody
+    public String monthsChargeConsumeToward(Integer customerId,Integer typeId,Integer years,Integer months){
+        System.out.println(customerId);
+        System.out.println(typeId);
+        System.out.println(years);
+        System.out.println(months);
+        Map<String,Object> map = new HashedMap();
+        map.put("customerId",customerId);
+        map.put("tableId",typeId);
+        if(years != null && months == null){
+            if (years < CalendarTools.getYearMonthCount(0)){
+                Integer result =  (CalendarTools.compareDate(years+"-"+12+"-"+31, null, 1)-1);
+                map.put("result",result);
+                System.out.println(result);
+            }else {
+                map.put("result",0);
+            }
+
+        }
+        if(years != null && months != null){
+            Integer result =  (CalendarTools.compareDate(years+"-"+months+"-"+31, null, 1)-1);
+            map.put("result",result);
+            System.out.println(result);
+        }
+        if (years == null && months == null){
+            map.put("result",0);
+        }
+        Map<String,List> stringListMap = customerService.monthChargeConsumeToward(map);
+        Set<Map.Entry<String,List>> set = stringListMap.entrySet();
+        Iterator<Map.Entry<String,List>> it = set.iterator();
+        List xList= null;
+        List yList = null;
+        while(it.hasNext()){
+            Map.Entry<String,List> me = it.next();
+            if(me.getKey().equals("xPort")){
+                xList = (List) me.getValue();
+            }if(me.getKey().equals("type") ){
+                yList = (List) me.getValue();
+            }
+        }
+        Map mapOne = new HashedMap();
+        if (typeId ==1){
+            mapOne.put("name","充值");
+        }
+        if (typeId ==2){
+            mapOne.put("name","消费");
+        }
+        mapOne.put("data",yList);
+        JSONArray jsonArray = JSONArray.fromObject(xList);
+        JSONArray jsonArray1 = JSONArray.fromObject(mapOne);
+        JSONObject getObj = new JSONObject();
+        getObj.put("xList", jsonArray);
+        getObj.put("yList", jsonArray1);
+        return getObj.toString();
     }
 
 

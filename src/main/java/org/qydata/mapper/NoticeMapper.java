@@ -24,4 +24,29 @@ public interface NoticeMapper {
      * @throws Exception
      */
     public List<UserNotice> queryUserUnReadNotice(Map<String,Object> map) throws Exception;
+
+    /**
+     * 根据Id查询用户-系统消息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public UserNotice queryUserNoticeById(Map<String,Object> map) throws Exception;
+
+    /**
+     * 设置消息为已读状态
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean updateActive(Integer id,Integer isActive)throws Exception;
+
+    /**
+     * 查询用户-系统消息
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<UserNotice> queryUserNotice(Map<String,Object> map) throws Exception;
+
 }

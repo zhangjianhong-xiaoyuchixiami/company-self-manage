@@ -3,6 +3,7 @@ package org.qydata.mapper;
 import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
 import org.qydata.entity.CustomerBalanceLog;
+import org.qydata.entity.WeekMonthAmount;
 
 import java.util.List;
 import java.util.Map;
@@ -75,5 +76,38 @@ public interface CustomerMapper {
      * @throws Exception
      */
     public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map)throws Exception;
+
+    /**
+     * 查询客户的周月记录
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<WeekMonthAmount> queryCustomerWeekMonthRecordByCustomerId(Map<String,Object> map)throws Exception;
+
+    /**
+     * 查询客户的周月记录年级联菜单
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<Integer> queryCustomerYearsByCustomerId(Map<String,Object> map) throws Exception;
+
+    /**
+     * 查询客户的周月记录月级联菜单
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public List<Integer> queryCustomerMonthsByCustomerId(Map<String,Object> map) throws Exception;
+
+    /**
+     * 月账单走势
+     * @param customerId
+     * @param tableId
+     * @param result
+     * @return
+     */
+    public WeekMonthAmount queryMonthChargeConsumeToward(Integer customerId, Integer tableId, Integer result);
 
 }

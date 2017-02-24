@@ -13,11 +13,10 @@
     <meta content="width=device-width, height=device-height, initial-scale=1.0" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    <link rel="stylesheet" type="text/css"  href="/manage/css/local/head-search.css"/>
-    <link rel="stylesheet" type="text/css"  href="/manage/css/local/main-response-table.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/manage/css/font-awesome.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/style-metro.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/style-responsive.css"/>
@@ -42,8 +41,10 @@
     <link rel="stylesheet" type="text/css" href="/manage/css/datepicker.css" />
     <link rel="stylesheet" type="text/css" href="/manage/css/search.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/icon.css" />
+    <link rel="stylesheet" type="text/css" href="/manage/css/local/head-search.css"/>
+    <link rel="stylesheet" type="text/css" href="/manage/css/local/main-response-table.css"/>
     <link rel="shortcut icon" href="/manage/image/favicon.ico" />
-    <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">
+  <#--  <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">-->
 </head>
 
 <body class="page-header-fixed">
@@ -64,17 +65,17 @@
 
                 <ul class="nav pull-right">
 
-                    <li class="dropdown" id="header_notification_bar">
+                    <li class="dropdown" id="header_inbox_bar">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
                             <span class="badge"></span>
 
-                            <i class="fa fa-envelope"></i>
+                            <i class="icon-envelope"></i>
 
                         </a>
 
-                        <ul id="dropdown-menu-extended-notification" class="dropdown-menu extended notification">
+                        <ul id="dropdown-menu-extended-notification" class="dropdown-menu extended inbox">
 
                         </ul>
 
@@ -84,7 +85,7 @@
 
                         <a href="javaScript:;" class="dropdown-toggle" data-toggle="dropdown">
 
-                            <i class="fa fa-user"></i>
+                            <i class="icon-user"></i>
 
                             <span class="username"><@shiro.principal/></span>
 
@@ -96,73 +97,6 @@
 
                             <li><a href="#form_modal_update_password" data-toggle="modal"><i class="icon-calendar"></i>修改登录密码</a></li>
 
-                            <div id="form_modal_update_password" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_update_password" aria-hidden="true">
-
-                                <div class="modal-header">
-
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-
-                                    <h3 id="myModalLabel_update_password">请填写信息</h3>
-
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <form action="#" class="form-horizontal">
-
-                                        <div class="control-group"></div>
-
-                                        <div class="control-group"></div>
-
-                                        <div id="error-alert"></div>
-
-                                        <div class="control-group">
-
-                                            <label class="control-label">请输入新密码<span class="required">*</span></label>
-
-                                            <div class="controls">
-
-                                                <input type="password" id="newPassword" name="newPassword" class="m-wrap medium">
-
-                                                <span id="newPassword_Msg" class="help-line"></span>
-
-                                                <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="control-group">
-
-                                            <label class="control-label">请再次输入新密码<span class="required">*</span></label>
-
-                                            <div class="controls">
-
-                                                <input type="password" id="newRpPassword" name="newRpPassword" class="m-wrap medium">
-
-                                                <span id="newRpPassword_Msg" class="help-line"></span>
-
-                                                <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
-
-                                            </div>
-
-                                        </div>
-
-
-                                    </form>
-
-                                </div>
-
-                                <div class="modal-footer">
-
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
-
-                                    <button class="btn black btn-primary" id="update-password-btn-black-btn-primary" type="button">提交</button>
-
-                                </div>
-
-                            </div>
-
                             <li><a href="/view/logout"><i class="icon-key"></i> 退出</a></li>
 
                         </ul>
@@ -170,6 +104,113 @@
                     </li>
 
                 </ul>
+
+                <div id="form_modal_update_password" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_update_password" aria-hidden="true">
+
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+
+                        <h3 id="myModalLabel_update_password">请填写信息</h3>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <form action="#" class="form-horizontal">
+
+                            <div class="control-group"></div>
+
+                            <div class="control-group"></div>
+
+                            <div id="error-alert"></div>
+
+                            <div class="control-group">
+
+                                <label class="control-label">请输入新密码<span class="required">*</span></label>
+
+                                <div class="controls">
+
+                                    <input type="password" id="newPassword" name="newPassword" class="m-wrap medium">
+
+                                    <span id="newPassword_Msg" class="help-line"></span>
+
+                                    <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="control-group">
+
+                                <label class="control-label">请再次输入新密码<span class="required">*</span></label>
+
+                                <div class="controls">
+
+                                    <input type="password" id="newRpPassword" name="newRpPassword" class="m-wrap medium">
+
+                                    <span id="newRpPassword_Msg" class="help-line"></span>
+
+                                    <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+
+                                </div>
+
+                            </div>
+
+
+                        </form>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+
+                        <button class="btn black btn-primary" id="update-password-btn-black-btn-primary" type="button">提交</button>
+
+                    </div>
+
+                </div>
+
+                <div id="form_modal_user_notice" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_user_notice" aria-hidden="true">
+
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+
+                        <h4 id="myModalLabel_user_notice"><i class="icon-reorder"></i><span id="myModalLabel_user_notice_span"></span></h4>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="row-fluid">
+
+                            <div class="span12 ">
+
+                                <div class="portlet">
+
+                                    <div id="user-notice-portlet-body" class="portlet-body">
+
+                                    </div>
+
+                                    <span id="user-notice-portlet-body-id" class="head-search-display"></span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer" id="modal-footer-user-notice">
+
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -196,6 +237,17 @@
                     <ul class="sub-menu">
                         <li id="customerList"><a href="/customer/account-message">账号信息</a></li>
                         <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>
+                    </ul>
+                </li>
+
+                <li id="noticeManage">
+                    <a href="javascript:;"><i class="icon-envelope"></i>
+                        <span class="title">消息通知</span>
+                        <span class="" id="noticeManageSelect"></span>
+                        <span class="arrow" id="noticeManageArrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li id="noticeList"><a href="/notice/user-notice">收件箱</a></li>
                     </ul>
                 </li>
 
@@ -324,9 +376,19 @@
 
 <script src="/assets/js/local/update-password.js"></script>
 
-<script type="text/javascript">
-    function getCount() {
+<script>
+    jQuery(document).ready(function() {
+        App.init();
 
+        Search.init();
+
+        UpdatePassword.init();
+
+    });
+</script>
+
+<script type="">
+    function getCount() {
         $.ajax({
             type: "post",
             url: "/notice/unread-notice-content",
@@ -338,9 +400,17 @@
                     $("#dropdown-menu-extended-notification").empty();
                     $("#dropdown-menu-extended-notification").append("<li> <p>你有&nbsp;<span id='badge_msg'></span>&nbsp;条未读消息</p> </li>");
                     for (var i=0; i<result.length; i++){
-                        $("#dropdown-menu-extended-notification").append("<li><a href='#'><span class='label label-important'><i class='icon-bolt'></i></span>" +result[i].notice.title+ "<span class='time'>" +result[i].estimate.roughEstimateCreateTime+ "</span></a></li>");
+                        $("#dropdown-menu-extended-notification").append(
+                                "<li>" +
+                                "<a href='#form_modal_user_notice' data-toggle='modal' onclick='queryNoticeById("+result[i].id+")'>" +
+                                "<span class='subject'>" +
+                                "<div><span class='from'>" +result[i].notice.title+ "</span></div>" +
+                                "<span class='time'>" +result[i].estimate.roughEstimateCreateTime+ "</span>" +
+                                "</span>"+
+                                "</a>" +
+                                "</li>");
                     }
-                    $("#dropdown-menu-extended-notification").append("<li class='external'> <a href='#'>See all notifications <i class='m-icon-swapright'></i></a></li>");
+                    $("#dropdown-menu-extended-notification").append("<li class='external'> <a href='/notice/user-notice'>查看所有消息 <i class='m-icon-swapright'></i></a></li>");
                     $(".badge").empty();
                     $(".badge").html(count);
                     $("#badge_msg").empty();
@@ -349,19 +419,45 @@
             }
         });
     }
-    setInterval("getCount()",2000);
-</script>
+   /* setInterval("getCount()",1000);*/
 
-<script>
+    function queryNoticeById(id) {
+        $.ajax({
+            type: "post",
+            url: "/notice/notice-content",
+            data: {"id":id},
+            dataType: "json",
+            success: function(date){
+                if ( date != null){
+                    $("#myModalLabel_user_notice_span").empty();
+                    $("#user-notice-portlet-body").empty();
+                    $("#user-notice-portlet-body-id").empty();
+                    $("#myModalLabel_user_notice_span").html(date.notice.title);
+                    $("#user-notice-portlet-body").html(date.notice.content);
+                    $("#user-notice-portlet-body-id").html(id);
+                    if (date.isActive == 0){
+                        $("#user-notice-btn-black-btn-primary").remove();
+                        $("#modal-footer-user-notice").append("<button class='btn black btn-primary' id='user-notice-btn-black-btn-primary' type='button'>标记为已读</button>")
+                    }
+                }
+            }
+        });
+    }
+    $("#user-notice-btn-black-btn-primary").on("click",function() {
+        var id=$("#user-notice-portlet-body-id").text();
+        $.ajax({
+            type: "post",
+            url: "/notice/update-active",
+            data: {"id":id},
+            dataType: "json",
+            success: function(result){
+                if (result.successMessage != null){
+                    $("#user-notice-btn-black-btn-primary").remove();
+                }
+            }
+        })
+    })
 
-    jQuery(document).ready(function() {
-        App.init();
-
-        Search.init();
-
-        UpdatePassword.init();
-
-    });
 </script>
 
 <script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();

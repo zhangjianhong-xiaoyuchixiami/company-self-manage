@@ -6,12 +6,19 @@
     <resultMap id="UserNotice_Map" type="org.qydata.entity.UserNotice">
         <result column="id" property="id"/>
         <result column="createTime" property="createTime"/>
+        <result column="isActive" property="isActive"/>
     </resultMap>
 
     <resultMap id="UserNotice_Notice_Map" type="org.qydata.entity.UserNotice" extends="UserNotice_Map">
         <association property="notice" javaType="org.qydata.entity.PublicNotice">
             <result column="title" property="title"/>
             <result column="content" property="content"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="UserNotice_Notice_Status_Map" type="org.qydata.entity.UserNotice" extends="UserNotice_Notice_Map">
+        <association property="noticeStatus" javaType="org.qydata.entity.NoticeStatus">
+            <result column="statusName" property="name"/>
         </association>
     </resultMap>
 
@@ -27,6 +34,29 @@
         SELECT a.id,b.title,b.content,a.createTime
         FROM qycauth.UserNotice a LEFT JOIN qycauth.PublicNotice b ON a.noticeId=b.id
         WHERE a.userId=#{userId} AND a.isActive=0
+    </select>
+
+    <!--系统消息-->
+    <select id="queryUserNoticeById" parameterType="map" resultMap="UserNotice_Notice_Map">
+        SELECT a.id,b.title,b.content,a.createTime,a.isActive
+        FROM qycauth.UserNotice a LEFT JOIN qycauth.PublicNotice b ON a.noticeId=b.id
+        WHERE a.id=#{id}
+    </select>
+
+    <!--设置消息为已读状态-->
+    <update id="updateActive" parameterType="Integer">
+        UPDATE qycauth.UserNotice SET isActive=#{param2} WHERE id=#{param1}
+    </update>
+
+    <!--查询用户-系统消息-->
+    <select id="queryUserNotice" parameterType="map" resultMap="UserNotice_Notice_Status_Map">
+        SELECT a.id,b.title,b.content,a.createTime,a.isActive,c.name statusName
+        FROM qycauth.UserNotice a LEFT JOIN qycauth.PublicNotice b ON a.noticeId=b.id
+        LEFT JOIN qycauth.NoticeStatus c ON a.isActive=c.id
+        WHERE a.userId=#{userId} AND a.isActive IN
+        <foreach collection="isActiveList" item="isActive" index="index" open="(" close=")" separator=",">
+            #{isActive}
+        </foreach>
     </select>
 
 </mapper>

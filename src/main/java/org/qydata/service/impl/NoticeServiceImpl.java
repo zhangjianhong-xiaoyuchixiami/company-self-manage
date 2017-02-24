@@ -1,5 +1,7 @@
 package org.qydata.service.impl;
 
+import org.qydata.dst.CreateTimeRoughEstimate;
+import org.qydata.entity.PublicNotice;
 import org.qydata.entity.UserNotice;
 import org.qydata.mapper.NoticeMapper;
 import org.qydata.service.NoticeService;
@@ -36,33 +38,67 @@ public class NoticeServiceImpl implements NoticeService {
         try {
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH");
             List<UserNotice> userNoticeList = noticeMapper.queryUserUnReadNotice(map);
-            List<UserNotice> userNoticeRoughList = new ArrayList<>();
             if (userNoticeList != null) {
-                UserNotice userNoticeRough = new UserNotice();
+                List<UserNotice> userNoticeRoughList = new ArrayList<>();
                 for (int i = 0; i < userNoticeList.size(); i++) {
+                    UserNotice userNoticeRough = new UserNotice();
+                    PublicNotice notice = new PublicNotice();
+                    CreateTimeRoughEstimate estimate = new CreateTimeRoughEstimate();
                     UserNotice userNotice = userNoticeList.get(i);
                     userNoticeRough.setId(userNotice.getId());
-                    userNoticeRough.getNotice().setTitle(userNotice.getNotice().getTitle());
-                    userNoticeRough.getNotice().setTitle(userNotice.getNotice().getContent());
-                    if(CalendarTools.daysBetween(sdf.format(new Date()),sdf.format(userNotice.getCreateTime())) <=0){
-                        userNoticeRough.getEstimate().setRoughEstimateCreateTime("刚刚");
+                    notice.setTitle(userNotice.getNotice().getTitle());
+                    notice.setContent(userNotice.getNotice().getContent());
+                    userNoticeRough.setNotice(notice);
+                    if(CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) <=2){
+                        estimate.setRoughEstimateCreateTime("刚刚");
                     }
-                    if(CalendarTools.daysBetween(sdf.format(new Date()),sdf.format(userNotice.getCreateTime())) <=2){
-                        userNoticeRough.getEstimate().setRoughEstimateCreateTime("两小时以前");
+                    if(CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) >2 && CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) <=24){
+                        estimate.setRoughEstimateCreateTime("两小时以前");
                     }
-                    if(CalendarTools.daysBetween(sdf.format(new Date()),sdf.format(userNotice.getCreateTime())) <=24){
-                        userNoticeRough.getEstimate().setRoughEstimateCreateTime("两天以前");
+                    if(CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) >24 && CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) <=168){
+                        estimate.setRoughEstimateCreateTime("一天以前");
                     }
-                    if(CalendarTools.daysBetween(sdf.format(new Date()),sdf.format(userNotice.getCreateTime())) <=168){
-                        userNoticeRough.getEstimate().setRoughEstimateCreateTime("一周以前");
+                    if(CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) >168 && CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) <=720){
+                        estimate.setRoughEstimateCreateTime("一周以前");
                     }
-                    if(CalendarTools.daysBetween(sdf.format(new Date()),sdf.format(userNotice.getCreateTime())) <=720){
-                        userNoticeRough.getEstimate().setRoughEstimateCreateTime("一月以前");
+                    if(CalendarTools.daysBetween(sdf.format(userNotice.getCreateTime()),sdf.format(new Date())) >720){
+                        estimate.setRoughEstimateCreateTime("一月以前");
                     }
+                    userNoticeRough.setEstimate(estimate);
                     userNoticeRoughList.add(userNoticeRough);
                 }
                 return userNoticeRoughList;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public UserNotice queryUserNoticeById(Map<String, Object> map) {
+        try {
+            return noticeMapper.queryUserNoticeById(map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean updateActive(Integer id,Integer isActive) {
+        try {
+            return noticeMapper.updateActive(id,isActive);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<UserNotice> queryUserNotice(Map<String, Object> map) {
+        try {
+            return noticeMapper.queryUserNotice(map);
         } catch (Exception e) {
             e.printStackTrace();
         }

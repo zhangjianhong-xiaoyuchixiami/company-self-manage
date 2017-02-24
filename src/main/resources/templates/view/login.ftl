@@ -89,12 +89,12 @@
                 <div class="form-group">
                     <input type="password" id="login_password" name="login_password" placeholder="请输入密码" class="form-control bottom">
                 </div>
-                <div class="checkbox">
+                <#--<div class="checkbox">
                     <label>
                         <input type="checkbox" id="rememberMe" name="rememberMe"> 记住我
                     </label>
-                </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+                </div>-->
+                <button class="btn btn-lg btn-primary btn-block" id="btn_btn_lg_btn_primary_btn_block" type="submit">登录</button>
             </form>
         </div>
 
@@ -106,7 +106,7 @@
                 <div class="form-group">
                     <input type="password" id="forgot_password" name="forgot_password" placeholder="请输入新密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
                 </div>
-                <button class="btn btn-lg btn-danger btn-block" type="submit">找回密码</button>
+                <button class="btn btn-lg btn-danger btn-block" id="btn_btn_lg_btn_danger_btn_block" type="submit">找回密码</button>
             </form>
         </div>
 
@@ -124,7 +124,7 @@
                 <div class="form-group">
                     <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="再次输入密码" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
                 </div>
-                <button class="btn btn-lg btn-success btn-block" type="submit">注册</button>
+                <button class="btn btn-lg btn-success btn-block" id="btn_btn_lg_btn_success_btn_block" type="submit">注册</button>
             </form>
         </div>
     </div>
@@ -145,7 +145,7 @@
 <!--Bootstrap -->
 <script src="/assets/lib/bootstrap/js/bootstrap.js"></script>
 
-<script src="/media/js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/manage/js/jquery.validate.min.js" type="text/javascript"></script>
 
 <#--登录验证-->
 <script src="/assets/js/local/login.js"></script>
@@ -175,6 +175,33 @@
             });
         });
     })(jQuery);
+
+    $(document).ready(function () {
+        $("body").keydown(function(e){
+            var curKey = e.which;
+            if(curKey == 13){
+                $("#btn_btn_lg_btn_primary_btn_block").click();
+                return false;
+            }
+        });
+
+       /* $("body").keydown(function(e){
+            var curKey = e.which;
+            if(curKey == 13){
+                $("#btn_btn_lg_btn_danger_btn_block").click();
+                return false;
+            }
+        });
+
+        $("body").keydown(function(e){
+            var curKey = e.which;
+            if(curKey == 13){
+                $("#btn_btn_lg_btn_success_btn_block").click();
+                return false;
+            }
+        });*/
+    })
+
 </script>
 </body>
 

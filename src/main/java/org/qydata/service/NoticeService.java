@@ -24,4 +24,25 @@ public interface NoticeService {
      */
     public List<UserNotice> queryUserUnReadNotice(Map<String,Object> map);
 
+    /**
+     * 根据Id查询用户-系统消息
+     * @param map
+     * @return
+     */
+    public UserNotice queryUserNoticeById(Map<String,Object> map);
+
+    /**
+     * 设置消息为已读状态
+     * @param id
+     * @return
+     */
+    public boolean updateActive(Integer id,Integer isActive);
+
+    /**
+     * 查询用户-系统未读消息
+     * @param map
+     * @return
+     */
+    public List<UserNotice> queryUserNotice(Map<String,Object> map);
+
 }

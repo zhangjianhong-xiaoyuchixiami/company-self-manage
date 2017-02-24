@@ -55,7 +55,7 @@
 
                         <div class="portlet-body no-more-tables">
 
-                            <div class="clearfix margin-bottom-5">
+                            <#--<div class="clearfix margin-bottom-5">
 
                                 <div class="btn-group">
 
@@ -129,7 +129,7 @@
 
                                 </div>
 
-                            </div>
+                            </div>-->
 
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped" id="sample_3">

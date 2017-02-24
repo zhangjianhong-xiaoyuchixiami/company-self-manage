@@ -154,7 +154,7 @@
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="fa fa-user"></i><#if apiTypeName??>${apiTypeName}</#if></div>
+                            <div class="caption"><i class="icon-user"></i><#if apiTypeName??>${apiTypeName}</#if></div>
 
                         </div>
 

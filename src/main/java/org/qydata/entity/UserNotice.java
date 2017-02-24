@@ -17,6 +17,7 @@ public class UserNotice implements Serializable {
     private Timestamp createTime;
     private Timestamp timestamp;
     private PublicNotice notice;
+    private NoticeStatus noticeStatus;
     private CreateTimeRoughEstimate estimate;
     public Integer getId() {
         return id;
@@ -80,5 +81,13 @@ public class UserNotice implements Serializable {
 
     public void setEstimate(CreateTimeRoughEstimate estimate) {
         this.estimate = estimate;
+    }
+
+    public NoticeStatus getNoticeStatus() {
+        return noticeStatus;
+    }
+
+    public void setNoticeStatus(NoticeStatus noticeStatus) {
+        this.noticeStatus = noticeStatus;
     }
 }

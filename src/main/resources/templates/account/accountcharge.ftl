@@ -131,21 +131,27 @@
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="fa fa-user"></i><#if authId??>${authId}</#if></div>
+                            <div class="caption"><i class="icon-user"></i><#if authId??>${authId}</#if></div>
 
                         </div>
 
                         <div class="portlet-body no-more-tables">
 
-                        <#-- <div class="clearfix margin-bottom-20">
+                            <div class="clearfix margin-bottom-5">
 
-                             <div class="control-group pull-left" style="margin-bottom: -10px;">
+                                <div class="pull-right table-top-bottom">
 
-                                 <label class="control-label">金额总计&yen;：<#if totleAmount??><span>${(totleAmount/100.0)?c}元</span><#else ><span>0元</span></#if></label>
+                                    <label class="control-label">
 
-                             </div>
+                                        <a href="/customer/month-record?customerId=${customerId}&authId=${authId}&typeId=1">
+                                            月充值账单
+                                        </a>
 
-                         </div>-->
+                                    </label>
+
+                                </div>
+
+                            </div>
 
                             <div class="table-responsive">
 

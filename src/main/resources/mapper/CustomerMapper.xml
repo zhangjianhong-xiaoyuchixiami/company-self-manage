@@ -165,4 +165,78 @@
         </where>
     </select>
 
+    <!--查询客户的周月记录-->
+    <select id="queryCustomerWeekMonthRecordByCustomerId" parameterType="map" resultType="org.qydata.entity.WeekMonthAmount">
+        SELECT years,months,weeks,totleAmount,customerId,tableId,weekMonthTypeId,name,beginTime,endTime
+        FROM qyfinance.bkvwWeekMonthAmount
+        WHERE customerId=#{customerId}
+        AND weekMonthTypeId=#{weekMonthTypeId}
+        <if test="years != null and years != ''">
+            AND years=#{years}
+        </if>
+        <if test="months != null and months != ''">
+            AND months=#{months}
+        </if>
+        <if test="weeks != null and weeks != ''">
+            AND weeks=#{weeks}
+        </if>
+        <if test="tableIdList != null and tableIdList.size() > 0">
+            AND tableId IN
+            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
+                #{tableId}
+            </foreach>
+        </if>
+    </select>
+
+    <!--查询客户的周月记录年级联菜单-->
+    <select id="queryCustomerYearsByCustomerId" parameterType="map" resultType="int">
+        SELECT DISTINCT(years)
+        FROM qyfinance.bkvwWeekMonthAmount
+        WHERE customerId=#{customerId} AND weekMonthTypeId=#{weekMonthTypeId}
+        <if test="years != null and years != ''">
+            AND years=#{years}
+        </if>
+        <if test="months != null and months != ''">
+            AND months=#{months}
+        </if>
+        <if test="weeks != null and weeks != ''">
+            AND weeks=#{weeks}
+        </if>
+        <if test="tableIdList != null and tableIdList.size() > 0">
+            AND tableId IN
+            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
+                #{tableId}
+            </foreach>
+        </if>
+    </select>
+
+    <!--查询客户的周月记录月级联菜单-->
+    <select id="queryCustomerMonthsByCustomerId" parameterType="map" resultType="int">
+        SELECT DISTINCT(months)
+        FROM qyfinance.bkvwWeekMonthAmount
+        WHERE customerId=#{customerId}
+        <if test="weekMonthTypeId != null and weekMonthTypeId != ''">
+            AND weekMonthTypeId=#{weekMonthTypeId}
+        </if>
+        <if test="years != null and years != ''">
+            AND years=#{years}
+        </if>
+        <if test="tableIdList != null and tableIdList.size() > 0">
+            AND tableId IN
+            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
+                #{tableId}
+            </foreach>
+        </if>
+    </select>
+
+    <!--月账单走势图-->
+    <select id="queryMonthChargeConsumeToward" parameterType="Integer" resultType="org.qydata.entity.WeekMonthAmount">
+        SELECT years,months,totleAmount
+        FROM qyfinance.bkvwWeekMonthAmount
+        WHERE customerId=#{param1}
+        AND weekMonthTypeId=2
+        AND tableId=#{param2}
+        AND DATE_FORMAT(endTime,'%Y-%m')=DATE_FORMAT(date_sub(sysdate(),interval #{param3} month),'%Y-%m')
+    </select>
+
 </mapper>

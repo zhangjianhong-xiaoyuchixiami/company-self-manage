@@ -1,19 +1,20 @@
-var CompanyProduct = function () {
+var UserNotice = function () {
     
     return {
-        //main function to initiate the module
+
         init: function () {
 
             if (!jQuery().dataTable) {
                 return;
             }
-            var oTable = $('#sample_3').dataTable({
+            var oTable = $('#sample_6').dataTable({
                 "aoColumns": [
                     null,
                     null,
-                    null
+                    { "bSortable": false },
+                    { "bSortable": false }
                 ],
-                "aaSorting": [[2, 'desc']],
+                "aaSorting": [[1, 'desc']],
                 "aLengthMenu": [
                     [10, 15, 20, -1],
                     [10, 15, 20, "全部"] // change per page values here
@@ -37,12 +38,10 @@ var CompanyProduct = function () {
                     }
                 },
                 /*"bInfo" : false,
-                "bPaginate" : false,*/
+                 "bPaginate" : false,*/
                 "bFilter" : false //设置全文搜索框，默认true
             });
-
         }
-
     };
 
 }();
