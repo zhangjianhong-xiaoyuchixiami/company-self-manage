@@ -98,7 +98,7 @@
         </div>
 
         <div id="signup" class="tab-pane active">
-            <form action="/user/register" method="post">
+            <form action="/user/register" class="register_form" method="post">
             <#if msg??>
                 <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
@@ -176,32 +176,10 @@
     })(jQuery);
 
 
-    $(document).ready(function () {
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_primary_btn_block").click();
-                return false;
-            }
-        });
-
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_danger_btn_block").click();
-                return false;
-            }
-        });
-
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_success_btn_block").click();
-                return false;
-            }
-        });
-    })
-
+    $(document).keypress(function(e) {
+        if (e.which == 13)
+            $(".register_form").submit();
+    });
 </script>
 </body>
 

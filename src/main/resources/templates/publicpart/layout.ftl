@@ -44,7 +44,7 @@
     <link rel="stylesheet" type="text/css" href="/manage/css/local/head-search.css"/>
     <link rel="stylesheet" type="text/css" href="/manage/css/local/main-response-table.css"/>
     <link rel="shortcut icon" href="/manage/image/favicon.ico" />
-  <#--  <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">-->
+<#--  <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">-->
 </head>
 
 <body class="page-header-fixed">
@@ -247,7 +247,7 @@
                         <span class="arrow" id="noticeManageArrow"></span>
                     </a>
                     <ul class="sub-menu">
-                        <li id="noticeList"><a href="/notice/user-notice">收件箱</a></li>
+                        <li id="noticeList"><a href="/notice/user-notice?reasonId=1">收件箱</a></li>
                     </ul>
                 </li>
 
@@ -387,7 +387,7 @@
     });
 </script>
 
-<script type="">
+<script>
     function getCount() {
         $.ajax({
             type: "post",
@@ -410,7 +410,7 @@
                                 "</a>" +
                                 "</li>");
                     }
-                    $("#dropdown-menu-extended-notification").append("<li class='external'> <a href='/notice/user-notice'>查看所有消息 <i class='m-icon-swapright'></i></a></li>");
+                    $("#dropdown-menu-extended-notification").append("<li class='external'> <a href='/notice/user-notice?reasonId=1'>查看所有消息 <i class='m-icon-swapright'></i></a></li>");
                     $(".badge").empty();
                     $(".badge").html(count);
                     $("#badge_msg").empty();
@@ -419,7 +419,8 @@
             }
         });
     }
-   /* setInterval("getCount()",1000);*/
+
+    /*setInterval("getCount()",1000);*/
 
     function queryNoticeById(id) {
         $.ajax({
@@ -437,13 +438,14 @@
                     $("#user-notice-portlet-body-id").html(id);
                     if (date.isActive == 0){
                         $("#user-notice-btn-black-btn-primary").remove();
-                        $("#modal-footer-user-notice").append("<button class='btn black btn-primary' id='user-notice-btn-black-btn-primary' type='button'>标记为已读</button>")
+                        $("#modal-footer-user-notice").append("<button class='btn black btn-primary' id='user-notice-btn-black-btn-primary' onclick='markRead()' type='button'>标记为已读</button>")
                     }
                 }
             }
         });
     }
-    $("#user-notice-btn-black-btn-primary").on("click",function() {
+
+    function markRead() {
         var id=$("#user-notice-portlet-body-id").text();
         $.ajax({
             type: "post",
@@ -456,7 +458,7 @@
                 }
             }
         })
-    })
+    }
 
 </script>
 

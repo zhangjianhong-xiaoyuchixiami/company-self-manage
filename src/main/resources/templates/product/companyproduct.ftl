@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/company/find-company-product-by-company-id" method="get">
+                    <form action="/company/find-company-product-by-company-id" class="company_product" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -33,7 +33,7 @@
 
                                         <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="content" name="content" placeholder="请输入产品名称">
 
-                                        <button class="btn black" type="submit">搜索</button>
+                                        <button class="btn black head-search-display" type="submit">搜索</button>
 
                                     </div>
 
@@ -137,7 +137,7 @@
                                     <tr>
                                         <th>产品</th>
                                         <th>价格（单位：元）</th>
-                                        <th>购买时间</th>
+                                       <#-- <th>购买时间</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -146,7 +146,7 @@
                                             <tr>
                                                 <td data-title="产品">${(companyApi.apiType.name)!''}<#if companyApi.mobileOperator??>--${companyApi.mobileOperator.name}</#if></td>
                                                 <td data-title="价格">${companyApi.price}</td>
-                                                <td data-title="购买时间">${companyApi.createTime}</td>
+                                                <#--<td data-title="购买时间">${companyApi.createTime}</td>-->
                                             </tr>
                                             </#list>
                                         </#if>
@@ -187,7 +187,12 @@
             CompanyProduct.init();
             CompanyProductBar.init();
         });
+
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
+        $('.company_product').change(function () {
+            $(this).submit();
+        })
     </script>
     </#if>
 

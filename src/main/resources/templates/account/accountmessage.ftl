@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/customer/account-message" method="get">
+                    <form action="/customer/account-message" class="account_message" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -33,7 +33,7 @@
 
                                         <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="content" name="content" placeholder="请输入账号">
 
-                                        <button class="btn black" type="submit">搜索</button>
+                                        <button class="btn black head-search-display" type="submit">搜索</button>
 
                                     </div>
 
@@ -61,7 +61,7 @@
 
                                 <div class="btn-group">
 
-                                    <a class="btn black" id="add-partner" href="#form_modal1" data-toggle="modal">
+                                    <a class="btn black" id="add-account" href="#form_modal1" data-toggle="modal">
 
                                         绑定账号<i class="icon-plus"></i>
 
@@ -141,8 +141,8 @@
                                         <th>账号类型</th>
                                         <th>密码</th>
                                         <th>余额（单位：元）</th>
-                                        <th>创建时间</th>
-                                        <th>状态</th>
+                                        <#--<th>创建时间</th>
+                                        <th>状态</th>-->
                                         <th>操作</th>
                                     </tr>
                                     </thead>
@@ -152,14 +152,20 @@
                                             <tr>
                                                 <td data-title="账号">${customer.authId}</td>
                                                 <td data-title="账号类型">${customer.customerType.name}</td>
-                                                <td data-title="密码">${customer.authPass}</td>
+                                                <td data-title="密码">
+                                                    <span id="table_vis_password_${customer.id}"></span>
+                                                    <span id="table_password_${customer.id}">
+                                                        <a href="javaScript:;" onclick="showPassword(${customer.id})" data-toggle="tooltip" data-placement="auto" title="点击显示密码">显示密码</a>
+                                                    </span>
+                                                    <span id="table_content_password_${customer.id}" style="display: none">${customer.authPass}</span>
+                                                </td>
                                                 <td data-title="余额">${customer.balance}</td>
-                                                <td data-title="创建时间">${customer.createTime}</td>
-                                                <td data-title="状态">${customer.customerStatus.name}</td>
+                                              <#--  <td data-title="创建时间">${customer.createTime}</td>
+                                                <td data-title="状态">${customer.customerStatus.name}</td>-->
                                                 <td data-title="操作">
                                                     <a href="/customer/account-consume?customerId=${customer.id}&authId=${customer.authId}">消费记录</a>|
-                                                    <a href="/customer/account-charge?customerId=${customer.id}&authId=${customer.authId}&reasonId=1">充值记录</a>|
-                                                    <a href="#">修改账号密码</a>
+                                                    <a href="/customer/account-charge?customerId=${customer.id}&authId=${customer.authId}&reasonId=1">充值记录</a>
+                                                   <#-- <a href="#">修改账号密码</a>-->
                                                 </td>
                                             </tr>
                                             </#list>
@@ -200,7 +206,24 @@
         jQuery(document).ready(function() {
             AccountMessage.init();
             AccountLeftBar.init();
+
+            $('.account_message').change(function () {
+                $(this).submit();
+            });
+
+            $(function () { $("[data-toggle='tooltip']").tooltip(); });
+
         });
+
+        function showPassword(id) {
+            $("#table_vis_password_"+id).html('<a href="javaScript:;" onclick="hidePassword('+id+')" data-toggle="tooltip" data-placement="auto" title="点击隐藏密码">'+$("#table_content_password_"+id).text()+'</a>');
+            $("#table_password_"+id).empty();
+        }
+
+        function hidePassword(id) {
+            $("#table_vis_password_"+id).empty();
+            $("#table_password_"+id).html('<a href="javaScript:;" onclick="showPassword('+id+')" data-toggle="tooltip" data-placement="auto" title="点击显示密码">显示密码</a>');
+        }
     </script>
 
     </#if>

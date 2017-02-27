@@ -9,12 +9,10 @@ var AccountMessage = function () {
             }
             var oTable = $('#sample_2').dataTable({
                 "aoColumns": [
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    { "bSortable": false },
+                    { "bSortable": false },
+                    { "bSortable": false },
+                    { "bSortable": false },
                     { "bSortable": false }
                 ],
                 "aaSorting": [[4, 'desc']],

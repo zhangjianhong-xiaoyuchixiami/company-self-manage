@@ -19,9 +19,7 @@
 
                 <div class="span12">
 
-
-
-                    <form action="/customer/account-consume/detail" method="get">
+                    <form action="/customer/account-consume/detail" class="account_consume_detail" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -127,7 +125,7 @@
 
                             </div>
 
-                            <div class="pull-left head-search-bottom">
+                            <div class="pull-left head-search-bottom head-search-display">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -217,6 +215,11 @@
         jQuery(document).ready(function() {
             AccountConsumeDetail.init();
             AccountLeftBar.init();
+
+            $('.account_consume_detail').change(function () {
+                $(this).submit();
+            });
+
         });
     </script>
 

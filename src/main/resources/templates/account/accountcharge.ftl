@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/customer/account-charge" method="get">
+                    <form action="/customer/account-charge" class="account_charge" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -107,7 +107,7 @@
 
                             </div>
 
-                            <div class="pull-left head-search-bottom">
+                            <div class="pull-left head-search-bottom head-search-display">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -205,6 +205,11 @@
         jQuery(document).ready(function() {
             AccountCharge.init();
             AccountLeftBar.init();
+
+            $('.account_charge').change(function () {
+                $(this).submit();
+            });
+
         });
     </script>
 

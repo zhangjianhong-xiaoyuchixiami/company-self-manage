@@ -33,7 +33,6 @@
 
     <#elseif section = "privateJs">
 
-
     </#if>
 
 </@layout>

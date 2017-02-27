@@ -89,11 +89,11 @@
                 <div class="form-group">
                     <input type="password" id="login_password" name="login_password" placeholder="请输入密码" class="form-control bottom">
                 </div>
-                <#--<div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="rememberMe" name="rememberMe"> 记住我
-                    </label>
-                </div>-->
+            <#--<div class="checkbox">
+                <label>
+                    <input type="checkbox" id="rememberMe" name="rememberMe"> 记住我
+                </label>
+            </div>-->
                 <button class="btn btn-lg btn-primary btn-block" id="btn_btn_lg_btn_primary_btn_block" type="submit">登录</button>
             </form>
         </div>
@@ -152,9 +152,9 @@
 
 <script type="text/javascript">
 
-    /*  $(document).ready(function() {
-          LocalLogin.init();
-      });*/
+    $(document).ready(function() {
+       /* LocalLogin.init();*/
+    });
 </script>
 
 <script>
@@ -176,31 +176,10 @@
         });
     })(jQuery);
 
-    $(document).ready(function () {
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_primary_btn_block").click();
-                return false;
-            }
-        });
-
-       /* $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_danger_btn_block").click();
-                return false;
-            }
-        });
-
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_success_btn_block").click();
-                return false;
-            }
-        });*/
-    })
+    $(document).keypress(function(e) {
+        if (e.which == 13)
+            $(".login_form").submit();
+    });
 
 </script>
 </body>

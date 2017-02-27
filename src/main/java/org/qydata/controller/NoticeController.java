@@ -89,13 +89,18 @@ public class NoticeController {
      * @return
      */
     @RequestMapping(value = "/user-notice")
-    public String userNotice(Model model,String beginDate, String endDate, String [] reasonId ){
+    public String userNotice(Model model,String beginDate, String endDate, String [] reasonId,String title ){
         String username = (String) SecurityUtils.getSubject().getPrincipal();
         User user = userService.queryUserByUsername(username);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
-        map.put("beginDate",beginDate);
-        map.put("endDate",endDate);
+        map.put("title",title);
+        if (beginDate != null && beginDate != "" ) {
+            map.put("beginDate", beginDate+" "+"00:00:00");
+        }
+        if(endDate != null && endDate != ""){
+            map.put("endDate", endDate+" "+"23:59:59");
+        }
         List<Integer> isActiveList = new ArrayList<>();
         if (reasonId != null && reasonId.length >0) {
             for(int i=0;i<reasonId.length;i++){
@@ -111,6 +116,7 @@ public class NoticeController {
         model.addAttribute("reasonIdArray",reasonId);
         model.addAttribute("beginDate",beginDate);
         model.addAttribute("endDate",endDate);
+        model.addAttribute("title",title);
         return "/notice/usernotice";
     }
 

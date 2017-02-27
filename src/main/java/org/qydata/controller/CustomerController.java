@@ -241,6 +241,7 @@ public class CustomerController {
         List<Integer> tableIdList = new ArrayList();
         tableIdList.add(typeId);
         map.put("tableIdList",tableIdList);
+        List<Integer> yearList = customerService.queryCustomerYearsByCustomerId(map);
         List<Integer> monthList = null;
         if(years != null){
             map.put("years",years);
@@ -250,7 +251,6 @@ public class CustomerController {
             map.put("months",months);
         }
         List<WeekMonthAmount> weekMonthAmountList = customerService.queryCustomerWeekMonthRecordByCustomerId(map);
-        List<Integer> yearList = customerService.queryCustomerYearsByCustomerId(map);
         model.addAttribute("weekMonthAmountList",weekMonthAmountList);
         model.addAttribute("yearList",yearList);
         model.addAttribute("monthList",monthList);

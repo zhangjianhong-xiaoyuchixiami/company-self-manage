@@ -34,6 +34,7 @@ public class CompanyController {
         map.put("content",content);
         List<CompanyApi> companyApiList = companyService.queryApiByCompanyId(map);
         model.addAttribute("companyApiList",companyApiList);
+        model.addAttribute("content",content);
         return "product/companyproduct";
     }
 

@@ -10,10 +10,9 @@ var CompanyProduct = function () {
             var oTable = $('#sample_3').dataTable({
                 "aoColumns": [
                     null,
-                    null,
                     null
                 ],
-                "aaSorting": [[2, 'desc']],
+                "aaSorting": [[1, 'desc']],
                 "aLengthMenu": [
                     [10, 15, 20, -1],
                     [10, 15, 20, "全部"] // change per page values here

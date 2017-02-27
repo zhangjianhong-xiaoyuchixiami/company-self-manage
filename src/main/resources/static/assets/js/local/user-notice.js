@@ -11,7 +11,6 @@ var UserNotice = function () {
                 "aoColumns": [
                     null,
                     null,
-                    { "bSortable": false },
                     { "bSortable": false }
                 ],
                 "aaSorting": [[1, 'desc']],

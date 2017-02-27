@@ -21,7 +21,7 @@
 
                 <#--搜索框-->
 
-                    <form action="/customer/month-record" method="get">
+                    <form action="/customer/month-record" class="month_record" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -96,7 +96,7 @@
 
                             </div>
 
-                            <div class="pull-left head-search-bottom">
+                            <div class="pull-left head-search-bottom head-search-display">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -240,13 +240,9 @@
             AccountMonthRecord.init();
             AccountLeftBar.init();
 
-        });
-    </script>
-
-    <script>
-        /*下拉框*/
-        jQuery(document).ready(function() {
-
+            $('.month_record').change(function () {
+                $(this).submit();
+            });
 
         });
     </script>

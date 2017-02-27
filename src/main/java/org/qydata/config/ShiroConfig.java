@@ -241,8 +241,8 @@ public class ShiroConfig {
 		chains.put("/view/login-action","anon");
 
 		//出错页面
-		chains.put("/error/404", "anon");
-		chains.put("/error/500", "anon");
+		chains.put("/error/not-found", "anon");
+		chains.put("/error/program", "anon");
 
 		//登录
 		chains.put("/", "authc");
@@ -257,11 +257,22 @@ public class ShiroConfig {
 		chains.put("/customer/account-charge", "authc,perms");
 		chains.put("/customer/account-consume", "authc,perms");
 		chains.put("/customer/account-consume/detail", "authc,perms");
+		chains.put("/customer/month-record", "authc,perms");
+		chains.put("/customer/month-up-link", "authc,perms");
+		chains.put("/customer/months-charge-consume-toward", "authc,perms");
 
 		//CompanyController
 		chains.put("/company/find-company-product-by-company-id", "authc,perms");
 
+		//NoticeController
+		chains.put("/notice/unread-notice-content", "authc,perms");
+		chains.put("/notice/notice-content", "authc,perms");
+		chains.put("/notice/update-active", "authc,perms");
+		chains.put("/notice/user-notice", "authc,perms");
+		chains.put("/notice/delete-notice", "authc,perms");
 
+		//UserController
+		chains.put("/user/update-login-password", "authc,perms");
 
 		bean.setFilterChainDefinitionMap(chains);
 		return bean;

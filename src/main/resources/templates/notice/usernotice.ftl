@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/notice/user-notice" method="get">
+                    <form action="/notice/user-notice" class="user_notice" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -79,6 +79,22 @@
 
                             <div class="pull-left head-search-bottom">
 
+                                <label class="control-label">请输入标题</label>
+
+                                <div class="controls">
+
+                                    <div class="input-append">
+
+                                        <input class="m-wrap" <#if title??>value="${title}" </#if> type="text" id="title" name="title" placeholder="请输入标题">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
                                 <div class="controls" >
@@ -110,7 +126,6 @@
                                         <th>标题</th>
                                         <th>发布时间</th>
                                         <th>状态</th>
-                                        <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -121,18 +136,12 @@
                                                     <td data-title="标题"><a href="#form_modal_user_notice_receive" data-toggle="modal" onclick="queryNoticeByIdReceive(${userNotice.id})">${userNotice.notice.title}</a></td>
                                                     <td data-title="发布时间">${userNotice.createTime}</td>
                                                     <td data-title="状态"><a href="javaScript:;" onclick="updateStatus(${userNotice.id})">标记为已读</a></td>
-                                                    <td data-title="操作">
-                                                        <a href="javaScript:;" onclick="deleteUserNotice(${userNotice.id})" style="color: red">删除</a>
-                                                    </td>
                                                 </tr>
                                                 <#else >
                                                 <tr>
                                                     <td data-title="标题"><a href="#form_modal_user_notice_receive" data-toggle="modal" onclick="queryNoticeByIdReceive(${userNotice.id})">${userNotice.notice.title}</a></td>
                                                     <td data-title="发布时间">${userNotice.createTime}</td>
                                                     <td data-title="状态">${userNotice.noticeStatus.name}</td>
-                                                    <td data-title="操作">
-                                                        <a href="javaScript:;" onclick="deleteUserNotice(${userNotice.id})" style="color: red">删除</a>
-                                                    </td>
                                                 </tr>
                                                 </#if>
                                             </#list>
@@ -213,10 +222,16 @@
         jQuery(document).ready(function() {
             UserNotice.init();
             UserNoticeLeftBar.init();
+
+            $('.user_notice').change(function () {
+                $(this).submit();
+            })
+
         });
     </script>
 
     <script type="text/javascript">
+
         function updateStatus(id) {
             $.ajax({
                 type: "post",
@@ -261,14 +276,14 @@
                         $("#user-notice-portlet-body-receive-id").html(id);
                         if (date.isActive == 0){
                             $("#user-notice-receive-btn-black-btn-primary").remove();
-                            $("#modal-footer-user-notice-receive").append("<button class='btn black btn-primary' id='user-notice-receive-btn-black-btn-primary' type='button'>标记为已读</button>")
+                            $("#modal-footer-user-notice-receive").append("<button class='btn black btn-primary' id='user-notice-receive-btn-black-btn-primary' onclick='mark()' type='button'>标记为已读</button>")
                         }
                     }
                 }
             });
         }
 
-        $("#user-notice-receive-btn-black-btn-primary").on("click",function() {
+        function mark() {
             var id=$("#user-notice-portlet-body-receive-id").text();
             $.ajax({
                 type: "post",
@@ -280,8 +295,9 @@
                         window.location.href=window.location.href
                     }
                 }
-            })
-        })
+            });
+        }
+
     </script>
 
     </#if>

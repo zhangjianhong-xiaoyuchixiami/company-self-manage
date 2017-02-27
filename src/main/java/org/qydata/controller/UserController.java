@@ -151,6 +151,12 @@ public class UserController {
     }
 
 
+    /**
+     * 修改登录密码
+     * @param password
+     * @param rpPassword
+     * @return
+     */
     @RequestMapping(value = "/update-login-password")
     @ResponseBody
     public String updateLoginPassword(String password,String rpPassword){

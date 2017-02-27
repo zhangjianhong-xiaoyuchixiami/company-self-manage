@@ -86,7 +86,7 @@
             </form>
         </div>
         <div id="forgot" class="tab-pane active">
-            <form action="/user/forgot" method="post">
+            <form action="/user/forgot" class="forgot_form" method="post">
             <#if msg??>
                 <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
@@ -175,31 +175,10 @@
         });
     })(jQuery);
 
-    $(document).ready(function () {
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_primary_btn_block").click();
-                return false;
-            }
-        });
-
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_danger_btn_block").click();
-                return false;
-            }
-        });
-
-        $("body").keydown(function(e){
-            var curKey = e.which;
-            if(curKey == 13){
-                $("#btn_btn_lg_btn_success_btn_block").click();
-                return false;
-            }
-        });
-    })
+    $(document).keypress(function(e) {
+        if (e.which == 13)
+            $(".forgot_form").submit();
+    });
 
 </script>
 </body>
