@@ -290,7 +290,7 @@ public class CalendarTools {
         return Integer.parseInt(String.valueOf(between_days));
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         System.out.println(daysBetween("2017-02-23 16", "2017-02-24 09"));
-    }
+    }*/
 }

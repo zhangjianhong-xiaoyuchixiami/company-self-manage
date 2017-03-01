@@ -12,11 +12,11 @@ public interface UserService {
 
     /**
      * 此方法是留给Realm进行用户认证使用的，目的是根据用户名取得密码数据
-     * @param username
+     * @param email
      * @return
      * @throws Exception
      */
-    public User get(String username) throws Exception ;
+    public User get(String email) throws Exception ;
     /**
      * 此方法是留给Realm实现授权处理的，主要要根据用户ID查询出所有的角色以及所有对应权限
      * @param id
@@ -29,13 +29,12 @@ public interface UserService {
 
     /**
      * 注册用户
-     * @param username 用户名
      * @param password 密码
      * @param email 邮箱
      * @return 是否注册成功
      */
     @Transactional
-    public Boolean register(String username,String password,String email);
+    public Boolean register(String password,String email);
 
     /**
      * 激活用户
@@ -72,19 +71,19 @@ public interface UserService {
 
     /**
      * 根据用户名或邮箱查找用户
-     * @param username
+     * @param email
      * @return
      */
-    public User queryUserByUsername(String username);
+    public User queryUserByUsername(String email);
 
     /**
      * 修改登录密码
-     * @param username
+     * @param email
      * @param password
      * @return
      */
     @Transactional
-    public boolean updateLoginPassword(String username,String password);
+    public boolean updateLoginPassword(String email,String password);
 
     /**
      * 分配角色

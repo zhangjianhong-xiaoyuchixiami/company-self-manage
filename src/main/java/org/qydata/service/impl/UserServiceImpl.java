@@ -20,8 +20,8 @@ public class UserServiceImpl implements UserService {
     @Autowired private UserMapper userMapper;
 
     @Override
-    public User get(String username) throws Exception {
-        return this.userMapper.findById(username);
+    public User get(String email) throws Exception {
+        return this.userMapper.findById(email);
     }
     @Override
     public Map<String, Object> listAuthByUser(Integer id) throws Exception {
@@ -32,21 +32,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean register(String username, String password, String email){
+    public Boolean register(String password, String email){
         try {
-            Boolean result = false;
             //生成用户code
             String code= UUID.randomUUID().toString().replace("-", "");
             //添加用户
             User user = new User();
-            user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
             user.setCode(code);
             userMapper.addUser(user);
             //向用户发送激活邮件
-            result = SendEmail.sendMail(email,code);
-            return result;
+            if (SendEmail.sendMail(email,code)){
+                return true;
+            }
+            userMapper.deleteUserById(user.getId());
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
             User user = userMapper.findUserByCode(code);
             if (user != null) {
                 //如果存在用户，将此用户状态设为可用
-                userMapper.updateState(user.getUsername());
+                userMapper.updateState(user.getId());
                 userMapper.addUserRole(user.getId());
                 return true;
             }
@@ -95,9 +95,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User queryUserByUsername(String username) {
+    public User queryUserByUsername(String email) {
         try {
-            return userMapper.queryUserByUsername(username);
+            return userMapper.queryUserByUsername(email);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,9 +105,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateLoginPassword(String username, String password) {
+    public boolean updateLoginPassword(String email, String password) {
         try {
-            return userMapper.updateLoginPassword(username, password);
+            return userMapper.updateLoginPassword(email, password);
         } catch (Exception e) {
             e.printStackTrace();
         }

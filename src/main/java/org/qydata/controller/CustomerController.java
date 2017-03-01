@@ -99,8 +99,8 @@ public class CustomerController {
             return gson.toJson(mapTip);
         }
         Customer customer = customerService.findCustomerByAuthIdAndAuthPass(authId,authPass);
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryUserByUsername(username);
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(email);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
         map.put("customerId",customer.getId());
@@ -119,8 +119,8 @@ public class CustomerController {
      */
     @RequestMapping(value = "/account-message")
     public String accountMessage(Model model,String content){
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryUserByUsername(username);
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(email);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
         map.put("content",content);

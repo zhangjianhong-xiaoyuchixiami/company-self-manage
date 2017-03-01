@@ -274,8 +274,8 @@
                         $("#myModalLabel_user_notice_receive_span").html(date.notice.title);
                         $("#user-notice-portlet-body-receive").html(date.notice.content);
                         $("#user-notice-portlet-body-receive-id").html(id);
+                        $("#user-notice-receive-btn-black-btn-primary").remove();
                         if (date.isActive == 0){
-                            $("#user-notice-receive-btn-black-btn-primary").remove();
                             $("#modal-footer-user-notice-receive").append("<button class='btn black btn-primary' id='user-notice-receive-btn-black-btn-primary' onclick='mark()' type='button'>标记为已读</button>")
                         }
                     }

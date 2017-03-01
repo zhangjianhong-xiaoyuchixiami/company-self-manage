@@ -11,10 +11,10 @@ public interface UserMapper {
 
     /**
      * 根据登录用户名查找是否有指定用户
-     * @param username
+     * @param email
      * @return
      */
-    public User findById(String username) throws Exception;
+    public User findById(String email) throws Exception;
 
     /**
      * 根据登录用户名匹配角色
@@ -44,7 +44,7 @@ public interface UserMapper {
      * @return
      * @throws Exception
      */
-    public String findUsernameByCode(String code)throws Exception;
+    public Integer findUsernameByCode(String code)throws Exception;
 
     /**
      * 根据激活码查找用户
@@ -56,11 +56,11 @@ public interface UserMapper {
 
     /**
      * 激活用户
-     * @param username
+     * @param userId
      * @return
      * @throws Exception
      */
-    public Boolean updateState(String username)throws Exception;
+    public Boolean updateState(Integer userId)throws Exception;
 
     /**
      * 根据激活码删除未激活的用户
@@ -69,6 +69,14 @@ public interface UserMapper {
      * @throws Exception
      */
     public Boolean deleteUserByCode(String code)throws Exception;
+
+    /**
+     * 根据用户Id删除用户
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean deleteUserById(Integer id)throws Exception;
 
     /**
      * 用户找回密码
@@ -80,20 +88,20 @@ public interface UserMapper {
     public boolean updatePassword(String email,String password)throws Exception;
 
     /**
-     * 根据用户名或邮箱查找用户
-     * @param username
+     * 根据邮箱查找用户
+     * @param email
      * @return
      */
-    public User queryUserByUsername(String username)throws Exception;
+    public User queryUserByUsername(String email)throws Exception;
 
     /**
      * 修改登录密码
-     * @param username
+     * @param email
      * @param password
      * @return
      * @throws Exception
      */
-    public boolean updateLoginPassword(String username,String password)throws Exception;
+    public boolean updateLoginPassword(String email,String password)throws Exception;
 
     /**
      * 分配角色

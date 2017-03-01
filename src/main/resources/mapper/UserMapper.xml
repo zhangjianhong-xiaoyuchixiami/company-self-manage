@@ -5,9 +5,9 @@
 
     <!-- 是进行登录认证使用的，即，根据身份信息取得密码进行认证 -->
     <select id="findById" parameterType="String" resultType="org.qydata.entity.User">
-        SELECT username,password
+        SELECT email,password
         FROM qycauth.User
-        WHERE username=#{username} OR email=#{username} and status=0
+        WHERE email=#{email} and status=0
     </select>
     <!-- 根据用户名查询出该用户对用的所有角色的标记名称（千万不要用中文） -->
     <select id="findAllRoleByUser" parameterType="Integer" resultType="String">
@@ -33,23 +33,26 @@
 
     <!--添加用户-->
     <insert id="addUser" parameterType="org.qydata.entity.User" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO qycauth.User(username,password,email,code,status,createTime)
-         VALUES(#{username},#{password},#{email},#{code},1,sysdate())
+        INSERT INTO qycauth.User(password,email,code,status,createTime)
+        VALUES(#{password},#{email},#{code},1,sysdate())
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
     </insert>
     
     <!--根据激活码查找用户-->
-    <select id="findUsernameByCode" parameterType="java.lang.String" resultType="java.lang.String">
-        SELECT username FROM qycauth.User WHERE code=#{param}
+    <select id="findUsernameByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT id FROM qycauth.User WHERE code=#{param}
     </select>
 
     <!--根据激活码查找用户-->
     <select id="findUserByCode" parameterType="java.lang.String" resultType="org.qydata.entity.User">
-        SELECT id,username,email FROM qycauth.User WHERE code=#{param}
+        SELECT id,email FROM qycauth.User WHERE code=#{param}
     </select>
     
     <!--激活用户-->
-    <update id="updateState" parameterType="java.lang.String">
-        UPDATE qycauth.User SET status=0 WHERE username=#{param}
+    <update id="updateState" parameterType="java.lang.Integer">
+        UPDATE qycauth.User SET status=0 WHERE id=#{param}
     </update>
 
     <!--根据激活码删除未激活的用户-->
@@ -62,16 +65,16 @@
         UPDATE qycauth.User SET password=#{param2} WHERE email=#{param1}
     </update>
 
-    <!--根据用户名或邮箱查找用户-->
+    <!--根据邮箱查找用户-->
     <select id="queryUserByUsername" parameterType="String" resultType="org.qydata.entity.User">
-        SELECT id,username,email,status
+        SELECT id,email,status
         FROM qycauth.User
-        WHERE username=#{param} OR email=#{param}
+        WHERE email=#{param}
     </select>
 
     <!--修改登录密码-->
     <update id="updateLoginPassword" parameterType="String">
-        UPDATE qycauth.User SET password=#{param2} WHERE username=#{param1} OR email=#{param1}
+        UPDATE qycauth.User SET password=#{param2} WHERE email=#{param1}
     </update>
 
     <!--分配角色-->
@@ -79,5 +82,10 @@
         INSERT INTO qycauth.UserRole(roleId,userId,createTime)
         VALUES(1,#{param},sysdate())
     </insert>
+
+    <!--根据用户Id删除用户-->
+    <delete id="deleteUserById" parameterType="java.lang.Integer">
+        DELETE FROM qycauth.User WHERE id=#{param}
+    </delete>
 
 </mapper>

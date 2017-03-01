@@ -11,8 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Created by jonhn on 2017/2/15.
  */
@@ -32,7 +30,7 @@ public class ViewController {
 
     //登录提交
     @RequestMapping("/view/login-action")
-    public String login(HttpServletRequest request, String login_username_email, String login_password, RedirectAttributes model) {
+    public String login(String login_username_email, String login_password, RedirectAttributes model) {
         Subject subject = SecurityUtils.getSubject();
         String md5Password = Md5Tools.md5(login_password.trim());
         UsernamePasswordToken token = new UsernamePasswordToken(login_username_email.trim(), md5Password);

@@ -39,8 +39,8 @@ public class NoticeController {
     @RequestMapping(value = "/unread-notice-content")
     @ResponseBody
     public String queryUserUnReadNotice(){
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryUserByUsername(username);
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(email);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
         List<UserNotice> userNoticeList = noticeService.queryUserUnReadNotice(map);
@@ -90,8 +90,8 @@ public class NoticeController {
      */
     @RequestMapping(value = "/user-notice")
     public String userNotice(Model model,String beginDate, String endDate, String [] reasonId,String title ){
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        User user = userService.queryUserByUsername(username);
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(email);
         Map<String,Object> map = new HashMap<>();
         map.put("userId",user.getId());
         map.put("title",title);

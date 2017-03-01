@@ -35,22 +35,14 @@ public class UserController {
 
     /**
      * 用户注册
-     * @param sign_up_username 用户名
      * @param sign_up_email 邮箱
      * @param sign_up_password 密码
      * @param sign_up_rpPassword 重复密码
      * @return
      */
     @RequestMapping(value = "/register")
-    public String register(String sign_up_username,String sign_up_email,String sign_up_password,String sign_up_rpPassword,RedirectAttributes model){
-        if(RegexUtil.isNull(sign_up_username)){
-            model.addFlashAttribute("msg","请输入用户名");
-            return "redirect:/user/sign-up";
-        }
-        if(userService.queryUserByUsername(sign_up_username.trim()) != null){
-            model.addFlashAttribute("msg","该用户名已被注册，请重新输入");
-            return "redirect:/user/sign-up";
-        }
+    public String register(String sign_up_email,String sign_up_password,String sign_up_rpPassword,RedirectAttributes model){
+
         if(RegexUtil.isNull(sign_up_email)){
             model.addFlashAttribute("msg","请输入邮箱");
             return "redirect:/user/sign-up";
@@ -76,7 +68,7 @@ public class UserController {
             return "redirect:/user/sign-up";
         }
         String md5Password = Md5Tools.md5(sign_up_password.trim());
-        Boolean flag = userService.register(sign_up_username.trim(),md5Password,sign_up_email.trim());
+        Boolean flag = userService.register(md5Password,sign_up_email.trim());
         if (flag){
             model.addFlashAttribute("successMsg","激活链接已发送到您的邮箱");
             return "redirect:/user/sign-up";
@@ -178,8 +170,8 @@ public class UserController {
             map.put("rpPasswordMessage","两次密码输入不一致");
             return gson.toJson(map);
         }
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        if (userService.updateLoginPassword(username,Md5Tools.md5(password.trim()))){
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        if (userService.updateLoginPassword(email,Md5Tools.md5(password.trim()))){
             map.put("successMessage","恭喜你，修改成功！");
         }else {
             map.put("errorMessage","操作失败，请检查你的输入");

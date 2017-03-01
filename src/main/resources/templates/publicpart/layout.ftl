@@ -135,7 +135,7 @@
 
                                     <span id="newPassword_Msg" class="help-line"></span>
 
-                                    <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+                                    <span class="help-block">说明：长度为6-18个字符</span>
 
                                 </div>
 
@@ -151,7 +151,7 @@
 
                                     <span id="newRpPassword_Msg" class="help-line"></span>
 
-                                    <span class="help-block">说明：以字母开头，只能有数字、字母</br>和下划线组成，且长度为6-18个字符</span>
+                                    <span class="help-block">说明：长度为6-18个字符</span>
 
                                 </div>
 
@@ -436,8 +436,8 @@
                     $("#myModalLabel_user_notice_span").html(date.notice.title);
                     $("#user-notice-portlet-body").html(date.notice.content);
                     $("#user-notice-portlet-body-id").html(id);
+                    $("#user-notice-btn-black-btn-primary").remove();
                     if (date.isActive == 0){
-                        $("#user-notice-btn-black-btn-primary").remove();
                         $("#modal-footer-user-notice").append("<button class='btn black btn-primary' id='user-notice-btn-black-btn-primary' onclick='markRead()' type='button'>标记为已读</button>")
                     }
                 }

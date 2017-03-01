@@ -33,7 +33,7 @@
 
                                         <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="content" name="content" placeholder="请输入产品名称">
 
-                                        <button class="btn black head-search-display" type="submit">搜索</button>
+                                        <button class="btn black" type="submit">搜索</button>
 
                                     </div>
 
@@ -190,9 +190,9 @@
 
         $(function () { $("[data-toggle='tooltip']").tooltip(); });
 
-        $('.company_product').change(function () {
+        /*$('.company_product').change(function () {
             $(this).submit();
-        })
+        })*/
     </script>
     </#if>
 

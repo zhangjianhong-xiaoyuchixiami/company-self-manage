@@ -13,6 +13,11 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
 
+   /* public static void main(String[] args) {
+        System.out.println(isPwd("_235678901234_6dd"));
+    }
+*/
+
     public final static boolean isNull(Object[] objs){
         if(objs==null||objs.length==0) return true;
         return false;
@@ -90,14 +95,14 @@ public class RegexUtil {
 
 
     /**
-     * 匹配密码，以字母开头，长度在6-12之间，只能包含字符、数字和下划线。
+     * 匹配密码，以字母开头，长度在6-18之间，只能包含字符、数字和下划线。
      *
      * @param str
      * @return
      * @author jiqinlin
      */
     public final static boolean isPwd(String str) {
-        return match(str, "^[a-zA-Z]\\w{5,17}$");
+        return match(str, "^[\\w]{6,18}$");
     }
 
     /**

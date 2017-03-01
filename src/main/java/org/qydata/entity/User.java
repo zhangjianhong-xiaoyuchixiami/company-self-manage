@@ -12,7 +12,6 @@ import java.sql.Timestamp;
 public class User implements Serializable {
 
     private Integer id;
-    private String username;
     private String password;
     private String email;
     private Timestamp createTime;
@@ -26,14 +25,6 @@ public class User implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

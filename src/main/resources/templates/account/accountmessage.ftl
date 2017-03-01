@@ -33,7 +33,7 @@
 
                                         <input class="m-wrap" <#if content??>value="${content}" </#if> type="text" id="content" name="content" placeholder="请输入账号">
 
-                                        <button class="btn black head-search-display" type="submit">搜索</button>
+                                        <button class="btn black" type="submit">搜索</button>
 
                                     </div>
 
@@ -57,7 +57,7 @@
 
                         <div class="portlet-body no-more-tables">
 
-                            <div class="clearfix margin-bottom-5">
+                         <#--   <div class="clearfix margin-bottom-5">
 
                                 <div class="btn-group">
 
@@ -131,7 +131,7 @@
 
                                 </div>
 
-                            </div>
+                            </div>-->
 
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped" id="sample_2">
@@ -207,9 +207,9 @@
             AccountMessage.init();
             AccountLeftBar.init();
 
-            $('.account_message').change(function () {
+          /*  $('.account_message').change(function () {
                 $(this).submit();
-            });
+            });*/
 
             $(function () { $("[data-toggle='tooltip']").tooltip(); });
 

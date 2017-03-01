@@ -25,6 +25,8 @@
     <!-- Metis core stylesheet -->
     <link rel="stylesheet" href="/assets/css/main.css">
 
+    <link rel="stylesheet" href="/assets/css/back.css">
+
     <!-- metisMenu stylesheet -->
     <link rel="stylesheet" href="/assets/lib/metismenu/metisMenu.css">
 
@@ -62,70 +64,102 @@
 
 <body class="login">
 
-<div class="form-signin">
+<div class="form-signin" style="max-width: 660px">
     <div class="text-center">
     <#--<img src="/assets/img/logo.png" alt="Metis Logo">-->
        <#-- <h3>欢迎登录</h3>-->
     </div>
     <hr>
     <div class="tab-content">
-        <div id="login" class="tab-pane">
-            <form action="/view/login-action" class="login_form" method="post">
-                <div class="form-group">
-                    <input type="text" id="login_username_email" name="login_username_email" placeholder="请输入用户名或邮箱" class="form-control top">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="login_password" name="login_password" placeholder="请输入密码" class="form-control bottom">
-                </div>
-                <#--<div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="rememberMe" name="rememberMe"> 记住我
-                    </label>
-                </div>-->
-                <button class="btn btn-lg btn-primary btn-block" id="btn_btn_lg_btn_primary_btn_block" type="submit">登录</button>
-            </form>
-        </div>
-        <div id="forgot" class="tab-pane">
-            <form action="/user/forgot" method="post">
-                <div class="form-group">
-                    <input type="email" id="forgot_email" name="forgot_email" placeholder="请输入邮箱" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="forgot_password" name="forgot_password" placeholder="请输新入密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
-                </div>
-                <button class="btn btn-lg btn-danger btn-block" id="btn_btn_lg_btn_danger_btn_block" type="submit">找回密码</button>
-            </form>
-        </div>
 
         <div id="signup" class="tab-pane active">
-            <form action="/user/register" class="register_form" method="post">
-            <#if msg??>
-                <div class="alert alert-error show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>${msg}</span>
-                </div>
-            </#if>
-            <#if successMsg??>
-                <div class="alert alert-success show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>${successMsg}</span>
-                </div>
-            </#if>
+            <form action="/user/register" method="post" class="form-horizontal" role="form">
                 <div class="form-group">
-                    <input type="text" id="sign_up_username" name="sign_up_username" placeholder="请输入用户名" class="form-control top">
+                    <label class="col-sm-2 control-label">邮箱<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="email" id="sign_up_email" name="sign_up_email" placeholder="请输入邮箱（必填）" class="form-control">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="email" id="sign_up_email" name="sign_up_email" placeholder="请输入邮箱" class="form-control middle">
+                    <label class="col-sm-2 control-label">密码<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码（必填）" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
+                    <label class="col-sm-2 control-label">确认密码<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请再次输入密码（必填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="再次输入密码" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="以字母开头，只能有数字、字母和下划线组成，且长度为6-18个字符">
+                    <label class="col-sm-2 control-label">公司名称<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入公司名称（必填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">商务负责人<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入商务负责人（必填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">联系电话<span class="required">*</span></label>
+                    <div class="col-sm-10">
+                        <input type="text" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入联系电话（必填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">公司网址<span>*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入公司网址（选填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">正式公网Ip<span>*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入正式公网Ip（选填）" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">测试公网Ip<span>*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入测试公网Ip（选填）"" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">技术负责人<span>*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入技术负责人（选填）"" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">联系电话<span>*</span></label>
+                    <div class="col-sm-10">
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入联系电话（选填）"" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">申请开通产品<span>*</span></label>
+                    <div class="col-sm-10">
+                        <textarea id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请输入申请开通产品（选填）"" class="form-control bottom"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">备注<span>*</span></label>
+                    <div class="col-sm-10">
+                        <textarea id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="备注（选填）"" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group" style="text-align: right">
+                    <label><a>+点击填写更多</a></label
                 </div>
                 <button class="btn btn-lg btn-success btn-block" id="btn_btn_lg_btn_success_btn_block" type="submit">注册</button>
             </form>
         </div>
+
     </div>
     <hr>
     <div class="text-center">
