@@ -53,3 +53,34 @@
     font-size: 12px;
     padding-left: 2px;
 }
+.text-right{text-align: right}
+.text-none{display: none}
+.text-block{display: block}
+.control-label-width{width: 90px}
+.control-margin-left{margin-left: 110px}
+.control-group-margin-bottom{margin-bottom: 5px}
+.max-width{max-width: 505px}
+
+.btn-lg,
+.btn-group-lg > .btn {
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+
+.list-inline {
+    padding-left: 0;
+    margin-left: -5px;
+    list-style: none;
+}
+.list-inline > li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.text-muted {
+    color: #777;
+}
+.input-font-size{font-size: 14px}

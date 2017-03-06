@@ -41,32 +41,55 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/register")
-    public String register(String sign_up_email,String sign_up_password,String sign_up_rpPassword,RedirectAttributes model){
-
+    public String register(String sign_up_email,String sign_up_password,String sign_up_rpPassword,
+                           String sign_up_companyName,String sign_up_busPerson,String sign_up_busTel,
+                           String [] sign_up_companyUrl,String [] sign_up_officialIp,String [] sign_up_testIp,
+                           String sign_up_techPerson,String sign_up_techTel,String sign_up_product,
+                           String sign_up_content,RedirectAttributes model)
+    {
+        Map<String,Object> map = new HashMap<>();
+        Gson gson = new Gson();
         if(RegexUtil.isNull(sign_up_email)){
-            model.addFlashAttribute("msg","请输入邮箱");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_email","请输入邮箱");
+            return gson.toJson(map);
         }
         if(userService.queryUserByUsername(sign_up_email.trim()) != null){
-            model.addFlashAttribute("msg","该邮箱已被注册，请重新输入");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_email","该邮箱已被注册，请重新输入");
+            return gson.toJson(map);
         }
         if(RegexUtil.isNull(sign_up_password)){
-            model.addFlashAttribute("msg","请输入密码");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_password","请输入密码");
+            return gson.toJson(map);
         }
         if(!RegexUtil.isPwd(sign_up_password)){
-            model.addFlashAttribute("msg","密码格式输入不正确，请重新输入");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_password","密码格式输入不正确，请重新输入");
+            return gson.toJson(map);
         }
         if(RegexUtil.isNull(sign_up_rpPassword)){
-            model.addFlashAttribute("msg","请再次输入密码");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_rpPassword","请再次输入密码");
+            return gson.toJson(map);
         }
         if(!sign_up_password.trim().equals(sign_up_rpPassword.trim())){
-            model.addFlashAttribute("msg","两次密码输入不一致");
-            return "redirect:/user/sign-up";
+            map.put("sign_up_rpPassword","两次密码输入不一致");
+            return gson.toJson(map);
         }
+        if(RegexUtil.isNull(sign_up_companyName)){
+            map.put("sign_up_companyName","请输入公司名称");
+            return gson.toJson(map);
+        }
+        if(RegexUtil.isNull(sign_up_busPerson)){
+            map.put("sign_up_busPerson","请输入商务联系人");
+            return gson.toJson(map);
+        }
+        if(RegexUtil.isNull(sign_up_busTel)){
+            map.put("sign_up_busTel","请输入联系方式");
+            return gson.toJson(map);
+        }
+        if(!RegexUtil.isTel(sign_up_busTel)){
+            map.put("sign_up_busTel","电话格式输入不正确");
+            return gson.toJson(map);
+        }
+
         String md5Password = Md5Tools.md5(sign_up_password.trim());
         Boolean flag = userService.register(md5Password,sign_up_email.trim());
         if (flag){

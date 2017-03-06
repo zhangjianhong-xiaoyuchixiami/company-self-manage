@@ -2571,7 +2571,7 @@ body.error .logo h1 {
 .login .form-signin input[type="password"],
 .login .form-signin input[type="email"] {
   position: relative;
-  font-size: 16px;
+  font-size: 14px;
   height: auto;
   padding: 10px;
   margin-bottom: 10px;
