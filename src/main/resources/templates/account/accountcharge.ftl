@@ -107,7 +107,7 @@
 
                             </div>
 
-                            <div class="pull-left head-search-bottom head-search-display">
+                            <div class="pull-left head-search-bottom">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -205,10 +205,6 @@
         jQuery(document).ready(function() {
             AccountCharge.init();
             AccountLeftBar.init();
-
-            $('.account_charge').change(function () {
-                $(this).submit();
-            });
 
         });
     </script>

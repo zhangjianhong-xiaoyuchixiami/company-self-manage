@@ -78,7 +78,7 @@
                 </div>
             </#if>
             <#if successMsg??>
-                <div class="alert alert-success show">
+                <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
                     <span>${successMsg}</span>
                 </div>
@@ -98,26 +98,13 @@
             </form>
         </div>
 
-        <div id="forgot" class="tab-pane">
-            <form action="/user/forgot" method="post">
-                <div class="form-group">
-                    <input type="email" id="forgot_email" name="forgot_email" placeholder="请输入邮箱" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="forgot_password" name="forgot_password" placeholder="请输入新密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
-                </div>
-                <button class="btn btn-lg btn-danger btn-block" id="btn_btn_lg_btn_danger_btn_block" type="submit">找回密码</button>
-            </form>
-        </div>
-
-
     </div>
     <hr>
     <div class="text-center">
         <ul class="list-inline">
             <li><a class="text-muted" href="#login" data-toggle="tab">登录</a></li>
-            <li><a class="text-muted" href="#forgot" data-toggle="tab">忘记密码？</a></li>
-            <li><a class="text-muted" href="#signup" data-toggle="tab">注册</a></li>
+            <li><a class="text-muted" href="/user/forgot-url">忘记密码？</a></li>
+            <li><a class="text-muted" href="/user/sign-up">注册</a></li>
         </ul>
     </div>
 </div>

@@ -60,10 +60,6 @@
         <result column="mobileOperatorName" property="mobileOperatorName"/>
     </resultMap>
 
-
-
-
-
     <!--根据用户Id查找账号-->
     <select id="queryCustomerByAuthId" parameterType="map" resultMap="Customer_Type_Status_Company_User_Map">
         SELECT id,typeId,typeName,authId,authPass,balance,createTime,status,statusName,companyId,

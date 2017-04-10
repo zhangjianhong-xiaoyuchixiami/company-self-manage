@@ -17,7 +17,7 @@
 
             <div class="row-fluid">
 
-                <div class="span12">
+                <div class="span6">
 
                     <form action="/company/find-company-product-by-company-id" class="company_product" method="get">
 
@@ -135,7 +135,7 @@
                                 <table class="table table-bordered table-hover table-striped" id="sample_3">
                                     <thead>
                                     <tr>
-                                        <th>产品</th>
+                                        <th>产品名称</th>
                                         <th>价格（单位：元）</th>
                                        <#-- <th>购买时间</th>-->
                                     </tr>

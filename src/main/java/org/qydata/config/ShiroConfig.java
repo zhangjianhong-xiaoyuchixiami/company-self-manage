@@ -260,6 +260,7 @@ public class ShiroConfig {
 		chains.put("/customer/month-record", "authc,perms");
 		chains.put("/customer/month-up-link", "authc,perms");
 		chains.put("/customer/months-charge-consume-toward", "authc,perms");
+		chains.put("/customer/bound-user-customer-url", "authc");
 
 		//CompanyController
 		chains.put("/company/find-company-product-by-company-id", "authc,perms");

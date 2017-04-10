@@ -9,7 +9,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>后台</title>
+    <title>个人管理后台</title>
     <meta content="width=device-width, height=device-height, initial-scale=1.0" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -45,6 +45,10 @@
     <link rel="stylesheet" type="text/css" href="/manage/css/local/main-response-table.css"/>
     <link rel="shortcut icon" href="/manage/image/favicon.ico" />
 <#--  <link rel="stylesheet" type="text/css" href="/font-awesome/css/font-awesome.min.css">-->
+    <style>
+        a:hover {text-decoration: none;}
+    </style>
+
 </head>
 
 <body class="page-header-fixed">
@@ -420,7 +424,7 @@
         });
     }
 
-    /*setInterval("getCount()",1000);*/
+    setInterval("getCount()",1000);
 
     function queryNoticeById(id) {
         $.ajax({

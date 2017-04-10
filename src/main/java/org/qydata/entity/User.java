@@ -14,10 +14,13 @@ public class User implements Serializable {
     private Integer id;
     private String password;
     private String email;
-    private Timestamp createTime;
-    private Timestamp timestamp;
     private Integer status;
     private String code;
+    private Integer clicks;
+    private String content;
+    private Timestamp createTime;
+    private Timestamp timestamp;
+
 
     public Integer getId() {
         return id;
@@ -73,6 +76,22 @@ public class User implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Integer getClicks() {
+        return clicks;
+    }
+
+    public void setClicks(Integer clicks) {
+        this.clicks = clicks;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String toString(){

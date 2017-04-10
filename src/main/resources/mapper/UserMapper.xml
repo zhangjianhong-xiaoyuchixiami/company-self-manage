@@ -33,8 +33,8 @@
 
     <!--添加用户-->
     <insert id="addUser" parameterType="org.qydata.entity.User" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO qycauth.User(password,email,code,status,createTime)
-        VALUES(#{password},#{email},#{code},1,sysdate())
+        INSERT INTO qycauth.User(password,email,code,status,businessPrincipal,businessTel,technicalPrincipal,technicalTel,content,createTime)
+        VALUES(#{password},#{email},#{code},1,#{businessPrincipal},#{businessTel},#{technicalPrincipal},#{technicalTel},#{content},sysdate())
         <selectKey keyProperty="id" resultType="Integer" order="AFTER">
             select LAST_INSERT_ID()
         </selectKey>
@@ -47,7 +47,7 @@
 
     <!--根据激活码查找用户-->
     <select id="findUserByCode" parameterType="java.lang.String" resultType="org.qydata.entity.User">
-        SELECT id,email FROM qycauth.User WHERE code=#{param}
+        SELECT id,email,status,createTime FROM qycauth.User WHERE code=#{param}
     </select>
     
     <!--激活用户-->

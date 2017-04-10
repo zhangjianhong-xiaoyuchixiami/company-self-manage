@@ -37,7 +37,7 @@ public class SendEmail {
             //编码
             email.setCharset("utf-8");
             //内容
-            email.setHtmlMsg("<html><h1>此邮件为激活账号邮件！请点击下面链接完成激活操作</h1><h3><a href='https://域名/user/action?code="+code+"'>请点击此处完成激活</a></h3></html>");
+            email.setHtmlMsg("<html><h1>此邮件为激活账号邮件！请点击下面链接完成激活操作</h1><h3><a href='https://c.qianyandata.com/user/action?code="+code+"'>请点击此处完成激活</a></h3></html>");
             //发送
             email.send();
         }catch (Exception e) {
@@ -71,7 +71,7 @@ public class SendEmail {
             //编码
             email.setCharset("utf-8");
             //内容
-            email.setHtmlMsg("<html><h1>此邮件为修改账号密码邮件！请点击下面链接完成修改操作！</h1><h3><a href='https://域名/user/update-password?email="+to+"&password="+password+"'>请点击此处完成修改</a></h3>");
+            email.setHtmlMsg("<html><h1>此邮件为修改账号密码邮件！请点击下面链接完成修改操作！</h1><h3><a href='https://c.qianyandata.com/user/update-password?email="+to+"&password="+password+"'>请点击此处完成修改</a></h3>");
             //发送
             email.send();
         }catch (Exception e) {

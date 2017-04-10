@@ -153,7 +153,6 @@
                                                 <td data-title="账号">${customer.authId}</td>
                                                 <td data-title="账号类型">${customer.customerType.name}</td>
                                                 <td data-title="密码">
-                                                    <span id="table_vis_password_${customer.id}"></span>
                                                     <span id="table_password_${customer.id}">
                                                         <a href="javaScript:;" onclick="showPassword(${customer.id})" data-toggle="tooltip" data-placement="auto" title="点击显示密码">显示密码</a>
                                                     </span>
@@ -207,23 +206,24 @@
             AccountMessage.init();
             AccountLeftBar.init();
 
-          /*  $('.account_message').change(function () {
-                $(this).submit();
-            });*/
-
             $(function () { $("[data-toggle='tooltip']").tooltip(); });
 
         });
 
+        /*展示密码*/
         function showPassword(id) {
-            $("#table_vis_password_"+id).html('<a href="javaScript:;" onclick="hidePassword('+id+')" data-toggle="tooltip" data-placement="auto" title="点击隐藏密码">'+$("#table_content_password_"+id).text()+'</a>');
+
             $("#table_password_"+id).empty();
+
+            if($("#table_content_password_"+id).css('display')=='none'){
+
+                $("#table_content_password_"+id).show();
+            }else{
+                $("#table_content_password_"+id).hide();
+            }
+
         }
 
-        function hidePassword(id) {
-            $("#table_vis_password_"+id).empty();
-            $("#table_password_"+id).html('<a href="javaScript:;" onclick="showPassword('+id+')" data-toggle="tooltip" data-placement="auto" title="点击显示密码">显示密码</a>');
-        }
     </script>
 
     </#if>

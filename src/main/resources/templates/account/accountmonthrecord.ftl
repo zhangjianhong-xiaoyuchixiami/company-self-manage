@@ -96,7 +96,7 @@
 
                             </div>
 
-                            <div class="pull-left head-search-bottom head-search-display">
+                            <div class="pull-left head-search-bottom">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
 
@@ -239,10 +239,6 @@
 
             AccountMonthRecord.init();
             AccountLeftBar.init();
-
-            $('.month_record').change(function () {
-                $(this).submit();
-            });
 
         });
     </script>

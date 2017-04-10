@@ -34,7 +34,10 @@ public interface UserService {
      * @return 是否注册成功
      */
     @Transactional
-    public Boolean register(String password,String email);
+    public Boolean register(String password,String email, String companyName, String busPerson, String busTel,
+                            String techPerson, String techTel, String product, String content,String [] companyUrl,
+                            String [] officialIp, String [] testIp
+    );
 
     /**
      * 激活用户
@@ -42,7 +45,7 @@ public interface UserService {
      * @return 是否激活成功
      */
     @Transactional
-    public Boolean active(String code);
+    public Map<String,Object> active(String code);
 
     /**
      * 根据激活码删除未激活的用户

@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.css">
+<#--   <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.css">-->
+
+    <link rel="stylesheet" href="/manage/css/font-awesome.css">
 
     <!-- Metis core stylesheet -->
     <link rel="stylesheet" href="/assets/css/main.css">
@@ -32,6 +34,8 @@
 
     <!-- animate.css stylesheet -->
     <link rel="stylesheet" href="/assets/lib/animate.css/animate.css">
+
+    <link rel="stylesheet" href="/manage/css/icon.css">
 
     <link rel="shortcut icon" href="/manage/image/favicon.ico" />
 
@@ -64,7 +68,7 @@
 
 <body class="login">
 
-<div class="form-signin max-width" style="max-width: 505px">
+<div class="form-signin max-width" style="max-width: 370px">
     <div class="text-center">
 
 
@@ -73,19 +77,11 @@
     <div class="tab-content">
 
         <div id="signup" class="tab-pane active">
-            <form action="/user/register" method="post" class="form-horizontal" role="form">
-            <#if msg??>
-                <div class="alert alert-error show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>${msg}</span>
+            <form action="" method="post" class="form-horizontal" role="form">
+                <div id="alert_error">
+
                 </div>
-            </#if>
-            <#if successMsg??>
-                <div class="alert alert-success show">
-                    <button class="close" data-dismiss="alert"></button>
-                    <span>${successMsg}</span>
-                </div>
-            </#if>
+
                 <div class="control-group control-group-margin-bottom">
                     <label class="control-label control-label-width">邮箱<span class="required">*</span></label>
                     <div class="controls control-margin-left">
@@ -96,14 +92,14 @@
                 <div class="control-group control-group-margin-bottom">
                     <label class="control-label control-label-width">密码<span class="required">*</span></label>
                     <div class="controls control-margin-left">
-                        <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码（必填）" class="m-wrap medium" data-toggle="tooltip" data-placement="auto" title="长度为8-18个字符"/>
+                        <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码（必填）" class="m-wrap medium" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符"/>
                         <span class="help-inline" id="sign_up_password_msg"></span>
                     </div>
                 </div>
                 <div class="control-group control-group-margin-bottom">
                     <label class="control-label control-label-width">确认密码<span class="required">*</span></label>
                     <div class="controls control-margin-left">
-                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请再次输入密码（必填）" class="m-wrap medium" data-toggle="tooltip" data-placement="auto" title="长度为8-18个字符"/>
+                        <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="请再次输入密码（必填）" class="m-wrap medium" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符"/>
                         <span class="help-inline" id="sign_up_rpPassword_msg"></span>
                     </div>
                 </div>
@@ -130,25 +126,34 @@
                 </div>
 
                 <div id="sign_up_more_message" class="text-none">
-                    <div class="control-group control-group-margin-bottom">
-                        <label class="control-label control-label-width">公司网址<span>*</span></label>
-                        <div class="controls control-margin-left">
-                            <input type="text" id="sign_up_companyUrl" name="sign_up_companyUrl" placeholder="请输入公司网址（选填）" class="m-wrap medium" />
-                            <span class="help-inline" id="sign_up_companyUrl_msg"></span>
+                    <div class="sign_up_companyUrl_more">
+                        <div class="control-group control-group-margin-bottom">
+                            <label class="control-label control-label-width">公司网址<span>*</span></label>
+                            <div class="controls control-margin-left">
+                                <input type="text" id="sign_up_companyUrl" name="sign_up_companyUrl" placeholder="请输入公司网址（选填）" class="m-wrap medium" />
+                                <a class="sign_up_companyUrl text-muted"><i class="icon-plus"></i></a>
+                                <span class="help-inline" id="sign_up_companyUrl_msg"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="control-group control-group-margin-bottom">
-                        <label class="control-label control-label-width">正式公网Ip<span>*</span></label>
-                        <div class="controls control-margin-left">
-                            <input type="text" id="sign_up_officialIp" name="sign_up_officialIp" placeholder="请输入正式公网Ip（选填）" class="m-wrap medium" />
-                            <span class="help-inline" id="sign_up_officialIp_msg"></span>
+                    <div class="sign_up_officialIp_more">
+                        <div class="control-group control-group-margin-bottom">
+                            <label class="control-label control-label-width">正式公网Ip<span>*</span></label>
+                            <div class="controls control-margin-left">
+                                <input type="text" id="sign_up_officialIp" name="sign_up_officialIp" placeholder="请输入正式公网Ip（选填）" class="m-wrap medium" />
+                                <a class="sign_up_officialIp text-muted"><i class="icon-plus"></i></a>
+                                <span class="help-inline" id="sign_up_officialIp_msg"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="control-group control-group-margin-bottom">
-                        <label class="control-label control-label-width">测试公网Ip<span>*</span></label>
-                        <div class="controls control-margin-left">
-                            <input type="text" id="sign_up_testIp" name="sign_up_testIp" placeholder="请输入测试公网Ip（选填）" class="m-wrap medium" />
-                            <span class="help-inline" id="sign_up_testIp_msg"></span>
+                    <div class="sign_up_testIp_more">
+                        <div class="control-group control-group-margin-bottom">
+                            <label class="control-label control-label-width">测试公网Ip<span>*</span></label>
+                            <div class="controls control-margin-left">
+                                <input type="text" id="sign_up_testIp" name="sign_up_testIp" placeholder="请输入测试公网Ip（选填）" class="m-wrap medium" />
+                                <a class="sign_up_testIp text-muted"><i class="icon-plus"></i></a>
+                                <span class="help-inline" id="sign_up_testIp_msg"></span>
+                            </div>
                         </div>
                     </div>
                     <div class="control-group control-group-margin-bottom">
@@ -183,7 +188,7 @@
                 </div>
                 <span id="sign_up_block_message_span"><a onclick="blockMessage()" href="javaScript:;">+点击填写更多</a></span>
 
-                <button class="btn btn-lg btn-success btn-block" id="btn_btn_lg_btn_success_btn_block" type="submit">注册</button>
+                <button class="btn btn-lg btn-success btn-block" id="btn_btn_lg_btn_success_btn_block" type="button">注册</button>
 
             </form>
         </div>
@@ -192,8 +197,8 @@
     <hr>
     <div class="text-center">
         <ul class="list-inline">
-            <li><a class="text-muted" href="#login" data-toggle="tab">登录</a></li>
-            <li><a class="text-muted" href="#forgot" data-toggle="tab">忘记密码？</a></li>
+            <li><a class="text-muted" href="/login">登录</a></li>
+            <li><a class="text-muted" href="/user/forgot-url">忘记密码？</a></li>
             <li><a class="text-muted" href="#signup" data-toggle="tab">注册</a></li>
         </ul>
     </div>
@@ -209,13 +214,12 @@
 <script src="/manage/js/jquery.validate.min.js" type="text/javascript"></script>
 
 <#--登录验证-->
-<script src="/assets/js/local/login.js"></script>
+<script src="/assets/js/local/sign-up.js"></script>
 
 <script type="text/javascript">
 
-    /*  $(document).ready(function() {
-          LocalLogin.init();
-      });*/
+    LocalSignUp.init();
+
 </script>
 
 <script>
@@ -237,28 +241,7 @@
 
 </script>
 
-<script type="text/javascript">
-    (function($) {
-        $(document).ready(function() {
-            $('.list-inline li > a').click(function() {
-                var activeForm = $(this).attr('href') + ' > form';
-                //console.log(activeForm);
-                $(activeForm).addClass('animated fadeIn');
-                //set timer to 1 seconds, after that, unload the animate animation
-                setTimeout(function() {
-                    $(activeForm).removeClass('animated fadeIn');
-                }, 1000);
-            });
 
-        });
-    })(jQuery);
-
-
-    $(document).keypress(function(e) {
-        if (e.which == 13)
-            $(".register_form").submit();
-    });
-</script>
 </body>
 
 </html>

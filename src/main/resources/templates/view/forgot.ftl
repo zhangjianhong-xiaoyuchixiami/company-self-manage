@@ -69,22 +69,7 @@
     </div>
     <hr>
     <div class="tab-content">
-        <div id="login" class="tab-pane">
-            <form action="/view/login-action" class="login_form" method="post">
-                <div class="form-group">
-                    <input type="email" id="login_username_email" name="login_username_email" placeholder="请输入邮箱" class="form-control top">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="login_password" name="login_password" placeholder="请输入密码" class="form-control bottom">
-                </div>
-                <#--<div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="rememberMe" name="rememberMe"> 记住我
-                    </label>
-                </div>-->
-                <button class="btn btn-lg btn-primary btn-block" id="btn_btn_lg_btn_primary_btn_block" type="submit">登录</button>
-            </form>
-        </div>
+
         <div id="forgot" class="tab-pane active">
             <form action="/user/forgot" class="forgot_form" method="post">
             <#if msg??>
@@ -94,7 +79,7 @@
                 </div>
             </#if>
             <#if successMsg??>
-                <div class="alert alert-success show">
+                <div class="alert alert-error show">
                     <button class="close" data-dismiss="alert"></button>
                     <span>${successMsg}</span>
                 </div>
@@ -109,27 +94,13 @@
             </form>
         </div>
 
-        <div id="signup" class="tab-pane">
-            <form action="/user/register" method="post">
-                <div class="form-group">
-                    <input type="email" id="sign_up_email" name="sign_up_email" placeholder="请输入邮箱" class="form-control middle">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="sign_up_password" name="sign_up_password" placeholder="请输入密码" class="form-control middle" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
-                </div>
-                <div class="form-group">
-                    <input type="password" id="sign_up_rpPassword" name="sign_up_rpPassword" placeholder="再次输入密码" class="form-control bottom" data-toggle="tooltip" data-placement="auto" title="长度为6-18个字符">
-                </div>
-                <button class="btn btn-lg btn-success btn-block" id="btn_btn_lg_btn_success_btn_block" type="submit">注册</button>
-            </form>
-        </div>
     </div>
     <hr>
     <div class="text-center">
         <ul class="list-inline">
-            <li><a class="text-muted" href="#login" data-toggle="tab">登录</a></li>
+            <li><a class="text-muted" href="/login">登录</a></li>
             <li><a class="text-muted" href="#forgot" data-toggle="tab">忘记密码？</a></li>
-            <li><a class="text-muted" href="#signup" data-toggle="tab">注册</a></li>
+            <li><a class="text-muted" href="/user/sign-up">注册</a></li>
         </ul>
     </div>
 </div>

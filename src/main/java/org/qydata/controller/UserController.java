@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by jonhn on 2017/2/15.
@@ -41,12 +44,15 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/register")
-    public String register(String sign_up_email,String sign_up_password,String sign_up_rpPassword,
-                           String sign_up_companyName,String sign_up_busPerson,String sign_up_busTel,
-                           String [] sign_up_companyUrl,String [] sign_up_officialIp,String [] sign_up_testIp,
-                           String sign_up_techPerson,String sign_up_techTel,String sign_up_product,
-                           String sign_up_content,RedirectAttributes model)
+    @ResponseBody
+    public String register(String sign_up_email, String sign_up_password, String sign_up_rpPassword,
+                           String sign_up_companyName, String sign_up_busPerson, String sign_up_busTel,
+                           String sign_up_techPerson, String sign_up_techTel, String sign_up_product,
+                           String sign_up_content, HttpServletRequest request)
     {
+        String [] sign_up_companyUrl = request.getParameterValues("sign_up_companyUrl[]");
+        String [] sign_up_officialIp = request.getParameterValues("sign_up_officialIp[]");
+        String [] sign_up_testIp = request.getParameterValues("sign_up_testIp[]");
         Map<String,Object> map = new HashMap<>();
         Gson gson = new Gson();
         if(RegexUtil.isNull(sign_up_email)){
@@ -77,6 +83,7 @@ public class UserController {
             map.put("sign_up_companyName","请输入公司名称");
             return gson.toJson(map);
         }
+
         if(RegexUtil.isNull(sign_up_busPerson)){
             map.put("sign_up_busPerson","请输入商务联系人");
             return gson.toJson(map);
@@ -89,15 +96,18 @@ public class UserController {
             map.put("sign_up_busTel","电话格式输入不正确");
             return gson.toJson(map);
         }
-
         String md5Password = Md5Tools.md5(sign_up_password.trim());
-        Boolean flag = userService.register(md5Password,sign_up_email.trim());
+        Boolean flag = userService.register(md5Password,sign_up_email.trim(),sign_up_companyName.trim(),
+                sign_up_busPerson.trim(),sign_up_busTel.trim(),sign_up_techPerson.trim(),
+                sign_up_techTel.trim(),sign_up_product.trim(),sign_up_content.trim(),sign_up_companyUrl,
+                sign_up_officialIp,sign_up_testIp
+        );
         if (flag){
-            model.addFlashAttribute("successMsg","激活链接已发送到您的邮箱");
-            return "redirect:/user/sign-up";
+            map.put("successMsg","激活链接已发送到您的邮箱");
+            return gson.toJson(map);
         }
-        model.addFlashAttribute("msg","注册失败，请检查你的操作");
-        return "redirect:/user/sign-up";
+        map.put("msg","注册失败，请检查你的操作");
+        return gson.toJson(map);
     }
 
     /**
@@ -108,13 +118,32 @@ public class UserController {
      */
     @RequestMapping(value = "/action")
     public String action(String code,RedirectAttributes model){
-        Boolean flag = userService.active(code);
-        if (flag){
-            model.addFlashAttribute("successMsg","激活成功，欢迎登录使用");
-            return "redirect:/login";
+        Map<String,Object> map = userService.active(code);
+        Set<Map.Entry<String,Object>> set = map.entrySet();
+        Iterator it = set.iterator();
+        while (it.hasNext()){
+            Map.Entry<String,Object> me = (Map.Entry<String, Object>) it.next();
+            if (me.getKey().equals("success")){
+                model.addFlashAttribute("successMsg",me.getValue());
+                return "redirect:/login";
+            }
+            if (me.getKey().equals("outCancel")){
+                model.addFlashAttribute("msg",me.getValue());
+                return "redirect:/user/sign-up";
+            }
+            if (me.getKey().equals("outDate")){
+                model.addFlashAttribute("successMsg",me.getValue());
+                return "redirect:/user/sign-up";
+            }
+            if (me.getKey().equals("isActive")){
+                model.addFlashAttribute("successMsg",me.getValue());
+                return "redirect:/login";
+            }
+            if (me.getKey().equals("noRegister")){
+                model.addFlashAttribute("successMsg",me.getValue());
+                return "redirect:/user/sign-up";
+            }
         }
-        userService.deleteUserByCode(code);
-        model.addFlashAttribute("msg","激活失败，请重新注册");
         return "redirect:/user/sign-up";
     }
 

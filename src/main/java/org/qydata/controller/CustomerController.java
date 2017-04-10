@@ -345,6 +345,20 @@ public class CustomerController {
         return getObj.toString();
     }
 
+    @RequestMapping("/bound-user-customer-url")
+    @ResponseBody
+    public String boundUserCustomerUrl(String authId){
+        Map<String,Object> map = new HashMap<>();
+        map.put("userId",userService.queryUserByUsername((String) SecurityUtils.getSubject().getPrincipal()).getId());
+        map.put("customerId",customerService.findCustomerByAuthId(authId).getId());
 
+        Map<String,Object> mapTest = new HashMap<>();
+        mapTest.put("userId",userService.queryUserByUsername((String) SecurityUtils.getSubject().getPrincipal()).getId());
+        mapTest.put("customerId",customerService.findCustomerByAuthId(authId+"_test").getId());
+        if (customerService.addUserCustomer(map) && customerService.addUserCustomer(mapTest)){
+            return "ok:200";
+        }
+        return "fail:500";
+    }
 
 }
