@@ -12,7 +12,8 @@ var CompanyProduct = function () {
                     null,
                     null
                 ],
-                "aaSorting": [[1, 'desc']],
+                "bSort": false,
+                //"aaSorting": [[1, 'desc']],
                 "aLengthMenu": [
                     [10, 15, 20, -1],
                     [10, 15, 20, "全部"] // change per page values here

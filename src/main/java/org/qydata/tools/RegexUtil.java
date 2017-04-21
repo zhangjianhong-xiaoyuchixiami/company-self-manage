@@ -13,9 +13,9 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
 
-    public static void main(String[] args) {
-        System.out.println(isTel("8617316206369"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(isTel("8617316206369"));
+//    }
 
     public final static boolean isNull(Object[] objs){
         if(objs==null||objs.length==0) return true;
