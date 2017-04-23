@@ -2,6 +2,7 @@ package org.qydata.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by jonhn on 2017/2/20.
@@ -14,7 +15,10 @@ public class Customer implements Serializable {
     private String name;
     private String authId;
     private String authPass;
-    private Long balance;
+    private Integer balance;
+    private Integer floor;         //信用额度
+    private Integer usableFloor;   //可用信用额度
+    private Integer surplusFloor;  //剩余信用额度
     private Timestamp createTime;
     private Timestamp timestamp;
     private Integer status;
@@ -23,6 +27,7 @@ public class Customer implements Serializable {
     private CustomerType customerType;
     private CustomerCompany customerCompany;
     private User user;
+    private List<CustomerIp> customerIpList;
 
     public Integer getId() {
         return id;
@@ -72,12 +77,36 @@ public class Customer implements Serializable {
         this.authPass = authPass;
     }
 
-    public Long getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public Integer getFloor() {
+        return floor;
+    }
+
+    public void setFloor(Integer floor) {
+        this.floor = floor;
+    }
+
+    public Integer getUsableFloor() {
+        return usableFloor;
+    }
+
+    public void setUsableFloor(Integer usableFloor) {
+        this.usableFloor = usableFloor;
+    }
+
+    public Integer getSurplusFloor() {
+        return surplusFloor;
+    }
+
+    public void setSurplusFloor(Integer surplusFloor) {
+        this.surplusFloor = surplusFloor;
     }
 
     public Timestamp getCreateTime() {
@@ -142,5 +171,13 @@ public class Customer implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<CustomerIp> getCustomerIpList() {
+        return customerIpList;
+    }
+
+    public void setCustomerIpList(List<CustomerIp> customerIpList) {
+        this.customerIpList = customerIpList;
     }
 }

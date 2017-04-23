@@ -24,7 +24,21 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> queryCustomerByAuthId(Map<String, Object> map) {
         try {
-            return customerMapper.queryCustomerByAuthId(map);
+            List<Customer> customerList = customerMapper.queryCustomerByAuthId(map);
+            List<Customer> customerListResu = new ArrayList<>();
+            if (customerList != null){
+                Iterator<Customer> it = customerList.iterator();
+                while(it.hasNext()){
+                    Customer customer = it.next();
+                    if (customer.getBalance() >=0){
+                        customer.setSurplusFloor(customer.getFloor());
+                    }else {
+                        customer.setSurplusFloor(customer.getFloor()-customer.getBalance());
+                    }
+                    customerListResu.add(customer);
+                }
+            }
+            return customerListResu;
         } catch (Exception e) {
             e.printStackTrace();
         }

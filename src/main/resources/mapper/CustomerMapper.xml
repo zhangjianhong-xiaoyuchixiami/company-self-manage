@@ -12,6 +12,8 @@
         <result column="createTime" property="createTime"/>
         <result column="status" property="status"/>
         <result column="companyId" property="companyId"/>
+        <result column="floor" property="floor"/>
+        <result column="usableFloor" property="usableFloor"/>
     </resultMap>
 
     <resultMap id="Customer_Type_Map" type="org.qydata.entity.Customer" extends="Customer_Map">
@@ -38,6 +40,13 @@
         </association>
     </resultMap>
 
+    <resultMap id="Customer_Type_Status_Company_User_Ip_Map" type="org.qydata.entity.Customer" extends="Customer_Type_Status_Company_User_Map">
+        <collection property="customerIpList" ofType="org.qydata.entity.CustomerIp">
+            <result column="beginIpRaw" property="beginIpRaw"/>
+            <result column="endIpRaw" property="endIpRaw"/>
+        </collection>
+    </resultMap>
+
     <resultMap id="CustomerBalanceLog_Map" type="org.qydata.entity.CustomerBalanceLog">
         <result column="id" property="id"/>
         <result column="reasonId" property="reasonId"/>
@@ -61,13 +70,15 @@
     </resultMap>
 
     <!--根据用户Id查找账号-->
-    <select id="queryCustomerByAuthId" parameterType="map" resultMap="Customer_Type_Status_Company_User_Map">
-        SELECT id,typeId,typeName,authId,authPass,balance,createTime,status,statusName,companyId,
-        companyName,userId
-        FROM qycauth.cbkvwCustomer
-        WHERE userId=#{userId}
+    <select id="queryCustomerByAuthId" parameterType="map" resultMap="Customer_Type_Status_Company_User_Ip_Map">
+        SELECT a.id,a.typeId,a.typeName,a.authId,a.authPass,a.balance,a.createTime,a.status,
+        a.statusName,a.companyId,a.companyName,a.userId,a.floor,(-a.floor+a.balance) usableFloor,
+        b.beginIpRaw,b.endIpRaw
+        FROM qycauth.cbkvwCustomer a
+        LEFT JOIN qycauth.cbkvwCustomerIp b ON a.id=b.customerId
+        WHERE a.userId=#{userId}
         <if test="content!=null and content!=''">
-            and authId like '%${content}%'
+            and a.authId like '%${content}%'
         </if>
     </select>
 
