@@ -6,10 +6,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.shiro.SecurityUtils;
 import org.qydata.dst.CustomerApiConsume;
-import org.qydata.entity.Customer;
-import org.qydata.entity.CustomerBalanceLog;
-import org.qydata.entity.User;
-import org.qydata.entity.WeekMonthAmount;
+import org.qydata.entity.*;
 import org.qydata.service.CustomerService;
 import org.qydata.service.UserService;
 import org.qydata.tools.CalendarTools;
@@ -125,6 +122,14 @@ public class CustomerController {
         map.put("userId",user.getId());
         map.put("content",content);
         List<Customer> customerList = customerService.queryCustomerByAuthId(map);
+        int floor = 0;
+        if (customerList != null && customerList.size() >0){
+            for (int i=0; i<customerList.size(); i++){
+                Customer customer = customerList.get(i);
+                floor = floor+customer.getFloor();
+            }
+        }
+        model.addAttribute("floor",floor);
         model.addAttribute("customerList",customerList);
         model.addAttribute("content",content);
         return "/account/accountmessage";
@@ -203,6 +208,7 @@ public class CustomerController {
         }else {
             reasonIdList.add(-1);
             reasonIdList.add(-2);
+            reasonIdList.add(-3);
         }
         map.put("reasonIdList", reasonIdList);
         if (beginDate != null && beginDate != "" ) {
@@ -345,13 +351,19 @@ public class CustomerController {
         return getObj.toString();
     }
 
+    /**
+     * 给用户绑定账号
+     * @param authId
+     * @return
+     */
     @RequestMapping("/bound-user-customer-url")
     @ResponseBody
     public String boundUserCustomerUrl(String authId){
+        //正式账号
         Map<String,Object> map = new HashMap<>();
         map.put("userId",userService.queryUserByUsername((String) SecurityUtils.getSubject().getPrincipal()).getId());
         map.put("customerId",customerService.findCustomerByAuthId(authId).getId());
-
+        //测试账号
         Map<String,Object> mapTest = new HashMap<>();
         mapTest.put("userId",userService.queryUserByUsername((String) SecurityUtils.getSubject().getPrincipal()).getId());
         mapTest.put("customerId",customerService.findCustomerByAuthId(authId+"_test").getId());
@@ -359,6 +371,19 @@ public class CustomerController {
             return "ok:200";
         }
         return "fail:500";
+    }
+
+    /**
+     * 根据账号Id查询Ip
+     * @param customerId
+     * @return
+     */
+    @RequestMapping("/find-ip")
+    @ResponseBody
+    public String queryCustomerIpById(Integer customerId){
+        Gson gson = new Gson();
+        List<CustomerIp> customerIpList = customerService.queryCustomerIpById(customerId);
+        return gson.toJson(customerIpList);
     }
 
 }

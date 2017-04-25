@@ -100,13 +100,13 @@
 
     </div>
     <hr>
-    <div class="text-center">
+   <#-- <div class="text-center">
         <ul class="list-inline">
             <li><a class="text-muted" href="#login" data-toggle="tab">登录</a></li>
             <li><a class="text-muted" href="/user/forgot-url">忘记密码？</a></li>
             <li><a class="text-muted" href="/user/sign-up">注册</a></li>
         </ul>
-    </div>
+    </div>-->
 </div>
 
 
@@ -152,6 +152,7 @@
     });
 
 </script>
+
 </body>
 
 </html>

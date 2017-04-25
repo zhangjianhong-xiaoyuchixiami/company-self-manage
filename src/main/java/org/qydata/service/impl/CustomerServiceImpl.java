@@ -4,6 +4,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.qydata.dst.CustomerApiConsume;
 import org.qydata.entity.Customer;
 import org.qydata.entity.CustomerBalanceLog;
+import org.qydata.entity.CustomerIp;
 import org.qydata.entity.WeekMonthAmount;
 import org.qydata.mapper.CustomerMapper;
 import org.qydata.service.CustomerService;
@@ -176,5 +177,10 @@ public class CustomerServiceImpl implements CustomerService {
         stringListMap.put("xPort",xList);
         stringListMap.put("type",yList);
         return stringListMap;
+    }
+
+    @Override
+    public List<CustomerIp> queryCustomerIpById(Integer customerId) {
+        return customerMapper.queryCustomerIpById(customerId);
     }
 }

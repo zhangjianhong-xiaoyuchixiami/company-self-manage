@@ -69,7 +69,7 @@
 
                 <ul class="nav pull-right">
 
-                    <li class="dropdown" id="header_inbox_bar">
+                   <#-- <li class="dropdown" id="header_inbox_bar">
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
@@ -83,7 +83,7 @@
 
                         </ul>
 
-                    </li>
+                    </li>-->
 
                     <li class="dropdown">
 
@@ -233,18 +233,18 @@
                 </li>
 
                 <li id="customerManage">
-                    <a href="javascript:;"><i class="icon-sitemap"></i>
+                    <a href="javascript:;"><i class="icon-group"></i>
                         <span class="title">账号管理</span>
                         <span class="" id="customerManageSelect"></span>
                         <span class="arrow" id="customerManageArrow"></span>
                     </a>
                     <ul class="sub-menu">
                         <li id="customerList"><a href="/customer/account-message">账号信息</a></li>
-                        <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>
+                       <#-- <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>-->
                     </ul>
                 </li>
 
-                <li id="noticeManage">
+               <#-- <li id="noticeManage">
                     <a href="javascript:;"><i class="icon-envelope"></i>
                         <span class="title">消息通知</span>
                         <span class="" id="noticeManageSelect"></span>
@@ -252,6 +252,17 @@
                     </a>
                     <ul class="sub-menu">
                         <li id="noticeList"><a href="/notice/user-notice?reasonId=1">收件箱</a></li>
+                    </ul>
+                </li>-->
+
+                <li id="SMSManage">
+                    <a href="javascript:;"><i class="icon-th"></i>
+                        <span class="title">接口短信</span>
+                        <span class="" id="SMSManageSelect"></span>
+                        <span class="arrow" id="SMSManageArrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li id="SMSList"><a href="/sms/sms-message">发送记录</a></li>
                     </ul>
                 </li>
 
@@ -424,7 +435,7 @@
         });
     }
 
-    setInterval("getCount()",1000);
+    /*setInterval("getCount()",1000);*/
 
     function queryNoticeById(id) {
         $.ajax({

@@ -141,7 +141,7 @@
             (
             SELECT b.apiTypeId,b.apiId,sum(a.amount) totleAmount
             FROM qycauth.cbkvwCustomerBalanceLog a LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
-            WHERE a.reasonId IN(-1,-2) AND b.hasCost=1 AND a.customerId=#{customerId}
+            WHERE a.reasonId IN(-1,-2,-3) AND b.hasCost=1 AND a.customerId=#{customerId}
             GROUP BY b.apiTypeId,b.apiId
             ) aa LEFT JOIN qycauth.cbkvwApiMobileOperator bb ON aa.apiId = bb.apiId
         GROUP BY aa.apiTypeId,bb.mobileOperatorId
@@ -244,6 +244,13 @@
         AND weekMonthTypeId=2
         AND tableId=#{param2}
         AND DATE_FORMAT(endTime,'%Y-%m')=DATE_FORMAT(date_sub(sysdate(),interval #{param3} month),'%Y-%m')
+    </select>
+
+    <!--根据账号Id查找Ip-->
+    <select id="queryCustomerIpById" parameterType="int" resultType="org.qydata.entity.CustomerIp">
+        SELECT id,customerId,beginIpRaw,endIpRaw
+        FROM qycauth.cbkvwCustomerIp
+        WHERE customerId=#{param}
     </select>
 
 </mapper>

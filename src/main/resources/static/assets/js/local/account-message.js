@@ -7,8 +7,9 @@ var AccountMessage = function () {
             if (!jQuery().dataTable) {
                 return;
             }
-            var oTable = $('#sample_2').dataTable({
+           /* var oTable = $('#sample_2').dataTable({
                 "aoColumns": [
+                    { "bSortable": false },
                     { "bSortable": false },
                     { "bSortable": false },
                     { "bSortable": false },
@@ -37,7 +38,7 @@ var AccountMessage = function () {
                 "bPaginate" : false,
                 "bFilter" : false //设置全文搜索框，默认true
             });
-
+            */
             $("#authId").focus(function () {
                 $("#authId_Msg").html("");
             });

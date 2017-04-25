@@ -28,7 +28,7 @@
 
                         <div class="portlet-body no-more-tables">
 
-                            <div class="clearfix margin-bottom-5">
+                            <#--<div class="clearfix margin-bottom-5">
 
                                 <div class="pull-right table-top-bottom">
 
@@ -42,7 +42,7 @@
 
                                 </div>
 
-                            </div>
+                            </div>-->
 
                             <div class="table-responsive">
 
