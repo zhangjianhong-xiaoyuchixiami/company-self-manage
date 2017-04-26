@@ -10,6 +10,7 @@ import org.qydata.entity.*;
 import org.qydata.service.CustomerService;
 import org.qydata.service.UserService;
 import org.qydata.tools.CalendarTools;
+import org.qydata.tools.DataTableTools;
 import org.qydata.tools.RegexUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -181,9 +182,17 @@ public class CustomerController {
      * @return
      */
     @RequestMapping("/account-consume")
-    public String findAllApiConsumeRecordByCustomerId(Integer customerId,String authId,Model model){
+    public String findAllApiConsumeRecordByCustomerId(Integer customerId,String authId,String beginDate, String endDate, Model model){
         Map<String,Object> map = new HashMap();
         map.put("customerId",customerId);
+        if (beginDate != null && beginDate != "" ) {
+            map.put("beginDate", beginDate+" "+"00:00:00");
+            model.addAttribute("beginDate", beginDate);
+        }
+        if(endDate != null && endDate != ""){
+            map.put("endDate", endDate+" "+"23:59:59");
+            model.addAttribute("endDate", endDate);
+        }
         List<CustomerApiConsume> customerApiConsumeList = customerService.queryCustomerConsumeRecordByCustomerId(map);
         model.addAttribute("customerApiConsumeList", customerApiConsumeList);
         model.addAttribute("customerId", customerId);
@@ -192,14 +201,91 @@ public class CustomerController {
     }
 
     /**
-     * 指定账号消费明细记录
+     * 指定账号消费明细记录 -- 返回视图
+     * @param customerId
+     * @param apiTypeId
+     * @param stid
+     * @param apiTypeName
+     * @param mobileOperatorName
+     * @param beginDate
+     * @param endDate
+     * @param reasonId
+     * @param model
      * @return
      */
     @RequestMapping("/account-consume/detail")
-    public String findAllApiConsumeDetailRecordByCustomerId(Integer customerId,Integer apiTypeId,String apiTypeName,String mobileOperatorName,String beginDate, String endDate, String [] reasonId,Model model){
-        Map<String,Object> map = new HashMap();
-        map.put("customerId",customerId);
-        map.put("apiTypeId",apiTypeId);
+    public String findAllApiConsumeDetailRecordByCustomerId(Integer customerId,Integer apiTypeId,Integer stid,String apiTypeName,String mobileOperatorName,String beginDate, String endDate, String [] reasonId,Model model){
+        if (beginDate != null && beginDate != "" ) {
+            model.addAttribute("beginDate",beginDate);
+        }
+        if(endDate != null && endDate != ""){
+            model.addAttribute("endDate",endDate);
+        }
+        model.addAttribute("reasonIdArray",reasonId);
+        model.addAttribute("apiTypeId",apiTypeId);
+        model.addAttribute("customerId",customerId);
+        model.addAttribute("stid",stid);
+        model.addAttribute("apiTypeName",apiTypeName);
+        model.addAttribute("mobileOperatorName",mobileOperatorName);
+        return "/account/accountconsumedetail";
+    }
+
+    /**
+     * 指定账号消费明细记录 -- 加载数据
+     * @param aaData
+     * @param customerId
+     * @param apiTypeId
+     * @param stid
+     * @param beginDate
+     * @param endDate
+     * @param request
+     * @return
+     */
+    @RequestMapping("/account-consume/detail-ajax")
+    @ResponseBody
+    public String findAllApiConsumeDetailRecordByCustomerIdLoadData(String aaData,Integer customerId,Integer apiTypeId,Integer stid,String beginDate, String endDate,HttpServletRequest request){
+        String [] reasonId = request.getParameterValues("reasonId[]");
+        Map<String,Object> mapTran = new HashMap();
+        Map<String,Object> mapParam = DataTableTools.traverseParam(aaData);
+        Set<Map.Entry<String, Object>> setParam = mapParam.entrySet();
+        Iterator<Map.Entry<String, Object>> itParam = setParam.iterator();
+        String sEcho = null;
+        int iDisplayStart = 0; // 起始索引
+        int iDisplayLength = 0; // 每页显示的行数
+        int iSortCol = 0; //第几列排序
+        String sSortDir = null; //按什么排序
+        while (itParam.hasNext()) {
+            Map.Entry<String, Object> me = itParam.next();
+            if (me.getKey().equals("sEcho")) {
+                sEcho = (String) me.getValue();
+            }
+            if (me.getKey().equals("iDisplayStart")) {
+                iDisplayStart = (int) me.getValue();
+            }
+            if (me.getKey().equals("iDisplayLength")) {
+                iDisplayLength = (int) me.getValue();
+            }
+            if (me.getKey().equals("iSortCol")) {
+                iSortCol = (int) me.getValue();
+            }
+            if (me.getKey().equals("sSortDir")) {
+                sSortDir = (String) me.getValue();
+            }
+        }
+        switch (iSortCol) {
+            case 0:
+                mapTran.put("amount", sSortDir);
+                break;
+            case 1:
+                mapTran.put("createTime", sSortDir);
+                break;
+            default:
+                break;
+        }
+        mapTran.put("pageSize", iDisplayStart);
+        mapTran.put("lineSize", iDisplayLength);
+        mapTran.put("customerId",customerId);
+        mapTran.put("apiTypeId",apiTypeId);
         List<Integer> reasonIdList = new ArrayList<>();
         if (reasonId != null && reasonId.length >0) {
             for(int i=0;i<reasonId.length;i++){
@@ -210,23 +296,37 @@ public class CustomerController {
             reasonIdList.add(-2);
             reasonIdList.add(-3);
         }
-        map.put("reasonIdList", reasonIdList);
+        mapTran.put("reasonIdList", reasonIdList);
+        if (stid != null) {
+            mapTran.put("stid", stid);
+        }
         if (beginDate != null && beginDate != "" ) {
-            map.put("beginDate", beginDate+" "+"00:00:00");
+            mapTran.put("beginDate", beginDate+" "+"00:00:00");
         }
         if(endDate != null && endDate != ""){
-            map.put("endDate", endDate+" "+"23:59:59");
+            mapTran.put("endDate", endDate+" "+"23:59:59");
         }
-        List<CustomerBalanceLog> customerBalanceLogList = customerService.queryCustomerConsumeDetailRecordByCustomerId(map);
-        model.addAttribute("customerBalanceLogList", customerBalanceLogList);
-        model.addAttribute("reasonIdArray",reasonId);
-        model.addAttribute("beginDate",beginDate);
-        model.addAttribute("endDate",endDate);
-        model.addAttribute("apiTypeId",apiTypeId);
-        model.addAttribute("customerId",customerId);
-        model.addAttribute("apiTypeName",apiTypeName);
-        model.addAttribute("mobileOperatorName",mobileOperatorName);
-        return "/account/accountconsumedetail";
+        Map<String, Object> map = customerService.queryCustomerConsumeDetailRecordByCustomerId(mapTran);
+        Set<Map.Entry<String, Object>> set = map.entrySet();
+        Iterator<Map.Entry<String, Object>> it = set.iterator();
+        List<CustomerBalanceLog> customerBalanceLogList = null;
+        int count = 0;
+        while (it.hasNext()) {
+            Map.Entry<String, Object> me = it.next();
+            if (me.getKey().equals("queryCustomerConsumeDetailRecordByCustomerId")) {
+                customerBalanceLogList = (List<CustomerBalanceLog>) me.getValue();
+            }
+            if (me.getKey().equals("getAllCountCustomerConsumeDetailRecordByCustomerId")) {
+                count = (int) me.getValue();
+            }
+        }
+        JSONArray jsonArray = JSONArray.fromObject(customerBalanceLogList);
+        JSONObject getObj = new JSONObject();
+        getObj.put("sEcho", sEcho);// 不知道这个值有什么用,有知道的请告知一下
+        getObj.put("iTotalRecords", count);//实际的行数
+        getObj.put("iTotalDisplayRecords", count);//显示的行数,这个要和上面写的一样
+        getObj.put("aaData", jsonArray);//要以JSON格式返回
+        return getObj.toString();
     }
 
     /**

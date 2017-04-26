@@ -97,13 +97,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String, Object> map) {
+    public Map<String,Object> queryCustomerConsumeDetailRecordByCustomerId(Map<String, Object> map) {
+        Map<String,Object> mapResu = new HashMap<>();
         try {
-            return customerMapper.queryCustomerConsumeDetailRecordByCustomerId(map);
+            mapResu.put("queryCustomerConsumeDetailRecordByCustomerId",customerMapper.queryCustomerConsumeDetailRecordByCustomerId(map));
+            mapResu.put("getAllCountCustomerConsumeDetailRecordByCustomerId",customerMapper.getAllCountCustomerConsumeDetailRecordByCustomerId(map));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return mapResu;
     }
 
     @Override

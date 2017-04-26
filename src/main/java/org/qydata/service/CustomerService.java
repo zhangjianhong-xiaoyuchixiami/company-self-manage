@@ -72,7 +72,7 @@ public interface CustomerService {
      * @param map
      * @return
      */
-    public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map);
+    public Map<String,Object> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map);
 
     /**
      * 查询客户的月记录月级联菜单

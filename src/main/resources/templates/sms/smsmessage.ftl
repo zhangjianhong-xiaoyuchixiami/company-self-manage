@@ -179,6 +179,12 @@
 
                     </div>
 
+                    <#--<div id="title_tip" class="tile double bg-grey" style="height: 60px; text-align: center;">
+                        <div class="tile-body" style="margin-top: 10px;">
+                            <h4>操作失败，请检查你的输入！</h4>
+                        </div>
+                    </div>-->
+
                 </div>
 
             </div>
@@ -205,6 +211,17 @@
         jQuery(document).ready(function() {
             SMSMessage.init();
             SMSMessageBar.init();
+
+            //var width = (document.body.clientWidth)/2-139;
+
+            //var height = (document.body.clientHeight)/2-30;
+
+            //$('#title_tip').attr('style','margin-left:400');
+
+            //$('#title_tip').attr('style','margin-top:200');
+
+            //$('#title_tip').fadeOut(3000); // 缓慢地淡出
+
         });
 
         $(function () { $("[data-toggle='tooltip']").tooltip(); });

@@ -79,6 +79,14 @@ public interface CustomerMapper {
     public List<CustomerBalanceLog> queryCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map)throws Exception;
 
     /**
+     * 统计客户的消费明细记录总数
+     * @param map
+     * @return
+     * @throws Exception
+     */
+    public Integer getAllCountCustomerConsumeDetailRecordByCustomerId(Map<String,Object> map)throws Exception;
+
+    /**
      * 查询客户的周月记录
      * @param map
      * @return

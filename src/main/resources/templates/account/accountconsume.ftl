@@ -18,6 +18,86 @@
 
                 <div class="span12">
 
+                    <form action="/customer/account-consume" method="get">
+
+                        <div class="clearfix margin-bottom-20 head-search-clearfix-top">
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">customerId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${customerId}" id="customerId" name="customerId" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">authId</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${authId}" id="authId" name="authId" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left margin-right-20 head-search-bottom">
+
+                                <label class="control-label">起始日期</label>
+
+                                <div class="controls">
+
+                                    <div class="input-append date date-picker" data-date-viewmode="years" data-date-minviewmode="months">
+
+                                        <input <#if beginDate??>value="${beginDate}" </#if> id="beginDate" name="beginDate" class="m-wrap m-ctrl-medium date-picker" size="16" type="text" style="width: 150px;"><span class="add-on"><i class="icon-calendar"></i></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom">
+
+                                <label class="control-label">结束日期</label>
+
+                                <div class="controls">
+
+                                    <div class="input-append date date-picker" data-date-viewmode="years" data-date-minviewmode="months">
+
+                                        <input <#if endDate??>value="${endDate}" </#if> id="endDate" name="endDate" class="m-wrap m-ctrl-medium date-picker" size="16" type="text" style="width: 150px;"><span class="add-on"><i class="icon-calendar"></i></span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom">
+
+                                <label class="control-label">&nbsp;&nbsp;</label>
+
+                                <div class="controls" >
+
+                                    <div class="input-append">
+
+                                        <button class="btn black" type="submit">搜索</button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
                     <div class="portlet box grey">
 
                         <div class="portlet-title">
@@ -58,9 +138,18 @@
                                         <#if customerApiConsumeList??>
                                             <#list customerApiConsumeList as customerApiConsume>
                                             <tr>
-                                                <td data-title="产品类型">${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>--${customerApiConsume.mobileOperatorName}</#if></td>
-                                                <td data-title="金额（单位/元）">${(-customerApiConsume.totleAmount/100.0)?c}</td>
-                                                <td data-title="操作"><a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}&customerId=${customerId}&apiTypeName=${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>&mobileOperatorName=${customerApiConsume.mobileOperatorName}</#if>&reasonId=-1">明细</a></td>
+                                                <td data-title="产品类型">
+                                                    ${customerApiConsume.apiTypeName}
+                                                    <#if customerApiConsume.mobileOperatorName??>
+                                                        --${customerApiConsume.mobileOperatorName}
+                                                    </#if>
+                                                </td>
+                                                <td data-title="金额（单位/元）">
+                                                    ${(-customerApiConsume.totleAmount/100.0)?c}
+                                                </td>
+                                                <td data-title="操作">
+                                                    <a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}<#if customerApiConsume.mobileOperatorId??>&stid=${customerApiConsume.mobileOperatorId}</#if>&customerId=${customerId}&apiTypeName=${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>&mobileOperatorName=${customerApiConsume.mobileOperatorName}</#if>&reasonId=-1">明细</a>
+                                                </td>
                                             </tr>
                                             </#list>
                                         </#if>

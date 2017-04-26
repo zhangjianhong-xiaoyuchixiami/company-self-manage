@@ -133,43 +133,90 @@
 
     <!--查询客户的消费记录-->
     <select id="queryCustomerConsumeRecordByCustomerId" parameterType="map" resultMap="CustomerApiConsume_Map">
-        SELECT cc.apiTypeId,cc.totleAmount,cc.mobileOperatorId,dd.name apiTypeName,ee.name mobileOperatorName
+        SELECT aa.apiTypeId,aa.stid mobileOperatorId,aa.totleAmount,bb.name mobileOperatorName,cc.name apiTypeName
         FROM
         (
-        SELECT aa.apiTypeId,sum(aa.totleAmount) totleAmount,bb.mobileOperatorId
-        FROM
-            (
-            SELECT b.apiTypeId,b.apiId,sum(a.amount) totleAmount
-            FROM qycauth.cbkvwCustomerBalanceLog a LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
-            WHERE a.reasonId IN(-1,-2,-3) AND b.hasCost=1 AND a.customerId=#{customerId}
-            GROUP BY b.apiTypeId,b.apiId
-            ) aa LEFT JOIN qycauth.cbkvwApiMobileOperator bb ON aa.apiId = bb.apiId
-        GROUP BY aa.apiTypeId,bb.mobileOperatorId
-        ) cc LEFT JOIN qyfinance.bkvwApiType dd ON cc.apiTypeId=dd.id LEFT JOIN qyfinance.bkvwMobileOperator ee
-        ON cc.mobileOperatorId=ee.id
+            SELECT b.apiTypeId,b.stid,sum(a.amount) totleAmount
+            FROM qycauth.cbkvwCustomerBalanceLog a
+            LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+            WHERE a.reasonId IN(-1,-2,-3)
+            AND b.hasCost=1
+            AND a.customerId=#{customerId}
+            <if test="beginDate != null and beginDate != ''">
+                <![CDATA[
+                    AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
+                ]]>
+            </if>
+            <if test="endDate != null and endDate != ''">
+                <![CDATA[
+                    AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
+                 ]]>
+            </if>
+            GROUP BY b.apiTypeId,b.stid
+        ) aa
+          LEFT JOIN qyfinance.bkvwMobileOperator bb ON aa.stid = bb.id
+          LEFT JOIN qyfinance.bkvwApiType cc ON aa.apiTypeId=cc.id
     </select>
 
     <!---查询客户的消费明细记录-->
     <select id="queryCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
         SELECT a.id,a.reasonId,a.amount,a.customerId,a.createTime,a.reasonName
-        FROM qycauth.cbkvwCustomerBalanceLog a LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
-        WHERE b.hasCost=1 AND a.customerId=#{customerId} AND b.apiTypeId=#{apiTypeId}
+        FROM qycauth.cbkvwCustomerBalanceLog a
+        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+        WHERE b.hasCost=1
+        AND a.customerId=#{customerId}
+        AND b.apiTypeId=#{apiTypeId}
         AND a.reasonId IN
         <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
             #{reasonId}
         </foreach>
-        <where>
-            <if test="beginDate != null and beginDate != ''">
-                <![CDATA[
-            AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
+        <if test="stid != null and stid != ''">
+            AND b.stid=#{stid}
+        </if>
+        <if test="beginDate != null and beginDate != ''">
+            <![CDATA[
+                AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
             ]]>
-            </if>
-            <if test="endDate != null and endDate != ''">
-                <![CDATA[
-            AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <![CDATA[
+                AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
              ]]>
-            </if>
-        </where>
+        </if>
+        <if test="amount != null and amount != ''">
+            ORDER BY a.amount ${amount}
+        </if>
+        <if test="createTime != null and createTime != ''">
+            ORDER BY a.createTime ${createTime}
+        </if>
+        limit #{pageSize},#{lineSize}
+    </select>
+
+    <!---统计客户的消费明细记录总数-->
+    <select id="getAllCountCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultType="Integer">
+        SELECT count(a.id)
+        FROM qycauth.cbkvwCustomerBalanceLog a
+        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+        WHERE b.hasCost=1
+        AND a.customerId=#{customerId}
+        AND b.apiTypeId=#{apiTypeId}
+        AND a.reasonId IN
+        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
+            #{reasonId}
+        </foreach>
+        <if test="stid != null and stid != ''">
+            AND b.stid=#{stid}
+        </if>
+        <if test="beginDate != null and beginDate != ''">
+            <![CDATA[
+                AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
+            ]]>
+        </if>
+        <if test="endDate != null and endDate != ''">
+            <![CDATA[
+                AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
+             ]]>
+        </if>
     </select>
 
     <!--查询客户的周月记录-->
