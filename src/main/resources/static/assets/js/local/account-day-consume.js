@@ -1,7 +1,7 @@
-var AccountConsume = function () {
+var FinanceDayConsume = function () {
     
     return {
-        //main function to initiate the module
+
         init: function () {
 
             if (!jQuery().dataTable) {
@@ -9,12 +9,11 @@ var AccountConsume = function () {
             }
 
             //
-            var oTable = $('#sample_4').dataTable({
+            var oTable = $('#sample').dataTable({
                 "aoColumns": [
                     null,
                     null,
-                    null,
-                    {"bSortable": false}
+                    null
                 ],
                 "aaSorting": [[1, 'desc']],
                 "aLengthMenu": [

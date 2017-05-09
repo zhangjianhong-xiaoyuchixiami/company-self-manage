@@ -16,7 +16,8 @@
         WHERE id IN (
                       SELECT roleId
                       FROM qycauth.UserRole
-                      WHERE userId=#{param})
+                      WHERE userId=#{param}
+                      )
     </select>
     <!-- 查询出一个用户对应的所有权限数据 -->
     <select id="findAllActionByUser" parameterType="Integer" resultType="String">
@@ -26,9 +27,11 @@
                         SELECT actionId
                         FROM qycauth.RoleAction
                         WHERE roleId IN (
-                                      SELECT roleId
-                                      FROM qycauth.UserRole
-                                      WHERE userId=#{param}))
+                                          SELECT roleId
+                                          FROM qycauth.UserRole
+                                          WHERE userId=#{param}
+                                          )
+                      )
     </select>
 
     <!--添加用户-->

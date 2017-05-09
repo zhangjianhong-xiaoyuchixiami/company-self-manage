@@ -255,6 +255,17 @@
                     </ul>
                 </li>-->
 
+                <li id="financeManage">
+                    <a href="javascript:;"><i class="icon-bar-chart"></i>
+                        <span class="title">财务管理</span>
+                        <span class="" id="financeManageSelect"></span>
+                        <span class="arrow" id="financeManageArrow"></span>
+                    </a>
+                    <ul class="sub-menu">
+                        <li id="consumeList"><a href="/finance/account-consume">消费账单</a></li>
+                    </ul>
+                </li>
+
                 <li id="SMSManage">
                     <a href="javascript:;"><i class="icon-th"></i>
                         <span class="title">接口短信</span>

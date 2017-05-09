@@ -1,10 +1,7 @@
 package org.qydata.service;
 
 import org.qydata.dst.CustomerApiConsume;
-import org.qydata.entity.Customer;
-import org.qydata.entity.CustomerBalanceLog;
-import org.qydata.entity.CustomerIp;
-import org.qydata.entity.WeekMonthAmount;
+import org.qydata.entity.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -108,5 +105,19 @@ public interface CustomerService {
      * @return
      */
     public List<CustomerIp> queryCustomerIpById(Integer customerId);
+
+    /**
+     * 根据userId查找客户账号Id用于财务账单
+     * @param userId
+     * @return
+     */
+    public List<Customer> findCustomerIdByUserId(Integer userId);
+
+    /**
+     * 根据条件查询客户apiType按天消费情况
+     * @param map
+     * @return
+     */
+    public List<CompanyApiTypeConsumeDayCount> queryCustomerApiTypeConsumeDayCount(Map<String,Object> map);
 
 }

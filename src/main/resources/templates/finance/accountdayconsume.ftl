@@ -4,6 +4,7 @@
 <#import "../publicpart/headnavigationbars.ftl" as c>
 
 <@layout ; section>
+
     <#if section = "head">
 
     <#elseif section = "content" >
@@ -18,17 +19,17 @@
 
                 <div class="span12">
 
-                    <form action="/customer/account-consume" method="get">
+                    <form action="/customer/account-consume/detail" class="account_consume_detail" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
                             <div class="pull-left head-search-bottom head-search-display">
 
-                                <label class="control-label">customerId</label>
+                                <label class="control-label">apiTypeId</label>
 
                                 <div class="controls">
 
-                                    <input type="text" value="${customerId}" id="customerId" name="customerId" >
+                                    <input type="text" value="${apiTypeId}" id="apiTypeId" name="apiTypeId" >
 
                                 </div>
 
@@ -36,11 +37,35 @@
 
                             <div class="pull-left head-search-bottom head-search-display">
 
-                                <label class="control-label">authId</label>
+                                <label class="control-label">stid</label>
 
                                 <div class="controls">
 
-                                    <input type="text" value="${authId}" id="authId" name="authId" >
+                                    <input type="text" <#if stid??>value="${stid}"</#if> id="stid" name="stid" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">apiTypeName</label>
+
+                                <div class="controls">
+
+                                    <input type="text" value="${apiTypeName}" id="apiTypeName" name="apiTypeName" >
+
+                                </div>
+
+                            </div>
+
+                            <div class="pull-left head-search-bottom head-search-display">
+
+                                <label class="control-label">mobileOperatorName</label>
+
+                                <div class="controls">
+
+                                    <input type="text" <#if mobileOperatorName??>value="${mobileOperatorName}"</#if> id="mobileOperatorName" name="mobileOperatorName" >
 
                                 </div>
 
@@ -98,65 +123,40 @@
 
                     </form>
 
+                <#--表单-->
                     <div class="portlet box grey">
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="icon-user"></i><#if authId??>${authId}</#if></div>
+                            <div class="caption"><i class="icon-user"></i><#if apiTypeName??>${apiTypeName}</#if></div>
 
                         </div>
 
                         <div class="portlet-body no-more-tables">
 
-                            <#--<div class="clearfix margin-bottom-5">
-
-                                <div class="pull-right table-top-bottom">
-
-                                    <label class="control-label">
-
-                                        <a href="/customer/month-record?customerId=${customerId}&authId=${authId}&typeId=2">
-                                            月消费账单
-                                        </a>
-
-                                    </label>
-
-                                </div>
-
-                            </div>-->
-
                             <div class="table-responsive">
-
-                                <table class="table table-striped table-hover table-bordered" id="sample_4">
+                                <table class="table table-striped table-hover table-bordered table-condensed" id="sample">
                                     <thead>
                                     <tr>
-                                        <th>产品类型</th>
-                                        <th>金额（单位/元）</th>
-                                        <th>操作</th>
+                                        <th>周期</th>
+                                        <th>扣费次数</th>
+                                        <th>消费金额（单位：元）</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <#if customerApiConsumeList??>
-                                            <#list customerApiConsumeList as customerApiConsume>
-                                            <tr>
-                                                <td data-title="产品类型">
-                                                    ${customerApiConsume.apiTypeName}
-                                                    <#if customerApiConsume.mobileOperatorName??>
-                                                        --${customerApiConsume.mobileOperatorName}
-                                                    </#if>
-                                                </td>
-                                                <td data-title="金额（单位/元）">
-                                                    ${(-customerApiConsume.totleAmount/100.0)?c}
-                                                </td>
-                                                <td data-title="操作">
-                                                    <a href="/customer/account-consume/detail?apiTypeId=${customerApiConsume.apiTypeId}<#if customerApiConsume.mobileOperatorId??>&stid=${customerApiConsume.mobileOperatorId}</#if>&customerId=${customerId}&apiTypeName=${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>&mobileOperatorName=${customerApiConsume.mobileOperatorName}</#if>&reasonId=-1">明细</a>
-                                                </td>
-                                            </tr>
+                                        <#if companyApiTypeConsumeDayCountList??>
+                                            <#list companyApiTypeConsumeDayCountList as companyApiTypeConsumeDayCount >
+                                                <tr>
+                                                    <td>${companyApiTypeConsumeDayCount.year}年${companyApiTypeConsumeDayCount.month}月${companyApiTypeConsumeDayCount.day}号</td>
+                                                    <td>${companyApiTypeConsumeDayCount.countSuccess}</td>
+                                                    <td>${-companyApiTypeConsumeDayCount.sumAmount/100.0}</td>
+                                                </tr>
                                             </#list>
                                         </#if>
                                     </tbody>
                                 </table>
-
                             </div>
+
                         </div>
 
                     </div>
@@ -179,14 +179,15 @@
 
     <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
 
-    <script type="text/javascript" src="/assets/js/local/account-consume.js"></script>
+    <script type="text/javascript" src="/assets/js/local/account-day-consume.js"></script>
 
-    <script type="text/javascript" src="/assets/js/local/account-left-bar.js"></script>
+    <script type="text/javascript" src="/assets/js/local/finance-left-bar.js"></script>
 
     <script type="text/javascript">
         jQuery(document).ready(function() {
-            AccountConsume.init();
-            AccountLeftBar.init();
+            FinanceDayConsume.init();
+            FinanceLeftBar.init();
+
         });
     </script>
 

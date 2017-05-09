@@ -9,7 +9,8 @@ public class CustomerApiConsume implements Serializable {
 
     private Integer apiTypeId;
     private String apiTypeName;
-    private Long totleAmount;
+    private Integer totleAmount;
+    private Integer feeAmount;
     private Integer mobileOperatorId;
     private String mobileOperatorName;
 
@@ -29,12 +30,20 @@ public class CustomerApiConsume implements Serializable {
         this.apiTypeName = apiTypeName;
     }
 
-    public Long getTotleAmount() {
+    public Integer getTotleAmount() {
         return totleAmount;
     }
 
-    public void setTotleAmount(Long totleAmount) {
+    public void setTotleAmount(Integer totleAmount) {
         this.totleAmount = totleAmount;
+    }
+
+    public Integer getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Integer feeAmount) {
+        this.feeAmount = feeAmount;
     }
 
     public Integer getMobileOperatorId() {

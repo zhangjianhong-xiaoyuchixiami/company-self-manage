@@ -254,14 +254,16 @@ public class ShiroConfig {
 		chains.put("/customer/validate-password-customer-by-authId", "authc,perms");
 		chains.put("/customer/bound-user-customer", "authc,perms");
 		chains.put("/customer/account-message", "authc,perms");
-		chains.put("/customer/account-charge", "authc,perms");
-		chains.put("/customer/account-consume", "authc,perms");
-		chains.put("/customer/account-consume/detail", "authc,perms");
-		chains.put("/customer/month-record", "authc,perms");
-		chains.put("/customer/month-up-link", "authc,perms");
-		chains.put("/customer/months-charge-consume-toward", "authc,perms");
 		chains.put("/customer/bound-user-customer-url", "authc");
 		chains.put("/customer/find-ip", "authc,perms");
+
+		//FinanceController
+		/*chains.put("/finance/account-charge", "authc,perms");
+		chains.put("/finance/account-consume", "authc,perms");
+		chains.put("/finance/account-consume/detail", "authc,perms");
+		chains.put("/finance/month-record", "authc,perms");
+		chains.put("/finance/month-up-link", "authc,perms");
+		chains.put("/finance/months-charge-consume-toward", "authc,perms");*/
 
 		//CompanyController
 		chains.put("/company/find-company-product-by-company-id", "authc,perms");

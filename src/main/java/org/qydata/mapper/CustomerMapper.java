@@ -1,10 +1,7 @@
 package org.qydata.mapper;
 
 import org.qydata.dst.CustomerApiConsume;
-import org.qydata.entity.Customer;
-import org.qydata.entity.CustomerBalanceLog;
-import org.qydata.entity.CustomerIp;
-import org.qydata.entity.WeekMonthAmount;
+import org.qydata.entity.*;
 
 import java.util.List;
 import java.util.Map;
@@ -120,10 +117,26 @@ public interface CustomerMapper {
     public WeekMonthAmount queryMonthChargeConsumeToward(Integer customerId, Integer tableId, Integer result);
 
     /**
-     * 根据账号Id查找Ip
+     * 根据账号Id查找Ip用于账号信页面显示Ip范围
      * @param customerId
      * @return
      */
     public List<CustomerIp> queryCustomerIpById(Integer customerId);
+
+    /**
+     * 根据userId查找客户账号Id用于财务账单
+     * @param userId
+     * @return
+     */
+    public List<Customer> findCustomerIdByUserId(Integer userId);
+
+    /**
+     * 根据条件查询客户apiType按天消费情况
+     * @param map
+     * @return
+     */
+    public List<CompanyApiTypeConsumeDayCount> queryCustomerApiTypeConsumeDayCount(Map<String,Object> map);
+
+
 
 }

@@ -2,10 +2,7 @@ package org.qydata.service.impl;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.qydata.dst.CustomerApiConsume;
-import org.qydata.entity.Customer;
-import org.qydata.entity.CustomerBalanceLog;
-import org.qydata.entity.CustomerIp;
-import org.qydata.entity.WeekMonthAmount;
+import org.qydata.entity.*;
 import org.qydata.mapper.CustomerMapper;
 import org.qydata.service.CustomerService;
 import org.qydata.tools.CalendarTools;
@@ -184,5 +181,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<CustomerIp> queryCustomerIpById(Integer customerId) {
         return customerMapper.queryCustomerIpById(customerId);
+    }
+
+    @Override
+    public List<Customer> findCustomerIdByUserId(Integer userId) {
+        return customerMapper.findCustomerIdByUserId(userId);
+    }
+
+    @Override
+    public List<CompanyApiTypeConsumeDayCount> queryCustomerApiTypeConsumeDayCount(Map<String, Object> map) {
+        return customerMapper.queryCustomerApiTypeConsumeDayCount(map);
     }
 }

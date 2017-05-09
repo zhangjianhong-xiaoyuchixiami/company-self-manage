@@ -64,9 +64,24 @@
     <resultMap id="CustomerApiConsume_Map" type="org.qydata.dst.CustomerApiConsume">
         <result column="apiTypeId" property="apiTypeId"/>
         <result column="totleAmount" property="totleAmount"/>
+        <result column="feeAmount" property="feeAmount"/>
         <result column="mobileOperatorId" property="mobileOperatorId"/>
         <result column="apiTypeName" property="apiTypeName"/>
         <result column="mobileOperatorName" property="mobileOperatorName"/>
+    </resultMap>
+
+    <resultMap id="CompanyApiTypeConsumeDayCount_Map" type="org.qydata.entity.CompanyApiTypeConsumeDayCount">
+        <result column="id" property="id"/>
+        <result column="year" property="year"/>
+        <result column="month" property="month"/>
+        <result column="day" property="day"/>
+        <result column="customerId" property="customerId"/>
+        <result column="apiTypeId" property="stid"/>
+        <result column="stid" property="stid"/>
+        <result column="sumAmount" property="sumAmount"/>
+        <result column="countTotle" property="countTotle"/>
+        <result column="countSuccess" property="countSuccess"/>
+        <result column="consuTime" property="consuTime"/>
     </resultMap>
 
     <!--根据用户Id查找账号-->
@@ -82,14 +97,14 @@
         </if>
     </select>
 
-    <!--根据authId查找客户信息-->
+    <!--根据authId查找客户信息用于验证账号-->
     <select id="findCustomerByAuthId" parameterType="String" resultMap="Customer_Map">
         SELECT id,typeId,authId,authPass,balance,createTime,status,companyId
         FROM qycauth.cbkvwCustomer
         WHERE authId=#{param}
     </select>
 
-    <!--根据用户名和密码查找账号-->
+    <!--根据用户名和密码查找账号用于验证密码-->
     <select id="findCustomerByAuthIdAndAuthPass" parameterType="String" resultMap="Customer_Map">
         SELECT id,typeId,authId,authPass,balance,createTime,status,companyId
         FROM qycauth.cbkvwCustomer
@@ -133,15 +148,26 @@
 
     <!--查询客户的消费记录-->
     <select id="queryCustomerConsumeRecordByCustomerId" parameterType="map" resultMap="CustomerApiConsume_Map">
-        SELECT aa.apiTypeId,aa.stid mobileOperatorId,aa.totleAmount,bb.name mobileOperatorName,cc.name apiTypeName
+        SELECT
+        aa.apiTypeId,
+        aa.stid mobileOperatorId,
+        aa.totleAmount,
+        aa.feeAmount,
+        bb.name mobileOperatorName,
+        cc.name apiTypeName
         FROM
         (
-            SELECT b.apiTypeId,b.stid,sum(a.amount) totleAmount
+            SELECT b.apiTypeId,b.stid,sum(a.amount) totleAmount,count(a.id) feeAmount
             FROM qycauth.cbkvwCustomerBalanceLog a
-            LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+            LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.requestId
             WHERE a.reasonId IN(-1,-2,-3)
             AND b.hasCost=1
-            AND a.customerId=#{customerId}
+            <if test="customerIdList != null and customerIdList.size() > 0">
+                AND a.customerId IN
+                <foreach collection="customerIdList" item="customerId" open="(" close=")" separator=",">
+                    #{customerId}
+                </foreach>
+            </if>
             <if test="beginDate != null and beginDate != ''">
                 <![CDATA[
                     AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
@@ -162,7 +188,7 @@
     <select id="queryCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
         SELECT a.id,a.reasonId,a.amount,a.customerId,a.createTime,a.reasonName
         FROM qycauth.cbkvwCustomerBalanceLog a
-        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.requestId
         WHERE b.hasCost=1
         AND a.customerId=#{customerId}
         AND b.apiTypeId=#{apiTypeId}
@@ -196,7 +222,7 @@
     <select id="getAllCountCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultType="Integer">
         SELECT count(a.id)
         FROM qycauth.cbkvwCustomerBalanceLog a
-        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.id
+        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.requestId
         WHERE b.hasCost=1
         AND a.customerId=#{customerId}
         AND b.apiTypeId=#{apiTypeId}
@@ -298,6 +324,23 @@
         SELECT id,customerId,beginIpRaw,endIpRaw
         FROM qycauth.cbkvwCustomerIp
         WHERE customerId=#{param}
+    </select>
+
+    <!--根据userId查找客户账号Id用于财务账单-->
+    <select id="findCustomerIdByUserId" parameterType="int" resultMap="Customer_Map">
+        SELECT id,typeId,authId,balance,companyId
+        FROM qycauth.cbkvwCustomer
+        WHERE userId=#{param}
+    </select>
+
+    <!--根据条件查询客户apiType按天消费情况-->
+    <select id="queryCustomerApiTypeConsumeDayCount" parameterType="map" resultMap="CompanyApiTypeConsumeDayCount_Map">
+        SELECT id,year,month,day,customerId,apiTypeId,stid,sunAmount,countTotle,countSuccess,consuTime
+        FROM qycauth.cbkvwCompanyApiTypeConsumeDayCount
+        WHERE customerId=#{customerId}
+        AND apiTypeId=#{apiTypeId}
+        AND stid=#{stid}
+        AND consuTime=#{consuTime}
     </select>
 
 </mapper>
