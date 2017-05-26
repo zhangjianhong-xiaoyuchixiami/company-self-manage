@@ -1,4 +1,10 @@
+
+
+<#--导航条-->
+
+
 <#macro navigationBars>
+
 <div class="row-fluid">
 
     <div class="span12">
@@ -41,4 +47,5 @@
     </div>
 
 </div>
+
 </#macro>

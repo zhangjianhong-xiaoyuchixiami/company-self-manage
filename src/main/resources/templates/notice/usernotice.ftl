@@ -210,10 +210,6 @@
 
     <#elseif section = "privateJs">
 
-    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
-
     <script src="/assets/js/local/user-notice.js"></script>
 
     <script type="text/javascript" src="/assets/js/local/user-notice-left-bar.js"></script>

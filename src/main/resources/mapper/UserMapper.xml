@@ -3,11 +3,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.qydata.mapper.UserMapper">
 
+    <resultMap id="User_Map" type="org.qydata.entity.User">
+        <result column="email" property="email" />
+        <result column="password" property="password" />
+        <result column="userStatus" property="status" />
+        <association property="customerCompany" javaType="org.qydata.entity.CustomerCompany">
+            <result column="companyId" property="id" />
+            <result column="companyStatus" property="status" />
+        </association>
+    </resultMap>
+
     <!-- 是进行登录认证使用的，即，根据身份信息取得密码进行认证 -->
-    <select id="findById" parameterType="String" resultType="org.qydata.entity.User">
-        SELECT email,password
-        FROM qycauth.User
-        WHERE email=#{email} and status=0
+    <select id="findById" parameterType="String" resultMap="User_Map">
+        SELECT a.email,a.password,a.status userStatus,c.companyId,d.status companyStatus
+        FROM qycauth.User a
+        LEFT JOIN qycauth.UserCustomer b ON a.id=b.userId
+        LEFT JOIN qycauth.cbkvwCustomer c ON b.customerId=c.id AND c.typeId=1
+        LEFT JOIN qycauth.cbkvwCustomerCompany d ON c.companyId=d.id
+        WHERE a.email=#{email}
     </select>
     <!-- 根据用户名查询出该用户对用的所有角色的标记名称（千万不要用中文） -->
     <select id="findAllRoleByUser" parameterType="Integer" resultType="String">
@@ -70,7 +83,7 @@
 
     <!--根据邮箱查找用户-->
     <select id="queryUserByUsername" parameterType="String" resultType="org.qydata.entity.User">
-        SELECT id,email,status
+        SELECT id,email,status,password
         FROM qycauth.User
         WHERE email=#{param}
     </select>

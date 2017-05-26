@@ -13,6 +13,7 @@ public class CustomerCompany implements Serializable {
 
     private Integer id;
     private String name;
+    private Integer status;
     private Integer partnerId;
     private Timestamp timestamp;
 
@@ -46,6 +47,14 @@ public class CustomerCompany implements Serializable {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     public String toString(){

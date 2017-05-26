@@ -2,6 +2,7 @@ package org.qydata.controller;
 
 import com.google.gson.Gson;
 import org.apache.shiro.SecurityUtils;
+import org.qydata.entity.User;
 import org.qydata.service.UserService;
 import org.qydata.tools.Md5Tools;
 import org.qydata.tools.RegexUtil;
@@ -26,11 +27,19 @@ public class UserController {
 
     @Autowired private UserService userService;
 
+    /**
+     * 注册页面
+     * @return
+     */
     @RequestMapping(value = "/sign-up")
     public String signUp(){
         return "/view/signup";
     }
 
+    /**
+     * 忘记密码页面
+     * @return
+     */
     @RequestMapping(value = "/forgot-url")
     public String forgotUrl(){
         return "/view/forgot";
@@ -196,38 +205,67 @@ public class UserController {
 
 
     /**
+     * 修改登录密码时验证旧密码
+     * @param oldPassword
+     */
+    @RequestMapping(value = "/validate-old-password")
+    @ResponseBody
+    public String validateOldPassword(String oldPassword){
+        Gson gson = new Gson();
+        Map<String,Object> map = new HashMap<>();
+        String email = (String) SecurityUtils.getSubject().getPrincipal();
+        User user = userService.queryUserByUsername(email);
+        if (user.getPassword().equals(Md5Tools.md5(oldPassword.trim()))){
+            map.put("success","true");
+            return gson.toJson(map);
+        }
+        map.put("fail","false");
+        return gson.toJson(map);
+    }
+
+    /**
      * 修改登录密码
-     * @param password
-     * @param rpPassword
+     * @param oldPassword
+     * @param newPassword
+     * @param newRpPassword
      * @return
      */
     @RequestMapping(value = "/update-login-password")
     @ResponseBody
-    public String updateLoginPassword(String password,String rpPassword){
+    public String updateLoginPassword(String oldPassword,String newPassword,String newRpPassword){
         Gson gson = new Gson();
         Map<String,Object> map = new HashMap<>();
-        if(RegexUtil.isNull(password)){
-            map.put("passwordMessage","请输入新密码");
-            return gson.toJson(map);
-        }
-        if(!RegexUtil.isPwd(password)){
-            map.put("passwordMessage","密码格式输入不正确，请重新输入");
-            return gson.toJson(map);
-        }
-        if(RegexUtil.isNull(rpPassword)){
-            map.put("rpPasswordMessage","请再次输入新密码");
-            return gson.toJson(map);
-        }
-        if(!password.trim().equals(rpPassword.trim())){
-            map.put("rpPasswordMessage","两次密码输入不一致");
-            return gson.toJson(map);
-        }
         String email = (String) SecurityUtils.getSubject().getPrincipal();
-        if (userService.updateLoginPassword(email,Md5Tools.md5(password.trim()))){
-            map.put("successMessage","恭喜你，修改成功！");
-        }else {
-            map.put("errorMessage","操作失败，请检查你的输入");
+        if(RegexUtil.isNull(oldPassword)){
+            map.put("oldPasswordMessageNull","oldPasswordMessageNull");
+            return gson.toJson(map);
         }
+        if (!userService.queryUserByUsername(email).getPassword().equals(Md5Tools.md5(oldPassword.trim()))){
+            map.put("oldPasswordMessageExist","oldPasswordMessageExist");
+            return gson.toJson(map);
+        }
+        if(RegexUtil.isNull(newPassword)){
+            map.put("newPasswordMessageNull","newPasswordMessageNull");
+            return gson.toJson(map);
+        }
+        if(!(newPassword.length() >= 6 && newPassword.length() <= 12)){
+            map.put("newPasswordMessageFormat","newPasswordMessageFormat");
+            return gson.toJson(map);
+        }
+        if(RegexUtil.isNull(newRpPassword)){
+            map.put("rpPasswordMessageNull","rpPasswordMessageNull");
+            return gson.toJson(map);
+        }
+        if(!(newPassword.trim().equals(newRpPassword.trim()))){
+            map.put("rpPasswordMessageEqual","rpPasswordMessageEqual");
+            return gson.toJson(map);
+        }
+
+        if (userService.updateLoginPassword(email,Md5Tools.md5(newPassword.trim()))){
+            map.put("successMessage","successMessage");
+            return gson.toJson(map);
+        }
+        map.put("errorMessage","errorMessage");
         return gson.toJson(map);
     }
 

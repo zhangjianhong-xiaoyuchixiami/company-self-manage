@@ -199,10 +199,6 @@
 
     <#elseif section = "privateJs">
 
-    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
-
     <script type="text/javascript" src="/assets/js/local/sms-message.js"></script>
 
     <script type="text/javascript" src="/assets/js/local/sms-message-left-bar.js"></script>

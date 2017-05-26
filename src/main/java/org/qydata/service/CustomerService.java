@@ -120,4 +120,33 @@ public interface CustomerService {
      */
     public List<CompanyApiTypeConsumeDayCount> queryCustomerApiTypeConsumeDayCount(Map<String,Object> map);
 
+    /**
+     * 根据userId查找客户Id对应的公司名称用于title
+     * @param userId
+     * @return
+     */
+    public String findCompanyNameByUserId(Integer userId);
+
+    /**
+     * 根据customerId查询上月消费账单
+     * @param map
+     * @return
+     */
+    public CustomerConsumeExcel queryCustomerConsumeExcelByCustomerId(Map<String,Object> map);
+
+    /**
+     * 根据customerId查找公司名称用于下载账单给文件命名
+     * @param map
+     * @return
+     */
+    public String queryCompanyNameByCustomerId(Map<String,Object> map);
+
+
+    /**
+     * 根据customerId查询消费账单用于用户选择下载的文件
+     * @return
+     */
+    public List<CustomerConsumeExcel> queryCustomerConsumeExcelConsuTimeByCustomerId(Integer customerId);
+
+
 }

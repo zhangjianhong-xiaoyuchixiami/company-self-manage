@@ -98,7 +98,6 @@ var AccountMessage = function () {
                 });
             });
 
-
         }
 
     };

@@ -18,10 +18,12 @@
 
                 <div class="span12">
 
-                    <form action="/customer/account-consume" method="get">
 
-                        <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
+                    <div class="clearfix margin-bottom-20 head-search-clearfix-top">
+
+                        <form action="/customer/account-consume" class="account-consume" method="get">
+                        <#--起始日期-->
                             <div class="pull-left margin-right-20 head-search-bottom">
 
                                 <label class="control-label">起始日期</label>
@@ -37,7 +39,7 @@
                                 </div>
 
                             </div>
-
+                        <#--结束日期-->
                             <div class="pull-left head-search-bottom">
 
                                 <label class="control-label">结束日期</label>
@@ -53,7 +55,7 @@
                                 </div>
 
                             </div>
-
+                        <#--确定按钮-->
                             <div class="pull-left head-search-bottom">
 
                                 <label class="control-label">&nbsp;&nbsp;</label>
@@ -69,36 +71,38 @@
                                 </div>
 
                             </div>
+                        </form>
 
-                        </div>
+                    </div>
 
-                    </form>
+
+
+
 
                     <div class="portlet box grey">
 
                         <div class="portlet-title">
+                            <div class="caption"><i class="icon-user"></i><#if companyName??>${companyName}</#if></div>
 
-                            <div class="caption"><i class="icon-user"></i><#if authId??>${authId}</#if></div>
+                            <div class="actions">
+                                <div class="btn-group">
+                                    <a class="btn white" href="#" data-toggle="dropdown">工具<i class="icon-angle-down"></i></a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <#if download??>
+                                        <#list download as download>
+                                            <li>
+                                                <a href="/finance/download-consume-check?consuTime=${download.consuTime}" ><i class="icon-share icon-black"></i>下载${download.consuTime}账单</a>
+                                            </li>
+                                        </#list>
+                                        </#if>
 
+                                    </ul>
+                                </div>
+
+                            </div>
                         </div>
 
                         <div class="portlet-body no-more-tables">
-
-                            <#--<div class="clearfix margin-bottom-5">
-
-                                <div class="pull-right table-top-bottom">
-
-                                    <label class="control-label">
-
-                                        <a href="/customer/month-record?customerId=${customerId}&authId=${authId}&typeId=2">
-                                            月消费账单
-                                        </a>
-
-                                    </label>
-
-                                </div>
-
-                            </div>-->
 
                             <div class="table-responsive">
 
@@ -116,7 +120,7 @@
                                             <#list customerApiConsumeList as customerApiConsume>
                                             <tr>
                                                 <td data-title="产品类型">
-                                                    ${customerApiConsume.apiTypeName}
+                                                ${customerApiConsume.apiTypeName}
                                                     <#if customerApiConsume.mobileOperatorName??>
                                                         --${customerApiConsume.mobileOperatorName}
                                                     </#if>
@@ -125,10 +129,10 @@
                                                 ${(customerApiConsume.feeAmount)?c}
                                                 </td>
                                                 <td data-title="消费金额（单位/元）">
-                                                    ${(-customerApiConsume.totleAmount/100.0)?c}
+                                                ${(-customerApiConsume.totleAmount/100.0)?c}
                                                 </td>
                                                 <td data-title="操作">
-                                                    <a href="/finance/account-consume/day-detail">天消费明细</a>
+                                                    <a href="/finance/account-consume/day-detail?apiTypeId=${customerApiConsume.apiTypeId}&apiTypeName=${customerApiConsume.apiTypeName}<#if customerApiConsume.mobileOperatorName??>&stid=${customerApiConsume.mobileOperatorId}</#if><#if customerApiConsume.mobileOperatorName??>&stidName=${customerApiConsume.mobileOperatorName}</#if>">天消费明细</a>
                                                 </td>
                                             </tr>
                                             </#list>
@@ -137,6 +141,7 @@
                                 </table>
 
                             </div>
+
                         </div>
 
                     </div>
@@ -154,10 +159,6 @@
     <#elseif section = "publicJs">
 
     <#elseif section = "privateJs">
-
-    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
 
     <script type="text/javascript" src="/assets/js/local/account-consume.js"></script>
 

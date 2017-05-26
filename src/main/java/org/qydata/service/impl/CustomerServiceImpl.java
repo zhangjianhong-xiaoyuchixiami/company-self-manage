@@ -192,4 +192,24 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CompanyApiTypeConsumeDayCount> queryCustomerApiTypeConsumeDayCount(Map<String, Object> map) {
         return customerMapper.queryCustomerApiTypeConsumeDayCount(map);
     }
+
+    @Override
+    public String findCompanyNameByUserId(Integer userId) {
+        return customerMapper.findCompanyNameByUserId(userId);
+    }
+
+    @Override
+    public CustomerConsumeExcel queryCustomerConsumeExcelByCustomerId(Map<String,Object> map) {
+        return customerMapper.queryCustomerConsumeExcelByCustomerId(map);
+    }
+
+    @Override
+    public String queryCompanyNameByCustomerId(Map<String, Object> map) {
+        return customerMapper.queryCompanyNameByCustomerId(map);
+    }
+
+    @Override
+    public List<CustomerConsumeExcel> queryCustomerConsumeExcelConsuTimeByCustomerId(Integer customerId) {
+        return customerMapper.queryCustomerConsumeExcelConsuTimeByCustomerId(customerId);
+    }
 }

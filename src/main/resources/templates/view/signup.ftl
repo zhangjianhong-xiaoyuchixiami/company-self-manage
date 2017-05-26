@@ -211,7 +211,6 @@
 <!--Bootstrap -->
 <script src="/assets/lib/bootstrap/js/bootstrap.js"></script>
 
-<script src="/manage/js/jquery.validate.min.js" type="text/javascript"></script>
 
 <#--登录验证-->
 <script src="/assets/js/local/sign-up.js"></script>

@@ -5909,7 +5909,7 @@
 		/**
 		 * Change the pagination - provides the internal logic for pagination in a simple API 
 		 * function. With this function you can have a DataTables table go to the next, 
-		 * previous, first or last pages.
+		 * previous, first or last errorpage.
 		 *  @param {string|int} mAction Paging action to take: "first", "previous", "next" or "last"
 		 *    or page number to jump to (integer), note that page 0 is the first page.
 		 *  @param {bool} [bRedraw=true] Redraw the table or not
@@ -6122,7 +6122,7 @@
 		 * Update a table cell or row - this method will accept either a single value to
 		 * update the cell with, an array of values with one element for each column or
 		 * an object in the same format as the original data source. The function is
-		 * self-referencing in order to make the multi column updates easier.
+		 * myjs-referencing in order to make the multi column updates easier.
 		 *  @param {object|array|string} mData Data to update the cell/row with
 		 *  @param {node|int} mRow TR element you want to update or the aoData index
 		 *  @param {int} [iColumn] The column to update (not used of mData is an array or object)
@@ -6433,7 +6433,7 @@
 			DataTable.settings.push( oSettings );
 			
 			// Need to add the instance after the instance after the settings object has been added
-			// to the settings array, so we can self reference the table instance if more than one
+			// to the settings array, so we can myjs reference the table instance if more than one
 			oSettings.oInstance = (_that.length===1) ? _that : $(this).dataTable();
 			
 			/* Setting up the initialisation object */
@@ -11635,7 +11635,7 @@
 		
 		/*
 		 * Variable: iFullNumbersShowPages
-		 * Purpose:  Change the number of pages which can be seen
+		 * Purpose:  Change the number of errorpage which can be seen
 		 * Scope:    jQuery.fn.dataTableExt.oPagination
 		 */
 		"iFullNumbersShowPages": 5,
@@ -11648,7 +11648,7 @@
 		"full_numbers": {
 			/*
 			 * Function: oPagination.full_numbers.fnInit
-			 * Purpose:  Initialise dom elements required for pagination with a list of the pages
+			 * Purpose:  Initialise dom elements required for pagination with a list of the errorpage
 			 * Returns:  -
 			 * Inputs:   object:oSettings - dataTables settings object
 			 *           node:nPaging - the DIV which contains this pagination control

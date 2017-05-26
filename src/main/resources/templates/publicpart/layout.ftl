@@ -1,4 +1,6 @@
 <#macro layout>
+
+    <#import "publisjs.ftl" as puj>
 <!DOCTYPE html>
 
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
@@ -69,21 +71,21 @@
 
                 <ul class="nav pull-right">
 
-                   <#-- <li class="dropdown" id="header_inbox_bar">
+                <#-- <li class="dropdown" id="header_inbox_bar">
 
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-                            <span class="badge"></span>
+                         <span class="badge"></span>
 
-                            <i class="icon-envelope"></i>
+                         <i class="icon-envelope"></i>
 
-                        </a>
+                     </a>
 
-                        <ul id="dropdown-menu-extended-notification" class="dropdown-menu extended inbox">
+                     <ul id="dropdown-menu-extended-notification" class="dropdown-menu extended inbox">
 
-                        </ul>
+                     </ul>
 
-                    </li>-->
+                 </li>-->
 
                     <li class="dropdown">
 
@@ -109,25 +111,50 @@
 
                 </ul>
 
+            <#--修改密码弹框-->
                 <div id="form_modal_update_password" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_update_password" aria-hidden="true">
 
-                    <div class="modal-header">
+                    <form id="form_update_password" action="#" class="form-horizontal">
 
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <div class="modal-header">
 
-                        <h3 id="myModalLabel_update_password">请填写信息</h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 
-                    </div>
+                            <h3 id="myModalLabel_update_password">请填写信息</h3>
 
-                    <div class="modal-body">
+                        </div>
 
-                        <form action="#" class="form-horizontal">
+                        <div class="modal-body">
 
-                            <div class="control-group"></div>
+                            <div class="alert alert-error hide">
 
-                            <div class="control-group"></div>
+                                <button class="close" data-dismiss="alert"></button>
 
-                            <div id="error-alert"></div>
+                                <span id="error_alert">对不起，请检查你的输入！</span>
+
+                            </div>
+
+                            <div class="alert alert-success hide">
+
+                                <button class="close" data-dismiss="alert"></button>
+
+                                <span>恭喜您，操作成功!</span>
+
+                            </div>
+
+                            <div class="control-group">
+
+                                <label class="control-label">请输入原始密码<span class="required">*</span></label>
+
+                                <div class="controls">
+
+                                    <input type="password" id="oldPassword" name="oldPassword" class="m-wrap medium">
+
+                                    <span id="oldPassword_Msg" class="help-line"></span>
+
+                                </div>
+
+                            </div>
 
                             <div class="control-group">
 
@@ -139,7 +166,7 @@
 
                                     <span id="newPassword_Msg" class="help-line"></span>
 
-                                    <span class="help-block">说明：长度为6-18个字符</span>
+                                    <span class="help-block">说明：长度为6-12个字符</span>
 
                                 </div>
 
@@ -155,27 +182,25 @@
 
                                     <span id="newRpPassword_Msg" class="help-line"></span>
 
-                                    <span class="help-block">说明：长度为6-18个字符</span>
-
                                 </div>
 
                             </div>
 
+                        </div>
 
-                        </form>
+                        <div class="modal-footer">
 
-                    </div>
+                            <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
 
-                    <div class="modal-footer">
+                            <button class="btn black btn-primary" id="update-password-btn-black-btn-primary" type="button">提交</button>
 
-                        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+                        </div>
 
-                        <button class="btn black btn-primary" id="update-password-btn-black-btn-primary" type="button">提交</button>
-
-                    </div>
+                    </form>
 
                 </div>
 
+            <#--查看消息弹框-->
                 <div id="form_modal_user_notice" class="modal hide fade myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_user_notice" aria-hidden="true">
 
                     <div class="modal-header">
@@ -232,6 +257,7 @@
                     <div class="sidebar-toggler hidden-phone"></div>
                 </li>
 
+            <#--账号信息-->
                 <li id="customerManage">
                     <a href="javascript:;"><i class="icon-group"></i>
                         <span class="title">账号管理</span>
@@ -240,21 +266,22 @@
                     </a>
                     <ul class="sub-menu">
                         <li id="customerList"><a href="/customer/account-message">账号信息</a></li>
-                       <#-- <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>-->
+                    <#-- <li id="customerProductList"><a href="/company/find-company-product-by-company-id">已购买产品</a></li>-->
                     </ul>
                 </li>
 
-               <#-- <li id="noticeManage">
-                    <a href="javascript:;"><i class="icon-envelope"></i>
-                        <span class="title">消息通知</span>
-                        <span class="" id="noticeManageSelect"></span>
-                        <span class="arrow" id="noticeManageArrow"></span>
-                    </a>
-                    <ul class="sub-menu">
-                        <li id="noticeList"><a href="/notice/user-notice?reasonId=1">收件箱</a></li>
-                    </ul>
-                </li>-->
+            <#-- <li id="noticeManage">
+                 <a href="javascript:;"><i class="icon-envelope"></i>
+                     <span class="title">消息通知</span>
+                     <span class="" id="noticeManageSelect"></span>
+                     <span class="arrow" id="noticeManageArrow"></span>
+                 </a>
+                 <ul class="sub-menu">
+                     <li id="noticeList"><a href="/notice/user-notice?reasonId=1">收件箱</a></li>
+                 </ul>
+             </li>-->
 
+            <#--财务管理-->
                 <li id="financeManage">
                     <a href="javascript:;"><i class="icon-bar-chart"></i>
                         <span class="title">财务管理</span>
@@ -266,7 +293,8 @@
                     </ul>
                 </li>
 
-                <li id="SMSManage">
+            <#--接口短信-->
+               <#-- <li id="SMSManage">
                     <a href="javascript:;"><i class="icon-th"></i>
                         <span class="title">接口短信</span>
                         <span class="" id="SMSManageSelect"></span>
@@ -275,7 +303,7 @@
                     <ul class="sub-menu">
                         <li id="SMSList"><a href="/sms/sms-message">发送记录</a></li>
                     </ul>
-                </li>
+                </li>-->
 
             </ul>
 
@@ -314,99 +342,12 @@
 
     <#nested "publicJs" />
 
-<script src="/manage/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/bootstrap.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/excanvas.min.js"></script>
-
-<script src="/manage/js/respond.min.js"></script>
-
-<script src="/manage/js/jquery.slimscroll.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/jquery.blockui.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/jquery.cookie.min.js" type="text/javascript"></script>
-
-<script src="/manage/js/jquery.uniform.min.js" type="text/javascript" ></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-datepicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/locales/bootstrap-datepicker.zh-CN.js"></script>
-
-<script type="text/javascript">
-    $('.date-picker').datepicker({
-        language: 'zh-CN',
-        autoclose: true,
-        todayHighlight: false
-    })
-</script>
-
-<script src="/manage/js/search.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.validate.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/select2.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/chosen.jquery.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/ckeditor.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-fileupload.js"></script>
-
-<script type="text/javascript" src="/manage/js/chosen.jquery.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/select2.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/wysihtml5-0.3.0.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-wysihtml5.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.tagsinput.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.toggle.buttons.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-datepicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-datetimepicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/clockface.js"></script>
-
-<script type="text/javascript" src="/manage/js/date.js"></script>
-
-<script type="text/javascript" src="/manage/js/daterangepicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-colorpicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/bootstrap-timepicker.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.inputmask.bundle.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.input-ip-address-control-1.0.min.js"></script>
-
-<script type="text/javascript" src="/manage/js/jquery.multi-select.js"></script>
-
-<script src="/manage/js/bootstrap-modal.js" type="text/javascript" ></script>
-
-<script src="/manage/js/bootstrap-modalmanager.js" type="text/javascript" ></script>
-
-<script src="/manage/js/app.js"></script>
-
-<script src="/manage/js/form-validation.js"></script>
-
-<script src="/manage/js/form-components.js"></script>
+    <@puj.publicJs></@puj.publicJs>
 
 <script src="/assets/js/local/update-password.js"></script>
 
 <script>
     jQuery(document).ready(function() {
-        App.init();
-
-        Search.init();
 
         UpdatePassword.init();
 
@@ -414,6 +355,8 @@
 </script>
 
 <script>
+
+    /*显示有几条未读信息*/
     function getCount() {
         $.ajax({
             type: "post",
@@ -446,8 +389,10 @@
         });
     }
 
+    /*一秒请求一次*/
     /*setInterval("getCount()",1000);*/
 
+    /*根据Id查询通知信息*/
     function queryNoticeById(id) {
         $.ajax({
             type: "post",
@@ -471,6 +416,7 @@
         });
     }
 
+    /*将消息标记为已读*/
     function markRead() {
         var id=$("#user-notice-portlet-body-id").text();
         $.ajax({
@@ -488,10 +434,8 @@
 
 </script>
 
-<script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-37564768-1']);  _gaq.push(['_setDomainName', 'keenthemes.com']);  _gaq.push(['_setAllowLinker', true]);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();
-</script>
-
     <#nested "privateJs" />
+
 </body>
 </html>
 </#macro>

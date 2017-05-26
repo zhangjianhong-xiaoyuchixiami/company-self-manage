@@ -13,11 +13,7 @@
 
             <div class="row-fluid profile">
 
-                <div class="span12">
-
-                    <div class="tabbable tabbable-custom tabbable-full-width">
-
-                    </div>
+                <div class="span12" style="text-align: center">
 
                 </div>
 

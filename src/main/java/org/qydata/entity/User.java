@@ -19,7 +19,7 @@ public class User implements Serializable {
     private Integer clicks;
     private String content;
     private Timestamp createTime;
-    private Timestamp timestamp;
+    private CustomerCompany customerCompany;
 
 
     public Integer getId() {
@@ -54,13 +54,6 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
 
     public Integer getStatus() {
         return status;
@@ -92,6 +85,14 @@ public class User implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public CustomerCompany getCustomerCompany() {
+        return customerCompany;
+    }
+
+    public void setCustomerCompany(CustomerCompany customerCompany) {
+        this.customerCompany = customerCompany;
     }
 
     public String toString(){

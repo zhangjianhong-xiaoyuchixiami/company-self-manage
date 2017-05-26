@@ -2,12 +2,17 @@ package org.qydata.controller;
 
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.WebUtils;
 import org.qydata.service.UserService;
 import org.qydata.tools.Md5Tools;
+import org.qydata.tools.definexception.UserCustomerNoBound;
+import org.qydata.tools.definexception.UserCustomerStatusNoPass;
+import org.qydata.tools.definexception.UserStatusNoPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,9 +54,29 @@ public class ViewController {
                 return "redirect:"+url;
             }
             return "redirect:/";
-        }catch (Exception e){
+        }catch (UnknownAccountException e){
             e.printStackTrace();
-            model.addFlashAttribute("msg", "用户名或密码不正确");
+            model.addFlashAttribute("msg", "该用户名不存在！");
+            return "redirect:/login";
+        }catch (IncorrectCredentialsException e1){
+            e1.printStackTrace();
+            model.addFlashAttribute("msg", "密码错误！");
+            return "redirect:/login";
+        }catch (UserStatusNoPass e2){
+            e2.printStackTrace();
+            model.addFlashAttribute("msg", "该账号已被禁用！");
+            return "redirect:/login";
+        }catch (UserCustomerNoBound e3){
+            e3.printStackTrace();
+            model.addFlashAttribute("msg", "该账号未绑定产品账号，请联系管理员！");
+            return "redirect:/login";
+        }catch (UserCustomerStatusNoPass e4){
+            e4.printStackTrace();
+            model.addFlashAttribute("msg", "该账号未通过授权！");
+            return "redirect:/login";
+        }catch (Exception e5){
+            e5.printStackTrace();
+            model.addFlashAttribute("msg", "服务异常，请稍后重试！");
             return "redirect:/login";
         }
     }

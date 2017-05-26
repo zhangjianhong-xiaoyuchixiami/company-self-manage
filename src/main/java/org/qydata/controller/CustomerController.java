@@ -31,6 +31,11 @@ public class CustomerController {
     @Autowired private CustomerService customerService;
     @Autowired private UserService userService;
 
+    @RequestMapping("/layout")
+    public String layout(){
+        return "/test/layout";
+    }
+
     /**
      *验证账号
      * @param authId
@@ -128,6 +133,7 @@ public class CustomerController {
         model.addAttribute("floor",floor);
         model.addAttribute("customerList",customerList);
         model.addAttribute("content",content);
+        model.addAttribute("companyName",customerService.findCompanyNameByUserId(user.getId()));
         return "/account/accountmessage";
     }
 

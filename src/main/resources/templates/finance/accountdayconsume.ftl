@@ -25,35 +25,11 @@
 
                             <div class="pull-left head-search-bottom head-search-display">
 
-                                <label class="control-label">apiTypeId</label>
-
-                                <div class="controls">
-
-                                    <input type="text" value="${apiTypeId}" id="apiTypeId" name="apiTypeId" >
-
-                                </div>
-
-                            </div>
-
-                            <div class="pull-left head-search-bottom head-search-display">
-
-                                <label class="control-label">stid</label>
-
-                                <div class="controls">
-
-                                    <input type="text" <#if stid??>value="${stid}"</#if> id="stid" name="stid" >
-
-                                </div>
-
-                            </div>
-
-                            <div class="pull-left head-search-bottom head-search-display">
-
                                 <label class="control-label">apiTypeName</label>
 
                                 <div class="controls">
 
-                                    <input type="text" value="${apiTypeName}" id="apiTypeName" name="apiTypeName" >
+                                    <input type="text" <#if apiTypeName??>value="${apiTypeName}"</#if> id="apiTypeName" name="apiTypeName" >
 
                                 </div>
 
@@ -61,11 +37,11 @@
 
                             <div class="pull-left head-search-bottom head-search-display">
 
-                                <label class="control-label">mobileOperatorName</label>
+                                <label class="control-label">stidName</label>
 
                                 <div class="controls">
 
-                                    <input type="text" <#if mobileOperatorName??>value="${mobileOperatorName}"</#if> id="mobileOperatorName" name="mobileOperatorName" >
+                                    <input type="text" <#if stidName??>value="${stidName}"</#if> id="stidName" name="stidName" >
 
                                 </div>
 
@@ -128,7 +104,7 @@
 
                         <div class="portlet-title">
 
-                            <div class="caption"><i class="icon-user"></i><#if apiTypeName??>${apiTypeName}</#if></div>
+                            <div class="caption"><#if apiTypeName??>${apiTypeName}</#if><#if stidName??>--${stidName}</#if></div>
 
                         </div>
 
@@ -138,7 +114,8 @@
                                 <table class="table table-striped table-hover table-bordered table-condensed" id="sample">
                                     <thead>
                                     <tr>
-                                        <th>周期</th>
+                                        <th>消费日期</th>
+                                        <th>请求次数</th>
                                         <th>扣费次数</th>
                                         <th>消费金额（单位：元）</th>
                                     </tr>
@@ -147,7 +124,8 @@
                                         <#if companyApiTypeConsumeDayCountList??>
                                             <#list companyApiTypeConsumeDayCountList as companyApiTypeConsumeDayCount >
                                                 <tr>
-                                                    <td>${companyApiTypeConsumeDayCount.year}年${companyApiTypeConsumeDayCount.month}月${companyApiTypeConsumeDayCount.day}号</td>
+                                                    <td>${companyApiTypeConsumeDayCount.consuTime?date}</td>
+                                                    <td>${companyApiTypeConsumeDayCount.countTotle}</td>
                                                     <td>${companyApiTypeConsumeDayCount.countSuccess}</td>
                                                     <td>${-companyApiTypeConsumeDayCount.sumAmount/100.0}</td>
                                                 </tr>
@@ -174,10 +152,6 @@
     <#elseif section = "publicJs">
 
     <#elseif section = "privateJs">
-
-    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
 
     <script type="text/javascript" src="/assets/js/local/account-day-consume.js"></script>
 

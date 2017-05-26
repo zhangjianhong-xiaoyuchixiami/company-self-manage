@@ -7,6 +7,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.qydata.entity.User;
 import org.qydata.service.UserService;
+import org.qydata.tools.definexception.UserCustomerNoBound;
+import org.qydata.tools.definexception.UserCustomerStatusNoPass;
+import org.qydata.tools.definexception.UserStatusNoPass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,15 +59,30 @@ public class UserRealm extends AuthorizingRealm{
         }
         if (user == null) {
             throw new UnknownAccountException("该用户名称不存在！") ;
-        } else {	// 进行密码的验证处理
-            String password = new String((char []) token.getCredentials()) ;
-            // 将数据库中的密码与输入的密码进行比较，这样就可以确定当前用户是否可以正常登录
-            if (user.getPassword().equals(password)) {	// 密码正确
-                AuthenticationInfo auth = new SimpleAuthenticationInfo(email, password, "userRealm") ;
-                return auth ;
-            } else {
-                throw new IncorrectCredentialsException("密码错误！") ;
+        } else {
+
+            if (user.getStatus() == 0){
+
+                if (user.getCustomerCompany() != null){
+
+                    if (user.getCustomerCompany().getStatus() != null && user.getCustomerCompany().getStatus() == 0){
+                        // 进行密码的验证处理
+                        String password = new String((char []) token.getCredentials()) ;
+                        // 将数据库中的密码与输入的密码进行比较，这样就可以确定当前用户是否可以正常登录
+                        if (user.getPassword().equals(password)) {	// 密码正确
+                            AuthenticationInfo auth = new SimpleAuthenticationInfo(email, password, "userRealm") ;
+                            return auth ;
+                        } else {
+                            throw new IncorrectCredentialsException("密码错误！") ;
+                        }
+                    }
+                    throw new UserCustomerStatusNoPass("该账号未通过授权！");
+                }
+
+                throw new UserCustomerNoBound("该账号未绑定产品账号，请联系管理员！！");
+
             }
+            throw new UserStatusNoPass("该账号已被禁用！");
         }
     }
 

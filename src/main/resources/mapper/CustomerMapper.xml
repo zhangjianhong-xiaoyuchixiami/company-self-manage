@@ -125,27 +125,6 @@
         limit 0,1
     </select>
 
-    <!--查询客户的充值记录-->
-    <select id="queryCustomerRechargeRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
-        SELECT id,reasonId,amount,customerId,createTime,reasonName
-        FROM qycauth.cbkvwCustomerBalanceLog
-        WHERE customerId=#{customerId}
-        AND reasonId IN
-        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
-            #{reasonId}
-        </foreach>
-        <if test="beginDate != null and beginDate != ''">
-            <![CDATA[
-            AND createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
-            ]]>
-        </if>
-        <if test="endDate != null and endDate != ''">
-            <![CDATA[
-            AND createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
-             ]]>
-        </if>
-    </select>
-
     <!--查询客户的消费记录-->
     <select id="queryCustomerConsumeRecordByCustomerId" parameterType="map" resultMap="CustomerApiConsume_Map">
         SELECT
@@ -184,142 +163,7 @@
           LEFT JOIN qyfinance.bkvwApiType cc ON aa.apiTypeId=cc.id
     </select>
 
-    <!---查询客户的消费明细记录-->
-    <select id="queryCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultMap="CustomerBalanceLog_CustomerBalanceModifyReason_Map">
-        SELECT a.id,a.reasonId,a.amount,a.customerId,a.createTime,a.reasonName
-        FROM qycauth.cbkvwCustomerBalanceLog a
-        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.requestId
-        WHERE b.hasCost=1
-        AND a.customerId=#{customerId}
-        AND b.apiTypeId=#{apiTypeId}
-        AND a.reasonId IN
-        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
-            #{reasonId}
-        </foreach>
-        <if test="stid != null and stid != ''">
-            AND b.stid=#{stid}
-        </if>
-        <if test="beginDate != null and beginDate != ''">
-            <![CDATA[
-                AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
-            ]]>
-        </if>
-        <if test="endDate != null and endDate != ''">
-            <![CDATA[
-                AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
-             ]]>
-        </if>
-        <if test="amount != null and amount != ''">
-            ORDER BY a.amount ${amount}
-        </if>
-        <if test="createTime != null and createTime != ''">
-            ORDER BY a.createTime ${createTime}
-        </if>
-        limit #{pageSize},#{lineSize}
-    </select>
-
-    <!---统计客户的消费明细记录总数-->
-    <select id="getAllCountCustomerConsumeDetailRecordByCustomerId" parameterType="map" resultType="Integer">
-        SELECT count(a.id)
-        FROM qycauth.cbkvwCustomerBalanceLog a
-        LEFT JOIN qycauth.cbkvwCustomerRequestLog b ON a.reqId=b.requestId
-        WHERE b.hasCost=1
-        AND a.customerId=#{customerId}
-        AND b.apiTypeId=#{apiTypeId}
-        AND a.reasonId IN
-        <foreach collection="reasonIdList" item="reasonId" index="index" open="(" close=")" separator=",">
-            #{reasonId}
-        </foreach>
-        <if test="stid != null and stid != ''">
-            AND b.stid=#{stid}
-        </if>
-        <if test="beginDate != null and beginDate != ''">
-            <![CDATA[
-                AND a.createTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
-            ]]>
-        </if>
-        <if test="endDate != null and endDate != ''">
-            <![CDATA[
-                AND a.createTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
-             ]]>
-        </if>
-    </select>
-
-    <!--查询客户的周月记录-->
-    <select id="queryCustomerWeekMonthRecordByCustomerId" parameterType="map" resultType="org.qydata.entity.WeekMonthAmount">
-        SELECT years,months,weeks,totleAmount,customerId,tableId,weekMonthTypeId,name,beginTime,endTime
-        FROM qyfinance.bkvwWeekMonthAmount
-        WHERE customerId=#{customerId}
-        AND weekMonthTypeId=#{weekMonthTypeId}
-        <if test="years != null and years != ''">
-            AND years=#{years}
-        </if>
-        <if test="months != null and months != ''">
-            AND months=#{months}
-        </if>
-        <if test="weeks != null and weeks != ''">
-            AND weeks=#{weeks}
-        </if>
-        <if test="tableIdList != null and tableIdList.size() > 0">
-            AND tableId IN
-            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
-                #{tableId}
-            </foreach>
-        </if>
-    </select>
-
-    <!--查询客户的周月记录年级联菜单-->
-    <select id="queryCustomerYearsByCustomerId" parameterType="map" resultType="int">
-        SELECT DISTINCT(years)
-        FROM qyfinance.bkvwWeekMonthAmount
-        WHERE customerId=#{customerId} AND weekMonthTypeId=#{weekMonthTypeId}
-        <if test="years != null and years != ''">
-            AND years=#{years}
-        </if>
-        <if test="months != null and months != ''">
-            AND months=#{months}
-        </if>
-        <if test="weeks != null and weeks != ''">
-            AND weeks=#{weeks}
-        </if>
-        <if test="tableIdList != null and tableIdList.size() > 0">
-            AND tableId IN
-            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
-                #{tableId}
-            </foreach>
-        </if>
-    </select>
-
-    <!--查询客户的周月记录月级联菜单-->
-    <select id="queryCustomerMonthsByCustomerId" parameterType="map" resultType="int">
-        SELECT DISTINCT(months)
-        FROM qyfinance.bkvwWeekMonthAmount
-        WHERE customerId=#{customerId}
-        <if test="weekMonthTypeId != null and weekMonthTypeId != ''">
-            AND weekMonthTypeId=#{weekMonthTypeId}
-        </if>
-        <if test="years != null and years != ''">
-            AND years=#{years}
-        </if>
-        <if test="tableIdList != null and tableIdList.size() > 0">
-            AND tableId IN
-            <foreach collection="tableIdList" item="tableId" index="index" open="(" close=")" separator=",">
-                #{tableId}
-            </foreach>
-        </if>
-    </select>
-
-    <!--月账单走势图-->
-    <select id="queryMonthChargeConsumeToward" parameterType="Integer" resultType="org.qydata.entity.WeekMonthAmount">
-        SELECT years,months,totleAmount
-        FROM qyfinance.bkvwWeekMonthAmount
-        WHERE customerId=#{param1}
-        AND weekMonthTypeId=2
-        AND tableId=#{param2}
-        AND DATE_FORMAT(endTime,'%Y-%m')=DATE_FORMAT(date_sub(sysdate(),interval #{param3} month),'%Y-%m')
-    </select>
-
-    <!--根据账号Id查找Ip-->
+    <!--根据账号Id查找Ip用于账号信息页面显示Ip-->
     <select id="queryCustomerIpById" parameterType="int" resultType="org.qydata.entity.CustomerIp">
         SELECT id,customerId,beginIpRaw,endIpRaw
         FROM qycauth.cbkvwCustomerIp
@@ -330,17 +174,77 @@
     <select id="findCustomerIdByUserId" parameterType="int" resultMap="Customer_Map">
         SELECT id,typeId,authId,balance,companyId
         FROM qycauth.cbkvwCustomer
-        WHERE userId=#{param}
+        WHERE userId=#{param} AND typeId=1
     </select>
 
     <!--根据条件查询客户apiType按天消费情况-->
     <select id="queryCustomerApiTypeConsumeDayCount" parameterType="map" resultMap="CompanyApiTypeConsumeDayCount_Map">
-        SELECT id,year,month,day,customerId,apiTypeId,stid,sunAmount,countTotle,countSuccess,consuTime
+        SELECT id,
+        year,
+        month,
+        day,
+        customerId,
+        apiTypeId,
+        stid,
+        ifnull(sumAmount,0) sumAmount,
+        ifnull(countTotle,0) countTotle,
+        ifnull(countSuccess,0) countSuccess,
+        consuTime
         FROM qycauth.cbkvwCompanyApiTypeConsumeDayCount
-        WHERE customerId=#{customerId}
-        AND apiTypeId=#{apiTypeId}
-        AND stid=#{stid}
-        AND consuTime=#{consuTime}
+       <where>
+           <if test="customerIdList != null and customerIdList.size() > 0">
+               AND customerId IN
+               <foreach collection="customerIdList" item="customerId" open="(" close=")" separator=",">
+                   #{customerId}
+               </foreach>
+           </if>
+           <if test="beginDate != null and beginDate != ''">
+               <![CDATA[
+                AND consuTime>=str_to_date(#{beginDate},'%Y/%m/%d %H:%i:%s')
+            ]]>
+           </if>
+           <if test="endDate != null and endDate != ''">
+               <![CDATA[
+                AND consuTime<=str_to_date(#{endDate},'%Y/%m/%d %H:%i:%s')
+             ]]>
+           </if>
+           <if test="apiTypeId != null and apiTypeId != ''">
+               AND apiTypeId=#{apiTypeId}
+           </if>
+           <if test="stid != null and stid != ''">
+               AND stid=#{stid}
+           </if>
+       </where>
+    </select>
+
+    <!--根据userId查找客户Id对应的公司名称用于title-->
+    <select id="findCompanyNameByUserId" resultType="String">
+        SELECT  DISTINCT(companyName)
+        FROM qycauth.cbkvwCustomer
+        WHERE userId=#{userId}
+    </select>
+
+    <!--根据customerId查询上月消费账单-->
+    <select id="queryCustomerConsumeExcelByCustomerId" parameterType="map" resultType="org.qydata.entity.CustomerConsumeExcel">
+        SELECT customerId,excelCode,consuTime
+        FROM qycauth.CustomerConsumeExcel
+        WHERE customerId=#{customerId} AND consuTime=#{consuTime}
+    </select>
+
+    <!--根据customerId查找公司名称用于下载账单给文件命名-->
+    <select id="queryCompanyNameByCustomerId" parameterType="map" resultType="String">
+        SELECT companyName
+        FROM qycauth.cbkvwCustomer
+        WHERE id = #{customerId}
+    </select>
+
+    <!--根据customerId查询消费账单用于用户选择下载的文件-->
+    <select id="queryCustomerConsumeExcelConsuTimeByCustomerId" parameterType="int" resultType="org.qydata.entity.CustomerConsumeExcel">
+        SELECT customerId,consuTime
+        FROM qycauth.CustomerConsumeExcel
+        WHERE customerId=#{param}
+        ORDER BY consuTime DESC
+        limit 0,6
     </select>
 
 </mapper>

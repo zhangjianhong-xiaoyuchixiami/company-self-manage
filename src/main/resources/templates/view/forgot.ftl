@@ -100,7 +100,7 @@
         <ul class="list-inline">
             <li><a class="text-muted" href="/login">登录</a></li>
             <li><a class="text-muted" href="#forgot" data-toggle="tab">忘记密码？</a></li>
-            <li><a class="text-muted" href="/user/sign-up">注册</a></li>
+            <#--<li><a class="text-muted" href="/user/sign-up">注册</a></li>-->
         </ul>
     </div>
 </div>
@@ -111,8 +111,6 @@
 
 <!--Bootstrap -->
 <script src="/assets/lib/bootstrap/js/bootstrap.js"></script>
-
-<script src="/manage/js/jquery.validate.min.js" type="text/javascript"></script>
 
 <#--登录验证-->
 <script src="/assets/js/local/login.js"></script>

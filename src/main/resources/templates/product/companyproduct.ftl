@@ -181,10 +181,6 @@
 
     <#elseif section = "privateJs">
 
-    <script type="text/javascript" src="/manage/js/jquery.dataTables.js"></script>
-
-    <script type="text/javascript" src="/manage/js/DT_bootstrap.js"></script>
-
     <script type="text/javascript" src="/assets/js/local/company-product.js"></script>
 
     <script type="text/javascript" src="/assets/js/local/company-product-left-bar.js"></script>
