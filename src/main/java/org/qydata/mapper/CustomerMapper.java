@@ -164,4 +164,10 @@ public interface CustomerMapper {
      */
     public List<CustomerConsumeExcel> queryCustomerConsumeExcelConsuTimeByCustomerId(Integer customerId);
 
+    /**
+     * 根据客户apiType用于财务页面产品类型选择select
+     * @param userId
+     * @return
+     */
+    public List<CompanyApi> queryCompanyApiTypeByCompanyId(Integer userId);
 }

@@ -19,7 +19,7 @@
 
                 <div class="span12">
 
-                    <form action="/customer/account-consume/detail" class="account_consume_detail" method="get">
+                    <form action="/finance/account-consume/day-detail" class="account_consume_detail" method="get">
 
                         <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
@@ -104,7 +104,7 @@
 
                         <div class="portlet-title">
 
-                            <div class="caption"><#if apiTypeName??>${apiTypeName}</#if><#if stidName??>--${stidName}</#if></div>
+                            <div class="caption"><i class="icon-barcode"></i><#if apiTypeName??>${apiTypeName}</#if><#if stidName??>--${stidName}</#if></div>
 
                         </div>
 
@@ -115,7 +115,6 @@
                                     <thead>
                                     <tr>
                                         <th>消费日期</th>
-                                        <th>请求次数</th>
                                         <th>扣费次数</th>
                                         <th>消费金额（单位：元）</th>
                                     </tr>
@@ -125,7 +124,6 @@
                                             <#list companyApiTypeConsumeDayCountList as companyApiTypeConsumeDayCount >
                                                 <tr>
                                                     <td>${companyApiTypeConsumeDayCount.consuTime?date}</td>
-                                                    <td>${companyApiTypeConsumeDayCount.countTotle}</td>
                                                     <td>${companyApiTypeConsumeDayCount.countSuccess}</td>
                                                     <td>${-companyApiTypeConsumeDayCount.sumAmount/100.0}</td>
                                                 </tr>

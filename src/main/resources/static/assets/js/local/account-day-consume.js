@@ -13,7 +13,6 @@ var FinanceDayConsume = function () {
                 "aoColumns": [
                     null,
                     null,
-                    null,
                     null
                 ],
                 "aaSorting": [[0, 'desc']],

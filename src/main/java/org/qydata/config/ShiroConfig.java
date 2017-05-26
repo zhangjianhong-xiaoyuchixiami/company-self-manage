@@ -250,20 +250,13 @@ public class ShiroConfig {
 		chains.put("/view/logout", "authc");
 
 		//CustomerController
-		chains.put("/customer/find-customer-by-authId", "authc,perms");
-		chains.put("/customer/validate-password-customer-by-authId", "authc,perms");
-		chains.put("/customer/bound-user-customer", "authc,perms");
 		chains.put("/customer/account-message", "authc,perms");
-		chains.put("/customer/bound-user-customer-url", "authc");
 		chains.put("/customer/find-ip", "authc,perms");
 
 		//FinanceController
-		/*chains.put("/finance/account-charge", "authc,perms");
 		chains.put("/finance/account-consume", "authc,perms");
-		chains.put("/finance/account-consume/detail", "authc,perms");
-		chains.put("/finance/month-record", "authc,perms");
-		chains.put("/finance/month-up-link", "authc,perms");
-		chains.put("/finance/months-charge-consume-toward", "authc,perms");*/
+		chains.put("/finance/account-consume/day-detail", "authc,perms");
+		chains.put("/finance/download-consume-check", "authc,perms");
 
 		//CompanyController
 		chains.put("/company/find-company-product-by-company-id", "authc,perms");
@@ -277,6 +270,7 @@ public class ShiroConfig {
 
 		//UserController
 		chains.put("/user/update-login-password", "authc,perms");
+		chains.put("/user/validate-old-password", "authc,perms");
 
 		//SMSController
 		chains.put("/sms/sms-message", "authc,perms");

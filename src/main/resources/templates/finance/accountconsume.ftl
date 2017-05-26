@@ -18,11 +18,23 @@
 
                 <div class="span12">
 
-
-
                     <div class="clearfix margin-bottom-20 head-search-clearfix-top">
 
-                        <form action="/customer/account-consume" class="account-consume" method="get">
+                        <form action="/finance/account-consume" class="account-consume" method="get">
+                            <#--产品类型-->
+                            <div class="pull-left head-search-bottom">
+                                <label class="control-label">产品类型</label>
+                                <div class="controls">
+                                    <select id="apiTypeId_subTypeId" name="apiTypeId_subTypeId" class="medium m-wrap1" tabindex="1">
+                                        <option value="">请选择...</option>
+                                        <#if companyApiList??>
+                                            <#list companyApiList as companyApi>
+                                                <option <#if apiTypeId_subTypeId?? && apiTypeId_subTypeId == companyApi.apiTypeId-companyApi.subTypeId>selected="selected"</#if> value="${companyApi.apiTypeId}-${companyApi.subTypeId}">${companyApi.apiType.name}<#if companyApi.mobileOperator??>--${companyApi.mobileOperator.name}</#if></option>
+                                            </#list>
+                                        </#if>
+                                    </select>
+                                </div>
+                            </div>
                         <#--起始日期-->
                             <div class="pull-left margin-right-20 head-search-bottom">
 
@@ -75,10 +87,6 @@
 
                     </div>
 
-
-
-
-
                     <div class="portlet box grey">
 
                         <div class="portlet-title">
@@ -91,7 +99,7 @@
                                         <#if download??>
                                         <#list download as download>
                                             <li>
-                                                <a href="/finance/download-consume-check?consuTime=${download.consuTime}" ><i class="icon-share icon-black"></i>下载${download.consuTime}账单</a>
+                                                <a href="/finance/download-consume-check?consuTime=${download.consuTime}" ><i class="icon-share icon-black"></i>下载${download.year?c}年${download.month}月份账单</a>
                                             </li>
                                         </#list>
                                         </#if>

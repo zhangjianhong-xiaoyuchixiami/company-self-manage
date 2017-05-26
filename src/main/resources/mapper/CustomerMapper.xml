@@ -84,6 +84,25 @@
         <result column="consuTime" property="consuTime"/>
     </resultMap>
 
+    <resultMap id="CompanyApi_Map" type="org.qydata.entity.CompanyApi">
+        <result column="id" property="id"/>
+        <result column="companyId" property="companyId"/>
+        <result column="apiTypeId" property="apiTypeId"/>
+        <result column="subTypeId" property="subTypeId"/>
+    </resultMap>
+
+    <resultMap id="CompanyApi_ApiType_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_Map">
+        <association property="apiType" javaType="org.qydata.entity.ApiType">
+            <result column="apiTypeName" property="name"/>
+        </association>
+    </resultMap>
+
+    <resultMap id="CompanyApi_ApiType_MobileOperator_Map" type="org.qydata.entity.CompanyApi" extends="CompanyApi_ApiType_Map">
+        <association property="mobileOperator" javaType="org.qydata.entity.MobileOperator">
+            <result column="subTypeName" property="name"/>
+        </association>
+    </resultMap>
+
     <!--根据用户Id查找账号-->
     <select id="queryCustomerByAuthId" parameterType="map" resultMap="Customer_Type_Status_Company_User_Ip_Map">
         SELECT a.id,a.typeId,a.typeName,a.authId,a.authPass,a.balance,a.createTime,a.status,
@@ -117,7 +136,7 @@
         VALUES(#{userId},#{customerId},sysdate())
     </insert>
 
-    <!--根据用户Id查找公司Id-->
+    <!--根据用户Id查找公司Id用于财务页面产品类型选择select-->
     <select id="queryCompanyIdByUserId" parameterType="int" resultType="Integer">
         SELECT companyId
         FROM qycauth.cbkvwCustomer
@@ -170,7 +189,7 @@
         WHERE customerId=#{param}
     </select>
 
-    <!--根据userId查找客户账号Id用于财务账单-->
+    <!--根据userId查找客户账号Id用于财务账单取customerId-->
     <select id="findCustomerIdByUserId" parameterType="int" resultMap="Customer_Map">
         SELECT id,typeId,authId,balance,companyId
         FROM qycauth.cbkvwCustomer
@@ -240,11 +259,18 @@
 
     <!--根据customerId查询消费账单用于用户选择下载的文件-->
     <select id="queryCustomerConsumeExcelConsuTimeByCustomerId" parameterType="int" resultType="org.qydata.entity.CustomerConsumeExcel">
-        SELECT customerId,consuTime
+        SELECT customerId,consuTime,year,month
         FROM qycauth.CustomerConsumeExcel
         WHERE customerId=#{param}
         ORDER BY consuTime DESC
         limit 0,6
+    </select>
+
+    <!--根据客户apiType用于财务页面产品类型选择select-->
+    <select id="queryCompanyApiTypeByCompanyId" parameterType="int" resultMap="CompanyApi_ApiType_MobileOperator_Map">
+        SELECT id,companyId,apiTypeId,subTypeId,apiTypeName,subTypeName
+        FROM qycauth.cbkvwCompanyApi
+        WHERE companyId = #{param}
     </select>
 
 </mapper>

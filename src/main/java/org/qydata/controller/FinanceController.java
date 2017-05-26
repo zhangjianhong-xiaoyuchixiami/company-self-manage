@@ -2,10 +2,7 @@ package org.qydata.controller;
 
 import org.apache.shiro.SecurityUtils;
 import org.qydata.dst.CustomerApiConsume;
-import org.qydata.entity.CompanyApiTypeConsumeDayCount;
-import org.qydata.entity.Customer;
-import org.qydata.entity.CustomerConsumeExcel;
-import org.qydata.entity.User;
+import org.qydata.entity.*;
 import org.qydata.service.CustomerService;
 import org.qydata.service.UserService;
 import org.qydata.tools.DownLoadFile;
@@ -38,7 +35,7 @@ public class FinanceController {
      * @return
      */
     @RequestMapping("/account-consume")
-    public String findAllApiConsumeRecordByCustomerId(String beginDate, String endDate, Model model){
+    public String findAllApiConsumeRecordByCustomerId(String apiTypeId_subTypeId,String beginDate, String endDate, Model model){
         String email = (String) SecurityUtils.getSubject().getPrincipal();
         User user = userService.queryUserByUsername(email);
         List<Customer> customerList = customerService.findCustomerIdByUserId(user.getId());
@@ -58,11 +55,21 @@ public class FinanceController {
                 map.put("endDate", endDate+" "+"23:59:59");
                 model.addAttribute("endDate", endDate);
             }
+            if(apiTypeId_subTypeId != null && apiTypeId_subTypeId != ""){
+               String apiTypeId_subTypeIdArray [] = apiTypeId_subTypeId.split("-");
+                map.put("apiTypeId", apiTypeId_subTypeIdArray[0]);
+                if (("0".equals(apiTypeId_subTypeIdArray[1]))){
+                    map.put("subTypeId", apiTypeId_subTypeIdArray[1]);
+                }
+            }
             List<CustomerApiConsume> customerApiConsumeList = customerService.queryCustomerConsumeRecordByCustomerId(map);
             List<CustomerConsumeExcel> customerConsumeExcelList = customerService.queryCustomerConsumeExcelConsuTimeByCustomerId(customerList.get(0).getId());
+            List<CompanyApi> companyApiList = customerService.queryCompanyApiTypeByCompanyId(customerService.queryCompanyIdByUserId(user.getId()));
             model.addAttribute("customerApiConsumeList", customerApiConsumeList);
             model.addAttribute("companyName",customerService.findCompanyNameByUserId(user.getId()));
             model.addAttribute("download",customerConsumeExcelList);
+            model.addAttribute("companyApiList",companyApiList);
+            model.addAttribute("apiTypeId_subTypeId",apiTypeId_subTypeId);
             return "/finance/accountconsume";
         }
         return "/finance/accountconsume";

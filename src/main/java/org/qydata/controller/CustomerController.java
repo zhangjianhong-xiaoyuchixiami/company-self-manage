@@ -31,11 +31,6 @@ public class CustomerController {
     @Autowired private CustomerService customerService;
     @Autowired private UserService userService;
 
-    @RequestMapping("/layout")
-    public String layout(){
-        return "/test/layout";
-    }
-
     /**
      *验证账号
      * @param authId
@@ -123,6 +118,7 @@ public class CustomerController {
         map.put("userId",user.getId());
         map.put("content",content);
         List<Customer> customerList = customerService.queryCustomerByAuthId(map);
+        //如果floor不等于0，则显示信用额度列
         int floor = 0;
         if (customerList != null && customerList.size() >0){
             for (int i=0; i<customerList.size(); i++){

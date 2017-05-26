@@ -212,4 +212,9 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerConsumeExcel> queryCustomerConsumeExcelConsuTimeByCustomerId(Integer customerId) {
         return customerMapper.queryCustomerConsumeExcelConsuTimeByCustomerId(customerId);
     }
+
+    @Override
+    public List<CompanyApi> queryCompanyApiTypeByCompanyId(Integer userId) {
+        return customerMapper.queryCompanyApiTypeByCompanyId(userId);
+    }
 }
